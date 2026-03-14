@@ -1,0 +1,136 @@
+Plataforma de Networking Religioso – MVP
+
+Visão do Produto
+
+Plataforma que conecta igrejas, ministros e profissionais do meio religioso em um ambiente confiável e acessível.
+O MVP foca em:
+Busca de profissionais e igrejas por cidade/CEP e raio de proximidade.
+Cadastro rápido e seguro de ministros, bandas, cantores, missionários, pastores, padres, obreiros e igrejas.
+Solicitação direta de contato ou agendamento.
+Escalabilidade futura para agenda detalhada, habilidades, fotos e redes sociais.
+
+2. Personas e Papéis
+
+Persona / Tipo	
+Ação Principal
+Ministros / Pregadores	Cadastro mínimo: nome, e-mail, telefone, cidade; selo de verificação opcional.
+Obreiros	Cadastro básico: nome, e-mail, telefone, cidade; visibilidade em buscas.
+Bandas / Corais / Duplas / Quartetos	Cadastro inicial: nome, e-mail, telefone, cidade; exibidos na vitrine para eventos.
+Cantores (católicos ou evangélicos)	Cadastro mínimo: nome, e-mail, telefone, cidade; visibilidade por localidade.
+Missionários	Cadastro simples: nome, e-mail, telefone, cidade; contato visível para igrejas e eventos.
+Padres / Pastores / Líderes de igrejas	Cadastro com nome, e-mail, telefone, cidade; selo opcional de verificação.
+Igreja	Cadastro da igreja: nome da igreja, e-mail do contato, telefone, CEP, cidade; envio de solicitações para profissionais.
+Visitantes	Visualizam perfis públicos e blog; para solicitar contato ou agenda, criam uma conta mínima.
+Administrador	Aprova/rejeita cadastros e alterações de igrejas; gerencia selo de verificação de profissionais.
+Modelo de usuário: conta única, podendo acumular múltiplos papéis (ex.: ministro + igreja).
+
+
+
+3. Cadastro MVP – Campos Essenciais
+
+Ministros / Profissionais
+Obrigatórios: nome, e-mail, telefone, cidade.
+Futuros: fotos, habilidades, redes sociais, descrição detalhada.
+Igrejas
+Obrigatórios: nome da igreja, e-mail do contato, telefone, CEP, cidade.
+Futuros: fotos, ministério, descrição detalhada, agenda de eventos.
+
+4. Fluxo de Busca e Conexão
+
+Busca por profissionais ou igrejas utilizando cidade/CEP + raio de proximidade.
+Resultados exibem apenas cadastros aprovados.
+Igrejas podem enviar solicitações de contato ou agendamento diretamente.
+Notificações por e-mail no MVP; futuras versões incluem alertas in-app e filtros avançados (dons, ministério, habilidades).
+
+5. Aprovação e Verificação
+
+Igrejas: novos cadastros e alterações passam por aprovação administrativa antes de aparecer na busca.
+Profissionais: verificação opcional mediante documento; selo “Verificado” aumenta confiabilidade.
+Perfis públicos exibem apenas informações aprovadas, garantindo segurança e credibilidade.
+
+6. Estrutura Técnica – MVP
+
+Backend: PHP ou Node.js
+Banco de dados: MySQL/MariaDB (utf8mb4)
+Frontend: HTML, CSS, JS (formulários e busca simples)
+Autenticação: sessão segura; proteção de rotas por papel do usuário
+Geolocalização: CEP → cidade; cálculo de raio para buscas por proximidade
+Notificações: e-mail simples para novas solicitações
+
+7. Fases de Desenvolvimento
+
+Fase 1 – Fundação: cadastro mínimo de usuários e igrejas, autenticação, CRUD de profissionais.
+Fase 2 – Aprovação e Verificação: fluxo de aprovação de igrejas; selo opcional de verificação de profissionais.
+Fase 3 – Busca e Solicitações: busca por cidade/CEP, envio de solicitações de contato ou agendamento.
+Fase 4 – Expansão futura: inclusão de habilidades/dons, fotos, redes sociais, agenda detalhada, blog e imagens para redes sociais.
+
+8. Pontos Estratégicos para Aceitação de Usuários
+
+Simplicidade: cadastro rápido e campos mínimos para adesão imediata.
+Confiabilidade: aprovação administrativa e selo opcional “Verificado” aumentam credibilidade.
+Visibilidade real: mesmo no MVP, usuários podem ser encontrados facilmente por localização.
+Escalabilidade: estrutura preparada para crescimento gradual e implementação de funcionalidades adicionais.
+
+
+
+
+
+Diagrama Executivo – Plataforma de Networking Religioso (MVP)
+
++-------------------+             +--------------------+
+|    Profissional   |             |       Igreja       |
+| (Ministro, Pastor,|             |  (Cadastro único,  |
+|  Padre, Obreiro,  |             |   E-mail, Telefone,|
+|  Cantor, Banda,   |             |   CEP, Cidade)    |
+|  Missionário)     |             +--------------------+
++-------------------+                       |
+          |                                 |
+          | Busca / Solicitação de contato  |
+          v                                 v
+   +-------------------+             +--------------------+
+   |      Busca MVP    |<------------|    Cadastro /      |
+   | (Cidade/CEP +    |             |   Aprovação Admin  |
+   |  Raio de proxim.)|             | (Igrejas e Prof.)  |
+   +-------------------+             +--------------------+
+          ^                                 ^
+          |                                 |
+          | Resultados aprovados            |
+          |                                 |
+          v                                 v
++-------------------+             +--------------------+
+|     Visitante     |             |   Administrador    |
+| Visualiza perfis  |             | Aprova/Rejeita     |
+| e blog; opcional  |             | cadastros e selo   |
+| login para contato|             | Verificado         |
++-------------------+             +--------------------+
+
+Descrição do Diagrama
+
+Profissionais (ministros, padres, pastores, obreiros, cantores, bandas, missionários)
+Cadastro mínimo: nome, e-mail, telefone, cidade.
+Podem ser encontrados via busca por localização.
+Solicitações de contato ou agenda enviadas por igrejas.
+Igrejas
+Cadastro único com e-mail, telefone, CEP e cidade.
+Podem buscar profissionais e enviar solicitações.
+Todos os cadastros são pendentes de aprovação administrativa.
+Busca MVP
+Baseada em cidade/CEP + raio de proximidade.
+Mostra apenas cadastros aprovados.
+Futuramente, filtros adicionais como dons, ministério, habilidades.
+Visitantes / Usuários
+Podem visualizar perfis públicos e blog.
+Para enviar solicitações, precisam de cadastro mínimo.
+
+Administrador
+Aprova ou rejeita cadastros de igrejas e profissionais.
+Gerencia selo “Verificado” opcional para aumentar credibilidade.
+
+
+
+Estrutura de Acesso e Incentivo ao Cadastro”
+
+  Qualquer visitante pode ver perfis e blog, mas com limite de busca e filtro.
+  Cadastro dá vantagens: ser encontrado mais fácil, filtros extras e poder (enviar solicitações.)
+  Igrejas e ministros conseguem ver quem é usuário cadastrado.
+  Incentivo: visitantes querem se cadastrar para ter mais recursos e visibilidade.

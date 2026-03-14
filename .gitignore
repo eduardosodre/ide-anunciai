@@ -1,0 +1,19 @@
+# Credentials and local config — never commit
+database.php
+.env
+.env.local
+*.local.php
+
+# OS and IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and temp
+*.log
+/tmp/
+/temp/
+vendor/
