@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\View;
 
+use App\Http\BasePath;
 use App\Session\SessionFacade;
 
 final class Html
@@ -13,6 +14,12 @@ final class Html
         return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 
+    /** Caminho absoluto no site (inclui prefixo /public quando aplicável). */
+    public static function u(string $path): string
+    {
+        return BasePath::url($path);
+    }
+
     public static function layout(string $title, string $body, ?string $csrfToken = null): string
     {
         $uid = SessionFacade::userId();
@@ -20,28 +27,28 @@ final class Html
         if ($uid !== null && $csrfToken !== null) {
             $adminLinks = '';
             if (SessionFacade::isAdmin()) {
-                $adminLinks = '<span class="nav-sep"></span><a href="/admin/verificacoes">Admin verificações</a>'
-                    . '<a href="/admin/revisao">Admin revisão</a>'
-                    . '<a href="/admin/denuncias">Admin denúncias</a>';
+                $adminLinks = '<span class="nav-sep"></span><a href="' . self::u('/admin/verificacoes') . '">Admin verificações</a>'
+                    . '<a href="' . self::u('/admin/revisao') . '">Admin revisão</a>'
+                    . '<a href="' . self::u('/admin/denuncias') . '">Admin denúncias</a>';
             }
-            $navMain = '<a href="/">Início</a>'
-                . '<a href="/busca">Buscar</a>'
-                . '<a href="/conta">Minha conta</a>'
-                . '<a href="/chat">Conversas</a>'
-                . '<a href="/meu-perfil/ministro">Perfil ministro</a>'
-                . '<a href="/meu-perfil/igreja">Perfil igreja</a>'
-                . '<a href="/verificacao">Verificação</a>'
+            $navMain = '<a href="' . self::u('/') . '">Início</a>'
+                . '<a href="' . self::u('/busca') . '">Buscar</a>'
+                . '<a href="' . self::u('/conta') . '">Minha conta</a>'
+                . '<a href="' . self::u('/chat') . '">Conversas</a>'
+                . '<a href="' . self::u('/meu-perfil/ministro') . '">Perfil ministro</a>'
+                . '<a href="' . self::u('/meu-perfil/igreja') . '">Perfil igreja</a>'
+                . '<a href="' . self::u('/verificacao') . '">Verificação</a>'
                 . $adminLinks
                 . '<span class="nav-sep"></span>'
-                . '<form action="/sair" method="post" class="nav-logout">'
+                . '<form action="' . self::u('/sair') . '" method="post" class="nav-logout">'
                 . '<input type="hidden" name="csrf_token" value="' . self::escape($csrfToken) . '">'
                 . '<button type="submit">Sair</button>'
                 . '</form>';
         } else {
-            $navMain = '<a href="/">Início</a>'
-                . '<a href="/busca">Buscar</a>'
-                . '<a href="/cadastro">Cadastrar</a>'
-                . '<a href="/login">Entrar</a>';
+            $navMain = '<a href="' . self::u('/') . '">Início</a>'
+                . '<a href="' . self::u('/busca') . '">Buscar</a>'
+                . '<a href="' . self::u('/cadastro') . '">Cadastrar</a>'
+                . '<a href="' . self::u('/login') . '">Entrar</a>';
         }
 
         return '<!doctype html>
@@ -299,7 +306,7 @@ final class Html
 <body>
 <header class="site-header">
     <div class="header-inner">
-        <a class="brand" href="/">ide-anunciai</a>
+        <a class="brand" href="' . self::u('/') . '">ide-anunciai</a>
         <input type="checkbox" id="site-nav-toggle" class="nav-toggle sr-only">
         <label for="site-nav-toggle" class="nav-toggle-label"><span aria-hidden="true">☰</span><span class="sr-only">Abrir ou fechar menu</span></label>
         <nav class="main-nav" aria-label="Principal">' . $navMain . '</nav>
@@ -308,11 +315,11 @@ final class Html
 <main>' . $body . '</main>
 <footer class="site-footer">
     <nav aria-label="Rodapé">
-        <a href="/">Início</a>
+        <a href="' . self::u('/') . '">Início</a>
         <span aria-hidden="true"> · </span>
-        <a href="/busca">Buscar</a>
+        <a href="' . self::u('/busca') . '">Buscar</a>
         <span aria-hidden="true"> · </span>
-        <a href="/privacidade">Privacidade</a>
+        <a href="' . self::u('/privacidade') . '">Privacidade</a>
     </nav>
     <p style="margin:0.5rem 0 0">MVP — conectando igrejas, ministros e profissionais</p>
 </footer>

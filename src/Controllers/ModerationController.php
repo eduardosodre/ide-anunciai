@@ -51,7 +51,7 @@ final class ModerationController
         $body = $this->messagesHtml();
         $body .= '<h1>Denunciar usuário</h1>
 <p>Denunciando: <strong>' . Html::escape((string) $target['nome']) . '</strong></p>
-<form method="post" action="/denunciar">
+<form method="post" action="' . Html::u('/denunciar') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="usuario_alvo_id" value="' . $alvo . '">
   <label>Descrição do motivo (obrigatório, mín. 10 caracteres)
@@ -59,7 +59,7 @@ final class ModerationController
   </label>
   <button type="submit">Enviar denúncia</button>
 </form>
-<p><a href="/">Voltar ao início</a></p>';
+<p><a href="' . Html::u('/') . '">Voltar ao início</a></p>';
 
         return Response::html(Html::layout('Denunciar', $body, $this->csrf->token()));
     }
@@ -120,7 +120,7 @@ final class ModerationController
 <p><strong>Descrição:</strong></p>
 <pre style="white-space:pre-wrap;background:#f5f5f5;padding:0.75rem">' . Html::escape((string) $row['descricao']) . '</pre>';
                 if ($ativo && (int) $row['denunciado_id'] !== (int) $admin['id']) {
-                    $body .= '<form method="post" action="/admin/usuarios/' . (int) $row['denunciado_id'] . '/inativar" style="margin-top:0.5rem">
+                    $body .= '<form method="post" action="' . Html::u('/admin/usuarios/' . (int) $row['denunciado_id'] . '/inativar') . '" style="margin-top:0.5rem">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <button type="submit">Inativar usuário denunciado</button>
 </form>';
@@ -130,7 +130,7 @@ final class ModerationController
             $body .= '</ul>';
         }
 
-        $body .= '<p><a href="/">Início</a></p>';
+        $body .= '<p><a href="' . Html::u('/') . '">Início</a></p>';
 
         return Response::html(Html::layout('Admin denúncias', $body, $this->csrf->token()));
     }

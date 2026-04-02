@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Http\BasePath;
 use App\Repository\ChurchRepository;
 use App\Repository\ProfessionalRepository;
 
@@ -73,7 +74,7 @@ final class SearchService
                         static fn (array $s): array => ['id' => (int) $s['id'], 'label' => (string) $s['label']],
                         $row['habilidades'] ?? []
                     ),
-                    'url' => '/perfil/profissional/' . (int) $row['id'],
+                    'url' => BasePath::url('/perfil/profissional/' . (int) $row['id']),
                 ];
             }
         }
@@ -94,7 +95,7 @@ final class SearchService
                     'cidade' => (string) $row['cidade'],
                     'verificado' => (int) $row['verificado'] === 1,
                     'distancia_km' => round((float) $row['distancia_km'], 2),
-                    'url' => '/perfil/igreja/' . (int) $row['id'],
+                    'url' => BasePath::url('/perfil/igreja/' . (int) $row['id']),
                 ];
             }
         }

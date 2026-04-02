@@ -22,6 +22,14 @@ final class Request
         $path = parse_url($uri, PHP_URL_PATH);
         $path = $path === false || $path === null ? '/' : $path;
 
+        $base = BasePath::get();
+        if ($base !== '' && str_starts_with($path, $base)) {
+            $path = substr($path, strlen($base)) ?: '/';
+        }
+        if ($path === '/index.php') {
+            $path = '/';
+        }
+
         $bodyParams = $_POST;
         if ($method === 'POST' || $method === 'PUT' || $method === 'PATCH') {
             $ct = $_SERVER['CONTENT_TYPE'] ?? $_SERVER['HTTP_CONTENT_TYPE'] ?? '';

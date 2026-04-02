@@ -30,9 +30,9 @@ final class HomeController
 <h1>Olá de volta</h1>
 <p class="hero-lead">Use o menu para conversas, perfis e busca. Atalhos rápidos:</p>
 <div class="hero-actions">
-<a class="btn btn-primary" href="/busca">Buscar perfis</a>
-<a class="btn btn-secondary" href="/chat">Conversas</a>
-<a class="btn btn-secondary" href="/conta">Minha conta</a>
+<a class="btn btn-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
+<a class="btn btn-secondary" href="' . Html::u('/chat') . '">Conversas</a>
+<a class="btn btn-secondary" href="' . Html::u('/conta') . '">Minha conta</a>
 </div>
 </section>';
         } else {
@@ -40,11 +40,11 @@ final class HomeController
 <h1>Conecte igrejas, ministros e profissionais</h1>
 <p class="hero-lead">Networking religioso: encontre quem precisa perto de você — busca por localização e habilidades, perfis verificados e primeiro contato por mensagem.</p>
 <div class="hero-actions">
-<a class="btn btn-primary" href="/busca">Buscar perfis</a>
-<a class="btn btn-primary" href="/cadastro">Criar conta</a>
-<a class="btn btn-secondary" href="/login">Entrar</a>
+<a class="btn btn-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
+<a class="btn btn-primary" href="' . Html::u('/cadastro') . '">Criar conta</a>
+<a class="btn btn-secondary" href="' . Html::u('/login') . '">Entrar</a>
 </div>
-<p style="margin-top:1.25rem;font-size:0.9rem;color:var(--muted)"><a href="/privacidade">Política de Privacidade</a> · <a href="/api/health">Status da API</a></p>
+<p style="margin-top:1.25rem;font-size:0.9rem;color:var(--muted)"><a href="' . Html::u('/privacidade') . '">Política de Privacidade</a> · <a href="' . Html::u('/api/health') . '">Status da API</a></p>
 </section>';
         }
 
@@ -65,7 +65,7 @@ final class HomeController
 
         $body .= '<h1>Busca</h1>
 <div class="card">
-<form method="get" action="/busca">
+<form method="get" action="' . Html::u('/busca') . '">
   <label>CEP <input type="text" name="cep" maxlength="20" value="' . Html::escape($cep) . '" placeholder="ex.: 01310100"></label>
   <label>Cidade <input type="text" name="cidade" maxlength="255" value="' . Html::escape($cidade) . '" placeholder="ex.: São Paulo"></label>
   <label>Raio (km) <input type="text" name="raio_km" value="' . Html::escape((string) max(1, $raio)) . '"></label>

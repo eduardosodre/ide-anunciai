@@ -237,10 +237,10 @@ final class VerificationController
     private function renderMinisterForm(final ?array $professional): string
     {
         if ($professional === null) {
-            return '<p>Perfil de ministro ainda não criado. Cadastre em <a href="/meu-perfil/ministro">Meu perfil ministro</a>.</p>';
+            return '<p>Perfil de ministro ainda não criado. Cadastre em <a href="' . Html::u('/meu-perfil/ministro') . '">Meu perfil ministro</a>.</p>';
         }
 
-        return '<form method="post" action="/verificacao">
+        return '<form method="post" action="' . Html::u('/verificacao') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="tipo_entidade" value="ministro">
   <label>RG <input type="text" name="rg" maxlength="50"></label>
@@ -255,10 +255,10 @@ final class VerificationController
     private function renderChurchForm(final ?array $church): string
     {
         if ($church === null) {
-            return '<p>Perfil de igreja ainda não criado. Cadastre em <a href="/meu-perfil/igreja">Meu perfil igreja</a>.</p>';
+            return '<p>Perfil de igreja ainda não criado. Cadastre em <a href="' . Html::u('/meu-perfil/igreja') . '">Meu perfil igreja</a>.</p>';
         }
 
-        return '<form method="post" action="/verificacao">
+        return '<form method="post" action="' . Html::u('/verificacao') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="tipo_entidade" value="igreja">
   <label>CNPJ <input type="text" name="cnpj" maxlength="20" required></label>
@@ -320,7 +320,7 @@ final class VerificationController
 <p><strong>RG:</strong> ' . Html::escape((string) ($row['rg'] ?? '')) . ' | <strong>CPF:</strong> ' . Html::escape((string) ($row['cpf'] ?? '')) . ' | <strong>CNPJ:</strong> ' . Html::escape((string) ($row['cnpj'] ?? '')) . '</p>
 <p><strong>Documentos:</strong></p>
 <ul>' . $docsHtml . '</ul>
-<form method="post" action="/admin/verificacoes/decisao">
+<form method="post" action="' . Html::u('/admin/verificacoes/decisao') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="solicitacao_id" value="' . (int) $row['id'] . '">
   <input type="hidden" name="contexto" value="' . ($contextPath === '/admin/revisao' ? 'revisao' : 'solicitacao') . '">

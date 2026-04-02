@@ -50,8 +50,8 @@ final class ChurchController
 
         $body = $this->messagesHtml();
         $body .= '<h1>Meu perfil igreja</h1>
-<p><strong>E-mail de contato:</strong> ' . $emailConta . ' (usa o e-mail da sua conta; altere em <a href="/conta">Minha conta</a>).</p>
-<form method="post" action="/meu-perfil/igreja">
+<p><strong>E-mail de contato:</strong> ' . $emailConta . ' (usa o e-mail da sua conta; altere em <a href="' . Html::u('/conta') . '">Minha conta</a>).</p>
+<form method="post" action="' . Html::u('/meu-perfil/igreja') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <label>Nome da igreja <input type="text" name="nome_igreja" required maxlength="255" value="' . $nome . '"></label>
   <label>Telefone (interno, não público) <input type="text" name="telefone" maxlength="50" value="' . $telefone . '"></label>
@@ -172,16 +172,16 @@ final class ChurchController
         $viewerId = SessionFacade::userId();
         $chatBlock = '';
         if ($viewerId === null) {
-            $chatBlock = '<p class="profile-muted">Visitante: <a href="/login">Entre</a> para iniciar conversa.</p>';
+            $chatBlock = '<p class="profile-muted">Visitante: <a href="' . Html::u('/login') . '">Entre</a> para iniciar conversa.</p>';
         } elseif ((int) $row['usuario_id'] === $viewerId) {
             $chatBlock = '<p><em>Este é o seu perfil público.</em></p>';
         } else {
-            $chatBlock = '<p><a class="btn btn-primary" href="/chat/iniciar?tipo_entidade=igreja&entidade_id=' . $id . '">Iniciar conversa</a></p>';
+            $chatBlock = '<p><a class="btn btn-primary" href="' . Html::u('/chat/iniciar') . '?tipo_entidade=igreja&entidade_id=' . $id . '">Iniciar conversa</a></p>';
         }
 
         $denunciaBlock = $viewerId !== null
-            ? '<p class="profile-muted"><a href="/denunciar?alvo=' . (int) $row['usuario_id'] . '">Denunciar este perfil</a></p>'
-            : '<p class="profile-muted"><a href="/login">Entre</a> para denunciar.</p>';
+            ? '<p class="profile-muted"><a href="' . Html::u('/denunciar') . '?alvo=' . (int) $row['usuario_id'] . '">Denunciar este perfil</a></p>'
+            : '<p class="profile-muted"><a href="' . Html::u('/login') . '">Entre</a> para denunciar.</p>';
 
         $body = '<div class="card">
 <h1>' . Html::escape((string) $row['nome_igreja']) . $badge . '</h1>

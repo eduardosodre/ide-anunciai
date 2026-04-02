@@ -34,13 +34,13 @@ final class ChatController
 
         $body = $this->messagesHtml();
         if ($tipo === null || $entidadeId <= 0) {
-            $body .= '<h1>Iniciar conversa</h1><p>Parâmetros inválidos. Use o link no perfil público.</p><p><a href="/busca">Buscar perfis</a></p>';
+            $body .= '<h1>Iniciar conversa</h1><p>Parâmetros inválidos. Use o link no perfil público.</p><p><a href="' . Html::u('/busca') . '">Buscar perfis</a></p>';
 
             return Response::html(Html::layout('Conversa', $body, $this->csrf->token()));
         }
 
         $body .= '<h1>Iniciar conversa</h1>
-<form method="post" action="/chat/iniciar">
+<form method="post" action="' . Html::u('/chat/iniciar') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="tipo_entidade" value="' . Html::escape($tipo) . '">
   <input type="hidden" name="entidade_id" value="' . $entidadeId . '">
@@ -106,7 +106,7 @@ final class ChatController
         } else {
             $body .= '<ul>';
             foreach ($items as $item) {
-                $body .= '<li><a href="/chat/' . (int) $item['id'] . '">'
+                $body .= '<li><a href="' . Html::u('/chat/' . (int) $item['id']) . '">'
                     . Html::escape((string) $item['outro_nome']) . '</a>'
                     . ' <small>(' . Html::escape((string) $item['tipo_entidade']) . ' #' . (int) $item['entidade_id'] . ')</small>'
                     . '</li>';
@@ -139,14 +139,14 @@ final class ChatController
                 . nl2br(Html::escape((string) $m['corpo'])) . '</p>';
         }
         $body .= '</div>
-<form method="post" action="/chat/' . $conversaId . '/mensagens">
+<form method="post" action="' . Html::u('/chat/' . $conversaId . '/mensagens') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <label>Nova mensagem
     <textarea name="corpo" required maxlength="8000" rows="4" style="width:100%;max-width:32rem"></textarea>
   </label>
   <button type="submit">Enviar</button>
 </form>
-<p><a href="/chat">Voltar às conversas</a></p>';
+<p><a href="' . Html::u('/chat') . '">Voltar às conversas</a></p>';
 
         return Response::html(Html::layout('Chat', $body, $this->csrf->token()));
     }

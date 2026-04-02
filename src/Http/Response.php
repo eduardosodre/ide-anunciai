@@ -27,6 +27,17 @@ final class Response
 
     public static function redirect(string $location, int $statusCode = 302): self
     {
+        if (str_starts_with($location, '/') && !str_starts_with($location, '//')) {
+            $qPos = strpos($location, '?');
+            if ($qPos !== false) {
+                $pathOnly = substr($location, 0, $qPos);
+                $query = substr($location, $qPos);
+                $location = BasePath::url($pathOnly) . $query;
+            } else {
+                $location = BasePath::url($location);
+            }
+        }
+
         return new self('', $statusCode, ['Location' => $location]);
     }
 

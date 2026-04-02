@@ -40,7 +40,7 @@ final class ProfessionalController
 
         $body = $this->messagesHtml();
         $body .= '<h1>Meu perfil ministro</h1>
-<form method="post" action="/meu-perfil/ministro">
+<form method="post" action="' . Html::u('/meu-perfil/ministro') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <label>Nome público <input type="text" name="nome_publico" required maxlength="255" value="' . $nomePublico . '"></label>
   <label>Telefone <input type="text" name="telefone" maxlength="50" value="' . $telefone . '"></label>
@@ -144,16 +144,16 @@ final class ProfessionalController
         $viewerId = SessionFacade::userId();
         $chatBlock = '';
         if ($viewerId === null) {
-            $chatBlock = '<p class="profile-muted">Visitante: <a href="/login">Entre</a> para iniciar conversa.</p>';
+            $chatBlock = '<p class="profile-muted">Visitante: <a href="' . Html::u('/login') . '">Entre</a> para iniciar conversa.</p>';
         } elseif ((int) $profile['usuario_id'] === $viewerId) {
             $chatBlock = '<p><em>Este é o seu perfil público.</em></p>';
         } else {
-            $chatBlock = '<p><a class="btn btn-primary" href="/chat/iniciar?tipo_entidade=ministro&entidade_id=' . $professionalId . '">Iniciar conversa</a></p>';
+            $chatBlock = '<p><a class="btn btn-primary" href="' . Html::u('/chat/iniciar') . '?tipo_entidade=ministro&entidade_id=' . $professionalId . '">Iniciar conversa</a></p>';
         }
 
         $denunciaBlock = $viewerId !== null
-            ? '<p class="profile-muted"><a href="/denunciar?alvo=' . (int) $profile['usuario_id'] . '">Denunciar este perfil</a></p>'
-            : '<p class="profile-muted"><a href="/login">Entre</a> para denunciar.</p>';
+            ? '<p class="profile-muted"><a href="' . Html::u('/denunciar') . '?alvo=' . (int) $profile['usuario_id'] . '">Denunciar este perfil</a></p>'
+            : '<p class="profile-muted"><a href="' . Html::u('/login') . '">Entre</a> para denunciar.</p>';
 
         $body = '<div class="card">
 <h1>' . Html::escape((string) $profile['nome_publico']) . $verifiedBadge . '</h1>

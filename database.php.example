@@ -8,6 +8,7 @@ return [
     'user' => getenv('DB_USER') ?: 'root',
     'password' => getenv('DB_PASS') ?: '',
     'charset' => 'utf8mb4',
+    // URL pública do site (e-mails, recuperação de senha). Se a app estiver numa subpasta (ex.: /public na Hostinger), inclua o caminho: https://exemplo.com/public
     'base_url' => getenv('APP_BASE_URL') ?: 'http://localhost:8080',
     'policy_version' => getenv('POLICY_VERSION') ?: '1.0',
 ];

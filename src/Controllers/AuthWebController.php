@@ -23,16 +23,16 @@ final class AuthWebController
     {
         $body = $this->messagesHtml();
         $body .= '<h1>Criar conta</h1>
-<form method="post" action="/cadastro">
+<form method="post" action="' . Html::u('/cadastro') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <label>Nome completo <input type="text" name="nome" required maxlength="255"></label>
   <label>E-mail <input type="email" name="email" required maxlength="255"></label>
   <label>Senha <input type="password" name="senha" required autocomplete="new-password"></label>
   <label>Confirmar senha <input type="password" name="senha_confirmacao" required autocomplete="new-password"></label>
-  <label><input type="checkbox" name="consentimento" value="1" required> Li e aceito a <a href="/privacidade" target="_blank">Política de Privacidade</a></label>
+  <label><input type="checkbox" name="consentimento" value="1" required> Li e aceito a <a href="' . Html::u('/privacidade') . '" target="_blank">Política de Privacidade</a></label>
   <button type="submit">Cadastrar</button>
 </form>
-<p>Já tem conta? <a href="/login">Entrar</a></p>';
+<p>Já tem conta? <a href="' . Html::u('/login') . '">Entrar</a></p>';
 
         return Response::html(Html::layout('Cadastro', $body, $this->csrf->token()));
     }
@@ -71,14 +71,14 @@ final class AuthWebController
     {
         $body = $this->messagesHtml();
         $body .= '<h1>Entrar</h1>
-<form method="post" action="/login">
+<form method="post" action="' . Html::u('/login') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <label>E-mail <input type="email" name="email" required autocomplete="username"></label>
   <label>Senha <input type="password" name="senha" required autocomplete="current-password"></label>
   <button type="submit">Entrar</button>
 </form>
-<p><a href="/recuperar-senha">Esqueci minha senha</a></p>
-<p>Não tem conta? <a href="/cadastro">Cadastrar</a></p>';
+<p><a href="' . Html::u('/recuperar-senha') . '">Esqueci minha senha</a></p>
+<p>Não tem conta? <a href="' . Html::u('/cadastro') . '">Cadastrar</a></p>';
 
         return Response::html(Html::layout('Login', $body, $this->csrf->token()));
     }
@@ -125,12 +125,12 @@ final class AuthWebController
         $body = $this->messagesHtml();
         $body .= '<h1>Recuperar senha</h1>
 <p>Informe seu e-mail. Se existir cadastro, enviaremos um link para redefinir a senha.</p>
-<form method="post" action="/recuperar-senha">
+<form method="post" action="' . Html::u('/recuperar-senha') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <label>E-mail <input type="email" name="email" required></label>
   <button type="submit">Enviar link</button>
 </form>
-<p><a href="/login">Voltar ao login</a></p>';
+<p><a href="' . Html::u('/login') . '">Voltar ao login</a></p>';
 
         return Response::html(Html::layout('Recuperar senha', $body, $this->csrf->token()));
     }
@@ -160,7 +160,7 @@ final class AuthWebController
         $token = (string) $request->query('token', '');
         $body = $this->messagesHtml();
         $body .= '<h1>Nova senha</h1>
-<form method="post" action="/redefinir-senha">
+<form method="post" action="' . Html::u('/redefinir-senha') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="token" value="' . Html::escape($token) . '">
   <label>Nova senha <input type="password" name="nova_senha" required autocomplete="new-password"></label>

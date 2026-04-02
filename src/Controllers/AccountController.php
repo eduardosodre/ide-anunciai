@@ -38,12 +38,17 @@ final class AccountController
         $body = $this->messagesHtml();
         $nome = Html::escape((string) $user['nome']);
         $email = Html::escape((string) $user['email']);
-        $foto = isset($user['foto_url']) && $user['foto_url'] !== null && $user['foto_url'] !== ''
-            ? '<p><img src="' . Html::escape((string) $user['foto_url']) . '" alt="" style="max-width:120px;border-radius:8px"></p>'
+        $fotoRaw = isset($user['foto_url']) ? (string) $user['foto_url'] : '';
+        $foto = $fotoRaw !== ''
+            ? '<p><img src="' . Html::escape(
+                (str_starts_with($fotoRaw, 'http://') || str_starts_with($fotoRaw, 'https://'))
+                    ? $fotoRaw
+                    : Html::u($fotoRaw)
+            ) . '" alt="" style="max-width:120px;border-radius:8px"></p>'
             : '';
 
         $body .= '<h1>Minha conta</h1>' . $foto . '
-<form method="post" action="/conta" enctype="multipart/form-data">
+<form method="post" action="' . Html::u('/conta') . '" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <label>Nome completo <input type="text" name="nome" required maxlength="255" value="' . $nome . '"></label>
   <label>E-mail <input type="email" name="email" required maxlength="255" value="' . $email . '"></label>
