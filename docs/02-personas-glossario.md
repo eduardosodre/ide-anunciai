@@ -2,17 +2,20 @@
 
 ## Modelo de conta (decisão)
 
-- **Uma conta = um único tipo:** ou **Igreja** (com CNPJ da igreja) ou **Ministro/Profissional** (com CPF ou CNPJ de pregador).
-- Quem quiser atuar como igreja e como ministro deve ter **duas contas** (dois e-mails).
-- **Conta mínima:** nome, e-mail e senha, sem perfil de igreja ou ministro; serve para **enviar solicitações** de contato.
+- **Conta base única:** todo usuário entra com **nome completo**, **e-mail** e **senha**.
+- Após login, pode completar:
+  - **Perfil Ministro/Profissional** (para divulgação e busca).
+  - **Perfil Igreja**.
+- Os dois perfis podem existir na mesma conta.
+- O usuário pode definir **foto de perfil** na área logada.
 
 ## Personas e papéis
 
 | Persona / Tipo | Ação principal | Identificação | Campos MVP |
 |----------------|----------------|---------------|------------|
-| Ministro / Pregador / Profissional | Cadastro com CPF ou CNPJ de pregador; várias habilidades/dons; selo Verificado opcional; re-verificação em toda alteração. | CPF ou CNPJ (pregador) | nome, e-mail, telefone, cidade, habilidades/dons |
-| Igreja | Cadastro com CNPJ da igreja; envia solicitações; aprovação administrativa. | CNPJ da igreja | nome da igreja, e-mail, telefone, CEP, cidade |
-| Visitante (conta mínima) | Só quer enviar contato; cadastra nome, e-mail e senha. | — | nome, e-mail, senha |
+| Usuário base | Acessa a plataforma com cadastro simples; pode navegar e evoluir perfis. | e-mail único | nome completo, e-mail, senha, foto (opcional no perfil) |
+| Ministro / Profissional | Cria persona para ser encontrado; define habilidades/dons; pode solicitar selo verificado. | RG + CPF para verificação | nome público, telefone, cidade, habilidades/dons |
+| Igreja | Cria cadastro de igreja vinculado ao usuário; pode solicitar selo verificado. | CNPJ para verificação | nome da igreja, e-mail de contato, telefone, CEP, cidade |
 | Administrador | Aprova/rejeita igrejas; gerencia selo Verificado; vê denúncias (usuários denunciados + descrição); pode inativar usuário. | — | — |
 
 ## Habilidades/dons do ministro (exemplos)
@@ -23,11 +26,12 @@ O ministro pode marcar **várias** habilidades, por exemplo: ensinar, dar aula, 
 
 | Termo | Definição |
 |-------|-----------|
-| Profissional / Ministro | Pessoa cadastrada com CPF ou CNPJ de pregador; pode ter várias habilidades/dons; aparece na busca (após aprovação se aplicável). |
-| Igreja | Entidade cadastrada com CNPJ; passa por aprovação administrativa; pode buscar profissionais e enviar solicitações. |
-| Selo Verificado | Indicação de que a identidade do profissional foi verificada. Quando verificado, **toda alteração** no perfil volta para re-verificação. |
-| Re-verificação | Fluxo em que alterações feitas por usuário verificado são analisadas novamente antes de irem ao ar. |
+| Conta base | Cadastro inicial com nome completo, e-mail e senha; acesso imediato à plataforma. |
+| Profissional / Ministro | Perfil vinculado ao usuário para divulgação, com habilidades/dons e possibilidade de selo verificado. |
+| Igreja | Perfil de igreja vinculado ao usuário, com CNPJ e possibilidade de selo verificado. |
+| Selo Verificado | Indicação de identidade validada documentalmente para um perfil específico (ministro ou igreja). |
+| Verificação documental | Processo de envio e análise de documentos para liberar o selo verificado. |
 | Denúncia | Registro em que um usuário acusa outro (ex.: falsa identidade). Admin vê lista de denunciados, descrição da denúncia e pode inativar. |
 | Solicitação | Pedido de contato enviado a profissional ou igreja, com **texto livre** sobre o evento; destinatário recebe por e-mail. |
-| Conta mínima | Cadastro com nome, e-mail e senha apenas para poder enviar solicitações (sem perfil de igreja ou ministro). |
+| Foto de perfil | Imagem opcional que o usuário pode definir após login no próprio perfil. |
 | Raio de proximidade | Distância em **km** a partir de um CEP ou cidade, definida pelo usuário na busca (ex.: 10 km). |

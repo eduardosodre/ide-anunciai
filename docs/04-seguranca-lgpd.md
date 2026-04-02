@@ -23,12 +23,18 @@
 
 ### Proteção de rotas e dados
 
-- Rotas que alteram dados ou exibem dados restritos verificam **autenticação** e **tipo de conta** (igreja, ministro, admin).
+- Rotas que alteram dados ou exibem dados restritos verificam **autenticação** e permissões (usuário dono do perfil ou admin).
 - Ações de administrador restritas a usuários com papel **admin**.
-- Edição de perfil/igreja apenas pelo **próprio** usuário (ou admin).
+- Edição de perfis (ministro e igreja) apenas pelo **próprio** usuário vinculado (ou admin).
 - **CSRF:** token em formulários de alteração.
 - **Prepared statements** (PDO com bind) em todas as consultas SQL.
 - Sanitização de entrada e escape de saída (HTML) para evitar XSS.
+
+### Verificação documental
+
+- Solicitações de selo verificado devem armazenar metadados da solicitação e anexos com controle de acesso.
+- Documentos sensíveis (RG, CPF, CNPJ e comprovantes) não devem ser públicos.
+- Em perfis públicos, exibir somente status de verificação (sem expor documentos ou números completos).
 
 ### E-mail e notificações
 
@@ -49,7 +55,7 @@
 - **Acesso:** usuário pode ver seus dados em “Meus dados” ou no perfil.
 - **Correção:** edição do perfil já prevista.
 - **Exclusão:** possibilidade de **excluir conta** (“direito ao esquecimento”); dados removidos ou anonimizados conforme política.
-- **Exportação:** desejável no MVP; a confirmar na validação.
+- **Exportação:** disponível no MVP para os dados da própria conta (formato JSON).
 
 ### Política de privacidade
 

@@ -1,12 +1,13 @@
 <?php
-/**
- * Database config — copy to database.php and fill with your values.
- * database.php is in .gitignore and must never be committed.
- */
+
+declare(strict_types=1);
+
 return [
-    'host'     => getenv('DB_HOST') ?: 'localhost',
-    'database' => getenv('DB_NAME') ?: '',
-    'user'     => getenv('DB_USER') ?: '',
+    'host' => getenv('DB_HOST') ?: 'localhost',
+    'database' => getenv('DB_NAME') ?: 'ide_anunciai',
+    'user' => getenv('DB_USER') ?: 'root',
     'password' => getenv('DB_PASS') ?: '',
-    'charset'  => 'utf8mb4',
+    'charset' => 'utf8mb4',
+    'base_url' => getenv('APP_BASE_URL') ?: 'http://localhost:8080',
+    'policy_version' => getenv('POLICY_VERSION') ?: '1.0',
 ];

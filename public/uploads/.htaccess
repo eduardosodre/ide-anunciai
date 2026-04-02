@@ -1,0 +1,4 @@
+# Impede execução de PHP na pasta de uploads (Apache 2.4+)
+<FilesMatch "\.php$">
+  Require all denied
+</FilesMatch>

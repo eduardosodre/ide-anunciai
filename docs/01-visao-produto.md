@@ -7,11 +7,12 @@ Plataforma que conecta **igrejas** e **ministros/profissionais** do meio religio
 ## Escopo do MVP
 
 - Busca de profissionais e igrejas por **CEP ou cidade** e **raio em km** (definido pelo usuário na pesquisa). Apenas Brasil; API de CEP sem cache no primeiro momento.
-- Cadastro **único por conta:** usuário é **ou** Igreja (com CNPJ) **ou** Ministro/Profissional (com CPF ou CNPJ de pregador). Ministro pode ter **várias habilidades/dons** (ensinar, ministrar, orar, tocar instrumento, etc.).
-- **Conta mínima** (nome, e-mail, senha) para quem só quer enviar solicitações.
+- **Conta base única**: cadastro inicial com **nome completo, e-mail e senha**; após login o usuário pode completar o perfil e inserir foto.
+- A mesma conta pode criar dois perfis vinculados:
+  - **Ministro/Profissional** (com habilidades/dons para divulgação).
+  - **Igreja**.
 - Solicitação de contato com **texto livre** explicando o evento; notificação por e-mail ao destinatário.
-- **Re-verificação:** quando um usuário verificado altera o perfil, a alteração passa por nova verificação.
-- **Denúncias:** usuários podem denunciar outros; admin vê denúncias e descrição, pode inativar.
+- **Verificação por perfil:** ministro e igreja têm selos independentes; verificação exige documentação.
 - **Recuperação de senha** e sessão de 8 horas.
 - **Fora do MVP:** blog, cache de CEP, notificações in-app.
 
@@ -19,8 +20,8 @@ Plataforma que conecta **igrejas** e **ministros/profissionais** do meio religio
 
 | Princípio | Descrição |
 |-----------|-----------|
-| Simplicidade | Cadastro claro: uma conta, um tipo (igreja ou ministro). Conta mínima para só enviar contato. |
-| Confiabilidade | Aprovação de igrejas; selo Verificado para profissionais; re-verificação em alterações; denúncias e moderação. |
+| Simplicidade | Cadastro inicial simples (nome, e-mail, senha) com entrada imediata na plataforma. |
+| Confiabilidade | Selo Verificado por perfil (ministro e igreja) com validação documental. |
 | Visibilidade | Busca por CEP/cidade e raio em km já no MVP. |
 | Escalabilidade | Estrutura preparada para crescimento (habilidades, fotos, etc.). |
 | Segurança | Sessão 8h, política de senha, recuperação de senha, proteção de rotas, LGPD. |
@@ -36,4 +37,4 @@ Plataforma que conecta **igrejas** e **ministros/profissionais** do meio religio
 - Blog.
 - Cache de CEP (por hora sem cache).
 - Notificações in-app (apenas e-mail).
-- Múltiplos papéis na mesma conta (igreja + ministro); cada tipo exige conta própria.
+- Funcionalidades avançadas de moderação que não sejam essenciais para o fluxo de cadastro e busca inicial.

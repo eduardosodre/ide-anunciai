@@ -1,6 +1,6 @@
 # Modelo de dados — ide-anunciai
 
-Visão lógica das entidades para implementação em MySQL (utf8mb4). Alinhado a uma conta = um tipo (igreja ou ministro) e a conta mínima (nome, e-mail, senha).
+Visão lógica das entidades para implementação em MySQL (utf8mb4). Alinhado a uma conta base de usuário (nome, e-mail, senha) com perfis vinculados de ministro e igreja.
 
 ---
 
@@ -8,15 +8,14 @@ Visão lógica das entidades para implementação em MySQL (utf8mb4). Alinhado a
 
 ### usuario
 
-Conta de acesso (login). Pode ser conta mínima (só nome, e-mail, senha), igreja ou ministro.
+Conta de acesso (login) sempre criada com dados básicos.
 
 | Campo | Tipo | Obrigatório | Notas |
 |-------|------|-------------|-------|
 | id | INT PK AUTO_INCREMENT | sim | |
-| nome | VARCHAR(255) | sim | Para conta mínima e exibição; ministro/igreja também têm nome ou nome_igreja |
+| nome | VARCHAR(255) | sim | Nome completo da conta base |
 | email | VARCHAR(255) UNIQUE | sim | |
 | senha_hash | VARCHAR(255) | sim | bcrypt |
-| tipo_conta | ENUM('minima','igreja','ministro') | sim | Uma conta = um tipo |
 | ativo | TINYINT(1) DEFAULT 1 | sim | 0 = inativado (ex.: por denúncia) |
 | criado_em | DATETIME | sim | |
 | atualizado_em | DATETIME | sim | |
@@ -26,22 +25,22 @@ Conta de acesso (login). Pode ser conta mínima (só nome, e-mail, senha), igrej
 
 ### profissional (ministro)
 
-Um usuário com tipo_conta = 'ministro' tem um registro aqui.
+Um usuário pode ter um registro de ministro/profissional vinculado.
 
 | Campo | Tipo | Obrigatório | Notas |
 |-------|------|-------------|-------|
 | id | INT PK AUTO_INCREMENT | sim | |
 | usuario_id | INT FK → usuario.id | sim | UNIQUE (1:1) |
-| nome | VARCHAR(255) | sim | |
+| nome_completo | VARCHAR(255) | sim | |
 | telefone | VARCHAR(50) | não | |
 | cidade | VARCHAR(255) | sim | |
-| cpf_ou_cnpj | VARCHAR(20) | sim | CPF ou CNPJ de pregador |
-| verificado | TINYINT(1) DEFAULT 0 | sim | Selo Verificado |
+| rg | VARCHAR(30) | não | Exigido para solicitar verificação |
+| cpf | VARCHAR(14) | não | Exigido para solicitar verificação |
+| foto_url | VARCHAR(500) | não | Foto opcional do usuário/perfil |
+| verificado | TINYINT(1) DEFAULT 0 | sim | Selo Verificado do ministro |
 | pendente_revisao | TINYINT(1) DEFAULT 0 | sim | 1 = alteração aguardando re-verificação |
 | criado_em | DATETIME | sim | |
 | atualizado_em | DATETIME | sim | |
-
-E-mail pode vir de usuario.email.
 
 ### habilidade
 
@@ -65,7 +64,7 @@ Relação N:N entre profissional e habilidades.
 
 ### igreja
 
-Um usuário com tipo_conta = 'igreja' tem um registro aqui.
+Um usuário pode ter um registro de igreja vinculado.
 
 | Campo | Tipo | Obrigatório | Notas |
 |-------|------|-------------|-------|
@@ -77,26 +76,38 @@ Um usuário com tipo_conta = 'igreja' tem um registro aqui.
 | telefone | VARCHAR(50) | não | |
 | cep | VARCHAR(20) | sim | |
 | cidade | VARCHAR(255) | sim | |
-| status_aprovacao | ENUM('pendente','aprovado','rejeitado') | sim | DEFAULT 'pendente' |
-| aprovado_em | DATETIME | não | |
-| aprovado_por | INT FK → usuario.id | não | Admin |
+| verificado | TINYINT(1) DEFAULT 0 | sim | Selo Verificado da igreja |
+| pendente_revisao | TINYINT(1) DEFAULT 0 | sim | 1 = alteração aguardando re-verificação |
 | criado_em | DATETIME | sim | |
 | atualizado_em | DATETIME | sim | |
 
-### denuncia
+### verificacao_solicitacao
 
-Registro de denúncia de um usuário contra outro.
+Solicitações de verificação de perfil (ministro ou igreja).
 
 | Campo | Tipo | Obrigatório | Notas |
 |-------|------|-------------|-------|
 | id | INT PK AUTO_INCREMENT | sim | |
-| denunciante_id | INT FK → usuario.id | sim | Quem denunciou |
-| denunciado_id | INT FK → usuario.id | sim | Quem foi denunciado |
-| descricao | TEXT | sim | Motivo da denúncia (ex.: falsa identidade) |
+| usuario_id | INT FK → usuario.id | sim | Dono da solicitação |
+| tipo_perfil | ENUM('ministro','igreja') | sim | Perfil solicitado |
+| perfil_id | INT | sim | profissional.id ou igreja.id |
+| status | ENUM('pendente','aprovada','rejeitada') | sim | DEFAULT 'pendente' |
+| motivo_rejeicao | TEXT | não | |
 | criado_em | DATETIME | sim | |
-| status | ENUM('pendente','analisada') | sim | DEFAULT 'pendente' |
+| analisado_em | DATETIME | não | |
+| analisado_por | INT FK → usuario.id | não | Admin |
 
-Admin lista usuários denunciados (agrupando por denunciado_id), vê descrição e pode inativar usuario (ativo = 0).
+### verificacao_documento
+
+Anexos de documentos associados a uma solicitação de verificação.
+
+| Campo | Tipo | Obrigatório | Notas |
+|-------|------|-------------|-------|
+| id | INT PK AUTO_INCREMENT | sim | |
+| solicitacao_id | INT FK → verificacao_solicitacao.id | sim | |
+| tipo_documento | ENUM('rg','cpf','cnpj','comprovante') | sim | |
+| arquivo_url | VARCHAR(500) | sim | Caminho/URL protegido |
+| criado_em | DATETIME | sim | |
 
 ### solicitacao
 
@@ -112,7 +123,19 @@ Solicitação de contato com texto livre sobre o evento.
 | criado_em | DATETIME | sim | |
 | notificado_em | DATETIME | não | Quando o e-mail foi enviado |
 
-O papel de administrador é indicado pelo campo **usuario.admin** (1 = admin). Admin aprova igrejas, gerencia selo Verificado, re-verifica alterações e gerencia denúncias (ver descrição e inativar).
+### denuncia
+
+Registro de denúncia entre usuários (RF2.4). Detalhes de regras em [11-regras-negocio.md](11-regras-negocio.md).
+
+| Campo | Tipo | Obrigatório | Notas |
+|-------|------|-------------|-------|
+| id | INT PK AUTO_INCREMENT | sim | |
+| denunciante_id | INT FK → usuario.id | sim | Quem denuncia |
+| denunciado_id | INT FK → usuario.id | sim | Usuário alvo |
+| descricao | TEXT | sim | Motivo em texto livre |
+| criado_em | DATETIME | sim | |
+
+O papel de administrador é indicado pelo campo **usuario.admin** (1 = admin). Admin aprova/rejeita verificações e re-verifica alterações em perfis verificados.
 
 ---
 
@@ -125,8 +148,10 @@ O papel de administrador é indicado pelo campo **usuario.admin** (1 = admin). A
 
 ## Índices
 
-- usuario(email) UNIQUE; usuario(ativo); usuario(tipo_conta).
+- usuario(email) UNIQUE; usuario(ativo).
 - profissional(usuario_id) UNIQUE; profissional(cidade); profissional(verificado); profissional(pendente_revisao).
-- igreja(usuario_id) UNIQUE; igreja(cidade); igreja(status_aprovacao); igreja(cnpj).
-- denuncia(denunciado_id); denuncia(denunciante_id).
+- igreja(usuario_id) UNIQUE; igreja(cidade); igreja(verificado); igreja(cnpj).
+- verificacao_solicitacao(usuario_id, tipo_perfil, status).
+- verificacao_documento(solicitacao_id, tipo_documento).
 - solicitacao(solicitante_id); solicitacao(destino_id, tipo_destino).
+- denuncia(denunciado_id); denuncia(denunciante_id, denunciado_id, criado_em).

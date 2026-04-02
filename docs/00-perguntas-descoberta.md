@@ -13,20 +13,21 @@ Este documento registra as **decisões tomadas** com base nas respostas do usuá
 
 ## 2. Papéis e tipos de perfil — DECIDIDO
 
-- **Uma conta = um único tipo:** usuário é **ou** Igreja **ou** Ministro/Profissional. Não acumula os dois na mesma conta.
-- **Igreja:** cadastro com **CNPJ da igreja** (obrigatório).
-- **Ministro/Profissional:** cadastro com **CPF** ou **CNPJ de pregador**.
-- **Habilidades/dons do ministro:** múltiplas por perfil. Exemplos: ensinar, dar aula, ministrar, orar, tocar instrumento, etc. Lista definida no sistema; usuário escolhe várias.
+- **Conta única de usuário (base):** cadastro inicial sempre com **nome completo**, **e-mail** e **senha**.
+- Após login, o usuário pode criar até dois perfis vinculados à mesma conta:
+  - **Perfil Ministro/Profissional** (persona para ser encontrado).
+  - **Perfil Igreja**.
+- Os dois perfis podem coexistir na mesma conta (ex.: usuário com perfil de ministro e igreja).
+- **Habilidades/dons** ficam no perfil de ministro e aceitam múltipla seleção.
 
 ---
 
-## 3. Aprovação, verificação e denúncias — DECIDIDO
+## 3. Verificação por camadas — DECIDIDO
 
-- **Usuário verificado:** toda alteração no perfil volta para **re-verificação** antes de ser publicada.
-- **Denúncias:** qualquer usuário pode **denunciar** outro. O sistema deve:
-  - Exibir em algum ponto (área admin) **quais usuários foram denunciados**.
-  - Permitir ver a **descrição da denúncia** (ex.: pessoa se passando por outra).
-  - Permitir **inativar** o usuário denunciado se necessário (ação administrativa).
+- **Conta base:** não exige documentação; usuário já entra na plataforma após cadastro e login.
+- **Selo verificado do ministro/profissional:** exige completar dados de identificação (**RG**, **CPF**) e envio de documentos comprobatórios.
+- **Selo verificado da igreja:** exige dados de **CNPJ** e envio de documentos comprobatórios.
+- Cada perfil (ministro e igreja) possui seu próprio status de verificação.
 
 ---
 
@@ -37,10 +38,11 @@ Este documento registra as **decisões tomadas** com base nas respostas do usuá
 
 ---
 
-## 5. Autenticação e conta mínima — DECIDIDO
+## 5. Autenticação e conta base — DECIDIDO
 
-- **Conta mínima** para fazer contato: **Nome**, **e-mail** e **senha** (sem papel de igreja ou ministro; só para enviar solicitações).
+- Cadastro inicial obrigatório com **Nome completo**, **e-mail** e **senha**.
 - Login: e-mail + senha.
+- No perfil do usuário, deve ser possível definir **foto de perfil**.
 
 ---
 
@@ -70,6 +72,7 @@ Este documento registra as **decisões tomadas** com base nas respostas do usuá
 - **Idioma:** apenas português (BR).
 - **Layout responsivo** desde o MVP.
 - **Tela inicial (home):** mostrar a **proposta do site** e ter **links** para Buscar, Cadastrar, etc.
+- **Visibilidade de dados:** visitante vê dados mínimos em resultados/perfis; usuário logado vê mais informações conforme política da plataforma.
 
 ---
 

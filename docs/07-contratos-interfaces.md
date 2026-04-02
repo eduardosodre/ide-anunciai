@@ -10,19 +10,22 @@ Definição das telas, formulários e parâmetros de busca para implementação 
 |-------------|--------|-----------|
 | / | Público | Home: proposta do site + links Buscar, Cadastrar, Login |
 | /busca | Público | Formulário CEP/cidade + raio (km); listagem de resultados |
-| /perfil/profissional/{id} | Público | Perfil público do ministro; botão Solicitar contato |
-| /perfil/igreja/{id} | Público | Perfil público da igreja; botão Solicitar contato |
-| /cadastro | Público | Escolha de tipo (conta mínima / igreja / ministro); formulário conforme tipo |
+| /perfil/profissional/{id} | Público | Perfil público do ministro; botão Iniciar conversa |
+| /perfil/igreja/{id} | Público | Perfil público da igreja; botão Iniciar conversa |
+| /cadastro | Público | Cadastro base (nome completo, e-mail, senha) |
 | /login | Público | E-mail e senha; link “Esqueci minha senha” |
 | /recuperar-senha | Público | Solicitação de recuperação (e-mail) |
 | /redefinir-senha?token=... | Público | Nova senha (token válido) |
 | /sair | Logado | Logout |
-| /meu-perfil | Logado | Edição do próprio perfil (ministro ou igreja) |
-| /minhas-solicitacoes | Logado (opcional) | Listagem de solicitações enviadas/recebidas |
-| /admin/aprovacoes | Admin | Fila de igrejas para aprovar/rejeitar |
-| /admin/revisao | Admin | Fila de alterações de verificados para re-verificar |
-| /admin/verificado | Admin | Atribuir/remover selo Verificado em profissionais |
-| /admin/denuncias | Admin | Listar usuários denunciados; ver descrição das denúncias; inativar usuário |
+| /conta | Logado | Edição da conta base (nome completo, e-mail, foto) |
+| /meu-perfil/ministro | Logado | Criação/edição do perfil ministro |
+| /meu-perfil/igreja | Logado | Criação/edição do perfil igreja |
+| /verificacao | Logado | Solicitar selo verificado e enviar documentos |
+| /chat | Logado | Listagem de conversas iniciadas/recebidas |
+| /chat/{conversa_id} | Logado | Tela de conversa e envio de mensagens |
+| /admin/verificacoes | Admin | Fila de verificações (ministro/igreja) para aprovar/rejeitar |
+| /admin/revisao | Admin | Fila de alterações de perfis verificados para re-verificar |
+| /admin/denuncias | Admin | Lista de denunciados, contagens e detalhes |
 | /privacidade | Público | Política de Privacidade |
 | /termos | Público (opcional) | Termos de Uso |
 
@@ -30,45 +33,51 @@ Definição das telas, formulários e parâmetros de busca para implementação 
 
 ## Formulários — Campos e validações
 
-### Cadastro — Escolha de tipo
+### Cadastro — Conta base
 
-- Opções: **Conta mínima** (só quero enviar contatos) | **Igreja** | **Ministro**.
-- Próximo passo: formulário específico do tipo.
-
-### Cadastro — Conta mínima
-
-- nome (obrigatório)
+- nome_completo (obrigatório)
 - email (obrigatório, único)
 - senha (obrigatório, política segura)
 - confirmação de senha
 - checkbox Política de Privacidade (obrigatório)
 - Botão: Cadastrar
 
-### Cadastro — Ministro
+### Conta (/conta)
 
-- nome (obrigatório)
+- nome_completo (obrigatório)
 - email (obrigatório, único)
-- senha (obrigatório, política segura)
-- confirmação de senha
-- cpf_ou_cnpj (obrigatório; CPF ou CNPJ de pregador)
+- foto_perfil (opcional)
+- Botão: Salvar
+
+### Perfil Ministro
+
+- nome_publico (obrigatório)
 - telefone (opcional)
 - cidade (obrigatório)
 - habilidades/dons (múltipla escolha; pelo menos uma)
-- checkbox Política de Privacidade (obrigatório)
-- Botão: Cadastrar
+- Botão: Salvar perfil ministro
 
-### Cadastro — Igreja
+### Perfil Igreja
 
 - nome_igreja (obrigatório)
-- cnpj (obrigatório; CNPJ da igreja)
 - email_contato (obrigatório)
 - telefone (opcional)
 - cep (obrigatório)
 - cidade (obrigatório; pode preencher via API a partir do CEP)
-- senha (obrigatório, política segura)
-- confirmação de senha
-- checkbox Política de Privacidade (obrigatório)
-- Botão: Cadastrar
+- Botão: Salvar perfil igreja
+
+### Verificação de Ministro
+
+- rg (obrigatório para solicitar)
+- cpf (obrigatório para solicitar)
+- documentos (obrigatório; um ou mais anexos)
+- Botão: Solicitar verificação
+
+### Verificação de Igreja
+
+- cnpj (obrigatório para solicitar)
+- documentos (obrigatório; um ou mais anexos)
+- Botão: Solicitar verificação
 
 ### Login
 
@@ -96,10 +105,10 @@ Definição das telas, formulários e parâmetros de busca para implementação 
 - habilidade (opcional; filtro para profissionais)
 - Botão: Buscar
 
-### Solicitação de contato
+### Primeiro contato (mensagem/chat)
 
 - mensagem (obrigatório — texto livre explicando o evento/motivo do contato)
-- Botão: Enviar solicitação
+- Botão: Iniciar conversa
 
 ### Denúncia (link/botão no perfil ou em “reportar”)
 
@@ -112,20 +121,21 @@ Definição das telas, formulários e parâmetros de busca para implementação 
 
 ### Profissional (ministro)
 
-- nome
+- nome_publico
 - habilidades/dons (lista)
 - cidade
-- telefone (se permitido)
+- telefone (não exibido publicamente)
 - selo “Verificado” (se verificado)
-- Botão: Solicitar contato
+- Botão: Iniciar conversa
 
 ### Igreja
 
 - nome da igreja
 - cidade
-- telefone (se permitido)
-- Contato via solicitação (e-mail não exposto em lista)
-- Botão: Solicitar contato
+- telefone (não exibido publicamente)
+- Contato via chat (e-mail não exposto)
+- selo “Verificado” (se verificado)
+- Botão: Iniciar conversa
 
 ---
 
@@ -138,15 +148,27 @@ Definição das telas, formulários e parâmetros de busca para implementação 
 - **habilidade_id** ou **habilidade:** filtro para profissionais
 - **pagina**, **limite:** paginação
 
-Resultado: apenas aprovados e ativos; profissionais com pendente_revisao podem exibir dados antigos até re-verificação.
+Resultado: apenas perfis ativos; perfis verificados com pendente_revisao exibem dados antigos até re-verificação. Visitante vê dados mínimos; logado vê dados adicionais permitidos.
 
 ---
 
-## E-mail de notificação (solicitação)
+## E-mail de notificação (início de conversa)
 
 - **Para:** e-mail do destinatário (profissional ou igreja).
-- **Assunto:** ex.: “Nova solicitação de contato no ide-anunciai”
-- **Corpo:** nome do solicitante, e-mail, telefone (se houver), **texto da mensagem** (obrigatório). Link para o site (e para “Minhas solicitações” se existir).
+- **Assunto:** ex.: “Nova mensagem no ide-anunciai”
+- **Corpo:** nome do solicitante, e-mail, **texto da mensagem** (obrigatório). Link para o site (e para `/chat`).
+
+---
+
+## Endpoints API (MVP)
+
+Além das rotas HTML, o MVP expõe endpoints equivalentes em `/api` para integrações frontend.
+
+- `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/logout`
+- `POST /api/auth/password/forgot`, `POST /api/auth/password/reset`
+- `GET /api/search`
+- `POST /api/chat/conversations`, `GET /api/chat/conversations`, `GET /api/chat/conversations/{id}`, `POST /api/chat/conversations/{id}/messages`
+- `POST /api/reports`
 
 ## E-mail de recuperação de senha
 

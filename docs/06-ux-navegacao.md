@@ -17,7 +17,7 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 
 ## Público-alvo
 
-- Igrejas e ministros do meio religioso; visitantes que buscam contato ou querem apenas enviar solicitações (conta mínima).
+- Igrejas e ministros do meio religioso; visitantes e usuários com conta base que buscam contato e divulgação.
 
 ---
 
@@ -27,6 +27,7 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 - **Links principais:** Buscar, Cadastrar, Login (e “Esqueci minha senha” na tela de login).
 - Pode incluir vitrine ou destaque para busca (CEP + raio) e chamada para cadastro.
 - **Sem blog** no MVP.
+- Mostrar que visitantes veem dados resumidos e usuários logados veem informações adicionais.
 
 ---
 
@@ -34,12 +35,15 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 
 - **Home:** proposta + links (Buscar, Cadastrar, Login).
 - **Busca:** formulário CEP/cidade + raio (km); resultados de profissionais e igrejas; filtros (tipo, habilidade).
-- **Perfil público:** profissional ou igreja; botão “Solicitar contato” (exige login).
+- **Perfil público:** profissional ou igreja; botão “Iniciar conversa” (exige login).
 - **Área logada:**
-  - Meu perfil (ministro ou igreja) — edição.
-  - Minhas solicitações (se implementado no MVP).
+  - Minha conta (nome, e-mail, foto).
+  - Meu perfil ministro (opcional) — criação/edição.
+  - Meu perfil igreja (opcional) — criação/edição.
+  - Verificação (status e envio de documentos para selo).
+  - Chat (lista de conversas e detalhe).
   - Sair.
-- **Administração (admin):** aprovação de igrejas; re-verificação de alterações de verificados; selo Verificado; **denúncias** (listar denunciados, ver descrição, inativar); recuperação de senha não gerida aqui (é fluxo do usuário).
+- **Administração (admin):** fila de verificações (ministro e igreja), aprovação/rejeição, re-verificação de alterações; recuperação de senha não gerida aqui (é fluxo do usuário).
 - **Rodapé:** Política de Privacidade, contato; recuperação de senha via link “Esqueci minha senha” no login.
 
 ---
@@ -47,9 +51,10 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 ## Usabilidade
 
 - Formulários com **labels** e mensagens de erro **inline** ou próximas ao campo.
-- **Feedback:** confirmação após cadastro, envio de solicitação, recuperação de senha e ações de admin.
+- **Feedback:** confirmação após cadastro, início de conversa, recuperação de senha e ações de admin.
 - **Estados de carregamento:** indicador ao submeter formulários ou ao buscar resultados.
 - **Acessibilidade:** contraste adequado, navegação por teclado.
+- Diferenciar visualmente selo “Verificado” e status “Pendente de verificação”.
 
 ---
 

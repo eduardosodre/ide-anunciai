@@ -9,6 +9,7 @@ database.php
 Thumbs.db
 .idea/
 .vscode/
+.agents/
 *.swp
 *.swo
 
@@ -17,3 +18,9 @@ Thumbs.db
 /tmp/
 /temp/
 vendor/
+
+# Runtime uploads and logs
+storage/logs/*
+!storage/logs/.gitkeep
+public/uploads/avatars/*
+!public/uploads/avatars/.gitkeep
