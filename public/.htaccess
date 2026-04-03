@@ -1,5 +1,9 @@
 RewriteEngine On
 
+# Se a app estiver numa subpasta (ex.: https://domínio/public/...), descomente a linha abaixo.
+# Se o Document Root do subdomínio apontar direto para esta pasta `public`, REMOVA o RewriteBase.
+RewriteBase /public/
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]

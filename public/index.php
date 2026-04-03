@@ -36,6 +36,7 @@ use App\Service\ReportService;
 use App\Service\SearchService;
 use App\Service\ViaCepClient;
 
+try {
 $config = AppConfig::load($projectRoot);
 $pdo = Connection::get($config->database());
 $userRepo = new UserRepository($pdo);
@@ -123,3 +124,16 @@ $router->post('/api/reports', [$apiController, 'reportsPost']);
 
 $response = $router->dispatch($request);
 $response->send();
+} catch (\Throwable $e) {
+    http_response_code(500);
+    header('Content-Type: text/html; charset=utf-8');
+    $showTrace = getenv('APP_DEBUG') === '1' || getenv('APP_DEBUG') === 'true';
+    echo '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Erro</title></head><body style="font-family:system-ui;padding:1.5rem">';
+    echo '<h1>Erro na aplicação</h1><p>' . htmlspecialchars($e->getMessage()) . '</p>';
+    if ($showTrace) {
+        echo '<pre style="overflow:auto;background:#f5f5f5;padding:1rem;font-size:12px">' . htmlspecialchars($e->getTraceAsString()) . '</pre>';
+    } else {
+        echo '<p><small>Defina a variável de ambiente <code>APP_DEBUG=1</code> no painel para ver detalhes técnicos.</small></p>';
+    }
+    echo '</body></html>';
+}
