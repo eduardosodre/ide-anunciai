@@ -55,7 +55,7 @@ $passwordValidator = new PasswordValidator();
 $authService = new AuthService($userRepo, $passwordValidator, $mailer, $config);
 $csrf = new Csrf();
 
-$homeController = new HomeController($csrf, $searchService, $professionalRepo);
+$homeController = new HomeController($csrf, $professionalRepo);
 $authWebController = new AuthWebController($authService, $csrf);
 $accountController = new AccountController($authService, $userRepo, $csrf);
 $professionalController = new ProfessionalController($professionalRepo, $verificationRepo, $geo, $csrf);

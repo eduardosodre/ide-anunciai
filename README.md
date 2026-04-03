@@ -4,6 +4,8 @@ Plataforma de networking religioso — conecta igrejas, ministros e profissionai
 
 Stack: PHP (sem framework), MySQL, HTML/CSS/JS.
 
+**Interface:** estilos globais em `src/View/Html.php`; formulários de cadastro, login, recuperação/redefinição de senha e busca usam `public/js/app.js` com `fetch` às rotas `/api/auth/*` e `GET /api/search`, validação inline e sem perda de dados ao errar.
+
 ## Requisitos
 
 - PHP **8.1+** (extensões: `pdo_mysql`, `mbstring`, `json`, `fileinfo` para upload de imagem; `allow_url_fopen=On` recomendado para consulta ViaCEP em desenvolvimento)

@@ -51,8 +51,10 @@ final class Html
                 . '<a href="' . self::u('/login') . '">Entrar</a>';
         }
 
+        $baseAttr = self::escape(BasePath::get());
+
         return '<!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-base="' . $baseAttr . '">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -115,7 +117,7 @@ final class Html
             box-shadow: var(--shadow);
         }
         .header-inner {
-            max-width: 52rem;
+            max-width: 56rem;
             margin: 0 auto;
             padding: 0.65rem 1rem;
             display: flex;
@@ -184,9 +186,9 @@ final class Html
         main {
             flex: 1;
             width: 100%;
-            max-width: 52rem;
+            max-width: 56rem;
             margin: 0 auto;
-            padding: 1.25rem 1rem 2.5rem;
+            padding: 1.5rem 1rem 3rem;
         }
         .site-footer {
             margin-top: auto;
@@ -259,6 +261,13 @@ final class Html
         }
         .hero-actions .btn { margin-top: 0; }
         .hero-compact { padding: 1rem 0 1.5rem; }
+        .hero-home {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: linear-gradient(165deg, var(--surface) 0%, var(--bg) 55%, var(--surface) 100%);
+            box-shadow: var(--shadow);
+            padding: 2.5rem 1.25rem 2.85rem;
+        }
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -301,6 +310,68 @@ final class Html
         .skills-list { margin: 0.35rem 0 0; padding-left: 1.25rem; }
         h1 { font-size: 1.45rem; margin-top: 0; }
         h2 { font-size: 1.15rem; margin: 1.25rem 0 0.5rem; }
+        .page-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 1rem; }
+        html { scroll-behavior: smooth; }
+        .site-header { backdrop-filter: saturate(180%) blur(10px); }
+        .page-auth { max-width: 26rem; margin: 0 auto; }
+        .form-card { padding: 1.5rem 1.35rem 1.75rem; }
+        .form-card > h1, .form-card h1.form-card-title {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 0.35rem;
+        }
+        .form-card .form-lead { text-align: center; color: var(--muted); font-size: 0.92rem; margin: 0 0 1.25rem; }
+        .field { margin-bottom: 1rem; }
+        .field > label:first-of-type { font-weight: 600; font-size: 0.875rem; display: block; margin-bottom: 0.35rem; }
+        .field input, .field select, .field textarea { max-width: none; }
+        .field-hint { font-size: 0.8rem; color: var(--muted); margin: 0.25rem 0 0; }
+        .field-error { min-height: 1.2rem; font-size: 0.8125rem; color: #c62828; margin-top: 0.25rem; }
+        @media (prefers-color-scheme: dark) { .field-error { color: #ff8a80; } }
+        input.invalid, select.invalid, textarea.invalid { border-color: #c62828 !important; }
+        .form-global-error:empty { display: none; }
+        .form-global-error { font-size: 0.9rem; color: #c62828; margin-bottom: 1rem; padding: 0.65rem 0.75rem; border-radius: 8px; background: #ffebee; }
+        @media (prefers-color-scheme: dark) {
+            .form-global-error { background: #3d1b1b; color: #ffcdd2; }
+        }
+        .form-msg-success { font-size: 0.9rem; color: #1b5e20; margin-bottom: 1rem; padding: 0.65rem 0.75rem; border-radius: 8px; background: #e8f5e9; border: 1px solid #c8e6c9; }
+        @media (prefers-color-scheme: dark) {
+            .form-msg-success { background: #1b3d1f; color: #c8e6c9; border-color: #2e4a32; }
+        }
+        .field-check label { font-weight: normal; display: flex; align-items: flex-start; gap: 0.5rem; margin-top: 0; }
+        .field-check input { width: auto; max-width: none; margin-top: 0.2rem; }
+        .hero { text-align: center; padding: 2.25rem 0 2.75rem; max-width: 44rem; margin: 0 auto; }
+        .hero h1 { margin-left: auto; margin-right: auto; }
+        .hero-lead { margin-left: auto; margin-right: auto; }
+        .hero-actions { justify-content: center; }
+        .main-nav a {
+            padding: 0.4rem 0.65rem;
+            border-radius: 8px;
+            transition: background .15s, color .15s;
+        }
+        .main-nav a:hover { background: var(--bg); text-decoration: none; }
+        .btn { transition: transform .06s ease, box-shadow .15s; }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+        @media (prefers-color-scheme: dark) { .btn-primary { box-shadow: 0 1px 3px rgba(0,0,0,.35); } }
+        .btn .spinner {
+            display: inline-block;
+            width: 0.95rem;
+            height: 0.95rem;
+            border: 2px solid rgba(255,255,255,.35);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: app-spin .65s linear infinite;
+            vertical-align: -0.15rem;
+            margin-right: 0.4rem;
+        }
+        @keyframes app-spin { to { transform: rotate(360deg); } }
+        button[type=submit]:disabled, .btn:disabled { opacity: .68; cursor: not-allowed; }
+        .busca-results { margin-top: 1rem; }
+        .busca-loading { color: var(--muted); padding: 0.75rem 0; }
+        .link-row { text-align: center; margin-top: 1.25rem; font-size: 0.95rem; color: var(--muted); }
+        .link-row a { font-weight: 500; }
     </style>
 </head>
 <body>
@@ -323,6 +394,7 @@ final class Html
     </nav>
     <p style="margin:0.5rem 0 0">MVP — conectando igrejas, ministros e profissionais</p>
 </footer>
+<script src="' . self::u('/js/app.js') . '" defer></script>
 </body>
 </html>';
     }

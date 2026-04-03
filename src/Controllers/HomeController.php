@@ -8,7 +8,6 @@ use App\Http\Request;
 use App\Http\Response;
 use App\Repository\ProfessionalRepository;
 use App\Security\Csrf;
-use App\Service\SearchService;
 use App\Session\SessionFacade;
 use App\View\Html;
 
@@ -16,10 +15,8 @@ final class HomeController
 {
     public function __construct(
         private readonly Csrf $csrf,
-        private readonly SearchService $search,
         private readonly ProfessionalRepository $professionals
-    )
-    {
+    ) {
     }
 
     public function home(Request $request): Response
@@ -36,7 +33,7 @@ final class HomeController
 </div>
 </section>';
         } else {
-            $body .= '<section class="hero">
+            $body .= '<section class="hero hero-home">
 <h1>Conecte igrejas, ministros e profissionais</h1>
 <p class="hero-lead">Networking religioso: encontre quem precisa perto de você — busca por localização e habilidades, perfis verificados e primeiro contato por mensagem.</p>
 <div class="hero-actions">
@@ -59,61 +56,46 @@ final class HomeController
         $raio = (int) $request->query('raio_km', 20);
         $tipo = (string) $request->query('tipo', 'ambos');
         $habilidadeId = (int) $request->query('habilidade_id', 0);
-        $pagina = (int) $request->query('pagina', 1);
-        $limite = (int) $request->query('limite', 20);
         $skills = $this->professionals->allSkills();
 
-        $body .= '<h1>Busca</h1>
-<div class="card">
-<form method="get" action="' . Html::u('/busca') . '">
-  <label>CEP <input type="text" name="cep" maxlength="20" value="' . Html::escape($cep) . '" placeholder="ex.: 01310100"></label>
-  <label>Cidade <input type="text" name="cidade" maxlength="255" value="' . Html::escape($cidade) . '" placeholder="ex.: São Paulo"></label>
-  <label>Raio (km) <input type="text" name="raio_km" value="' . Html::escape((string) max(1, $raio)) . '"></label>
-  <label>Tipo
-    <select name="tipo">
+        $body .= '<h1 class="page-title">Busca</h1>
+<div class="card form-card">
+<p class="form-lead" style="text-align:left;margin-top:0">Informe CEP ou cidade e filtros. Os resultados aparecem abaixo sem recarregar a página.</p>
+<form id="form-busca" method="get" action="' . Html::u('/busca') . '">
+  <div class="field">
+    <label for="busca-cep">CEP</label>
+    <input id="busca-cep" type="text" name="cep" maxlength="20" value="' . Html::escape($cep) . '" placeholder="ex.: 01310100" autocomplete="postal-code">
+  </div>
+  <div class="field">
+    <label for="busca-cidade">Cidade</label>
+    <input id="busca-cidade" type="text" name="cidade" maxlength="255" value="' . Html::escape($cidade) . '" placeholder="ex.: São Paulo" autocomplete="address-level2">
+  </div>
+  <div class="field">
+    <label for="busca-raio">Raio (km)</label>
+    <input id="busca-raio" type="text" name="raio_km" value="' . Html::escape((string) max(1, $raio)) . '">
+  </div>
+  <div class="field">
+    <label for="busca-tipo">Tipo</label>
+    <select id="busca-tipo" name="tipo">
       <option value="ambos"' . ($tipo === 'ambos' ? ' selected' : '') . '>Ambos</option>
       <option value="profissionais"' . ($tipo === 'profissionais' ? ' selected' : '') . '>Profissionais</option>
       <option value="igrejas"' . ($tipo === 'igrejas' ? ' selected' : '') . '>Igrejas</option>
     </select>
-  </label>
-  <label>Habilidade (opcional)
-    <select name="habilidade_id">
+  </div>
+  <div class="field">
+    <label for="busca-hab">Habilidade (opcional)</label>
+    <select id="busca-hab" name="habilidade_id">
       <option value="">Todas</option>'
       . $this->skillsOptionsHtml($skills, $habilidadeId) .
     '</select>
-  </label>
-  <button type="submit">Buscar</button>
+  </div>
+  <button type="submit" class="btn btn-primary" style="width:100%;max-width:none;margin-top:0.5rem">
+    <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
+    <span class="btn-label">Buscar</span>
+  </button>
 </form>
-</div>';
-
-        if ($cep !== '' || $cidade !== '') {
-            $result = $this->search->search(
-                $cep === '' ? null : $cep,
-                $cidade === '' ? null : $cidade,
-                $raio,
-                $tipo,
-                $habilidadeId > 0 ? $habilidadeId : null,
-                $pagina,
-                $limite
-            );
-            $body .= '<div class="card"><p><strong>' . Html::escape((string) ($result['meta']['message'] ?? '')) . '</strong></p>';
-            $items = $result['items'] ?? [];
-            if ($items === []) {
-                $body .= '<p>Nenhum resultado.</p></div>';
-            } else {
-                $body .= '<ul class="result-list">';
-                foreach ($items as $item) {
-                    $badge = !empty($item['verificado']) ? ' <small>[Verificado]</small>' : '';
-                    $dist = isset($item['distancia_km']) ? ' — ' . Html::escape((string) $item['distancia_km']) . ' km' : '';
-                    $body .= '<li><a href="' . Html::escape((string) $item['url']) . '">'
-                        . Html::escape((string) $item['nome']) . '</a> (' . Html::escape((string) $item['tipo']) . ')'
-                        . $badge . ' — ' . Html::escape((string) $item['cidade']) . $dist . '</li>';
-                }
-                $body .= '</ul></div>';
-            }
-        } else {
-            $body .= '<div class="card"><p>Informe CEP ou cidade para buscar perfis por raio.</p></div>';
-        }
+</div>
+<div id="busca-results" class="busca-results" aria-live="polite"></div>';
 
         return Response::html(Html::layout('Busca', $body, $this->csrf->token()));
     }
