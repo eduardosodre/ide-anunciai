@@ -51,6 +51,7 @@ Contrato técnico para o backend PHP (sem framework), alinhado às rotas de [07-
 |-----------|------|-------------|
 | cep | string | um de cep ou cidade |
 | cidade | string | um de cep ou cidade |
+| estado | string (UF, 2 letras) | não; recomendado com cidade para homônimos; com CEP o centro usa UF do ViaCEP |
 | raio_km | int | sim |
 | tipo | enum: profissionais, igrejas, ambos | sim ou default `ambos` |
 | habilidade_id | int | não |
@@ -151,7 +152,7 @@ Exige `usuario.admin = 1`.
 | POST | `/api/auth/logout` | Logout |
 | POST | `/api/auth/password/forgot` | Solicitar recuperação |
 | POST | `/api/auth/password/reset` | Redefinir senha por token |
-| GET | `/api/search` | Busca por CEP/cidade/raio/filtros |
+| GET | `/api/search` | Busca por CEP ou cidade+UF/raio/filtros; `meta.centro` inclui `label` e `uf` quando resolvido |
 | POST | `/api/chat/conversations` | Iniciar conversa com mensagem inicial |
 | GET | `/api/chat/conversations` | Listar conversas do usuário |
 | GET | `/api/chat/conversations/{id}` | Detalhar conversa |

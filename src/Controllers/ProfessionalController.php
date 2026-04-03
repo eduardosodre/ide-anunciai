@@ -33,14 +33,15 @@ final class ProfessionalController
 
         $profile = $this->professionals->findByUserId($userId);
         $skills = $this->professionals->allSkills();
+        $p = $profile ?? [];
 
-        $nomePublico = Html::escape((string) ($profile['nome_publico'] ?? ''));
-        $telefone = Html::escape((string) ($profile['telefone'] ?? ''));
-        $cidade = Html::escape((string) ($profile['cidade'] ?? ''));
-        $estadoSel = isset($profile['estado']) && (string) $profile['estado'] !== ''
-            ? strtoupper((string) $profile['estado'])
+        $nomePublico = Html::escape((string) ($p['nome_publico'] ?? ''));
+        $telefone = Html::escape((string) ($p['telefone'] ?? ''));
+        $cidade = Html::escape((string) ($p['cidade'] ?? ''));
+        $estadoSel = isset($p['estado']) && (string) $p['estado'] !== ''
+            ? strtoupper((string) $p['estado'])
             : '';
-        $selectedSkills = $profile['habilidades'] ?? [];
+        $selectedSkills = $p['habilidades'] ?? [];
 
         $body = $this->messagesHtml();
         $body .= '<div class="card form-card">

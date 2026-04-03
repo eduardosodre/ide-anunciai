@@ -292,6 +292,10 @@
       if (fd.get('cidade')) {
         params.set('cidade', String(fd.get('cidade')).trim());
       }
+      var est = fd.get('estado');
+      if (est) {
+        params.set('estado', String(est).trim());
+      }
       params.set('raio_km', String(fd.get('raio_km') || '20'));
       params.set('tipo', String(fd.get('tipo') || 'ambos'));
       var hid = fd.get('habilidade_id');
@@ -357,6 +361,9 @@
       }
       if (qs.get('habilidade_id') && form.querySelector('[name="habilidade_id"]')) {
         form.querySelector('[name="habilidade_id"]').value = qs.get('habilidade_id');
+      }
+      if (qs.get('estado') && form.querySelector('[name="estado"]')) {
+        form.querySelector('[name="estado"]').value = qs.get('estado');
       }
       runSearch();
     } else {

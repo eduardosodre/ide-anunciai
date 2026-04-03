@@ -33,7 +33,8 @@ Um usuário pode ter um registro de ministro/profissional vinculado.
 | usuario_id | INT FK → usuario.id | sim | UNIQUE (1:1) |
 | nome_completo | VARCHAR(255) | sim | |
 | telefone | VARCHAR(50) | não | |
-| cidade | VARCHAR(255) | sim | |
+| cidade | VARCHAR(255) | sim | Município (sem UF no texto; ver `estado`) |
+| estado | VARCHAR(2) | não | UF (ex.: SP); usado na busca e geocodificação |
 | rg | VARCHAR(30) | não | Exigido para solicitar verificação |
 | cpf | VARCHAR(14) | não | Exigido para solicitar verificação |
 | foto_url | VARCHAR(500) | não | Foto opcional do usuário/perfil |
@@ -75,7 +76,8 @@ Um usuário pode ter um registro de igreja vinculado.
 | email_contato | VARCHAR(255) | sim | |
 | telefone | VARCHAR(50) | não | |
 | cep | VARCHAR(20) | sim | |
-| cidade | VARCHAR(255) | sim | |
+| cidade | VARCHAR(255) | sim | Município |
+| estado | VARCHAR(2) | não | UF (ViaCEP ao salvar CEP) |
 | verificado | TINYINT(1) DEFAULT 0 | sim | Selo Verificado da igreja |
 | pendente_revisao | TINYINT(1) DEFAULT 0 | sim | 1 = alteração aguardando re-verificação |
 | criado_em | DATETIME | sim | |
