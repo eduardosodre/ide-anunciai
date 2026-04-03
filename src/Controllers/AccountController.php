@@ -40,23 +40,44 @@ final class AccountController
         $email = Html::escape((string) $user['email']);
         $fotoRaw = isset($user['foto_url']) ? (string) $user['foto_url'] : '';
         $foto = $fotoRaw !== ''
-            ? '<p><img src="' . Html::escape(
+            ? '<p class="profile-muted" style="margin-top:0">Foto atual:</p><p><img src="' . Html::escape(
                 (str_starts_with($fotoRaw, 'http://') || str_starts_with($fotoRaw, 'https://'))
                     ? $fotoRaw
                     : Html::u($fotoRaw)
-            ) . '" alt="" style="max-width:120px;border-radius:8px"></p>'
+            ) . '" alt="" class="avatar-current" width="120" height="120" style="width:120px;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--border)"></p>'
             : '';
 
-        $body .= '<h1>Minha conta</h1>' . $foto . '
-<form method="post" action="' . Html::u('/conta') . '" enctype="multipart/form-data">
+        $body .= '<div class="card form-card">
+<h1 class="page-title" style="margin-bottom:0.75rem">Minha conta</h1>
+' . $foto . '
+<form id="form-conta" method="post" action="' . Html::u('/conta') . '" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
-  <label>Nome completo <input type="text" name="nome" required maxlength="255" value="' . $nome . '"></label>
-  <label>E-mail <input type="email" name="email" required maxlength="255" value="' . $email . '"></label>
-  <label>Foto de perfil (JPEG, PNG ou WebP, máx. 5 MB) <input type="file" name="foto" accept="image/jpeg,image/png,image/webp"></label>
-  <button type="submit">Salvar</button>
-</form>';
+  <div class="field">
+    <label for="conta-nome">Nome completo</label>
+    <input id="conta-nome" type="text" name="nome" required maxlength="255" value="' . $nome . '">
+  </div>
+  <div class="field">
+    <label for="conta-email">E-mail</label>
+    <input id="conta-email" type="email" name="email" required maxlength="255" value="' . $email . '">
+  </div>
+  <div class="field">
+    <label for="avatar-input">Nova foto de perfil</label>
+    <p class="field-hint">JPEG, PNG ou WebP até 5 MB. Depois de escolher, ajuste o recorte abaixo e salve.</p>
+    <input id="avatar-input" type="file" name="foto" accept="image/jpeg,image/png,image/webp">
+  </div>
+  <div id="avatar-crop-wrap" class="avatar-crop-wrap" hidden>
+    <p class="field-hint" style="margin-bottom:0.5rem">Pré-visualização e recorte (arraste para posicionar; use a roda para zoom se disponível)</p>
+    <img id="avatar-crop-img" alt="Recorte da foto">
+  </div>
+  <button type="submit" class="btn btn-primary">Salvar dados e foto</button>
+</form>
+</div>';
 
-        return Response::html(Html::layout('Minha conta', $body, $this->csrf->token()));
+        $extraHead = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" crossorigin="anonymous">';
+        $extraFooter = '<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js" crossorigin="anonymous"></script>'
+            . '<script src="' . Html::u('/js/avatar-crop.js') . '" defer></script>';
+
+        return Response::html(Html::layout('Minha conta', $body, $this->csrf->token(), $extraHead, $extraFooter));
     }
 
     public function contaPost(Request $request): Response

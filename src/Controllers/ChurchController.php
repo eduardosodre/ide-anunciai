@@ -49,18 +49,36 @@ final class ChurchController
         $emailConta = Html::escape((string) $user['email']);
 
         $body = $this->messagesHtml();
-        $body .= '<h1>Meu perfil igreja</h1>
-<p><strong>E-mail de contato:</strong> ' . $emailConta . ' (usa o e-mail da sua conta; altere em <a href="' . Html::u('/conta') . '">Minha conta</a>).</p>
+        $body .= '<div class="card form-card">
+<h1 class="page-title">Meu perfil igreja</h1>
+<p class="form-lead" style="text-align:left">Você está criando o <strong>perfil público da sua igreja</strong>: ele será exibido na busca para outras pessoas encontrarem e entrarem em contato. Revise os dados com cuidado; o que salvar aqui é o que representa a igreja no site.</p>
+<p class="field-hint" style="margin-top:-0.5rem;margin-bottom:1rem"><strong>E-mail de contato:</strong> ' . $emailConta . ' — vem da sua conta; para alterar, use <a href="' . Html::u('/conta') . '">Minha conta</a>.</p>
 <form method="post" action="' . Html::u('/meu-perfil/igreja') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
-  <label>Nome da igreja <input type="text" name="nome_igreja" required maxlength="255" value="' . $nome . '"></label>
-  <label>Telefone (interno, não público) <input type="text" name="telefone" maxlength="50" value="' . $telefone . '"></label>
-  <label>CEP <input type="text" name="cep" required maxlength="20" placeholder="00000-000" value="' . $cep . '"></label>
-  <label>Cidade <input type="text" name="cidade" maxlength="255" value="' . $cidade . '" placeholder="Preenchida pelo CEP ou manualmente"></label>
-  <p><small>Com CEP válido, a cidade é obtida pelo ViaCEP. Se o serviço falhar, informe a cidade manualmente.</small></p>
-  <label>CNPJ (opcional; obrigatório para verificação futura) <input type="text" name="cnpj" maxlength="20" value="' . $cnpj . '"></label>
-  <button type="submit">Salvar perfil igreja</button>
-</form>';
+  <div class="field">
+    <label for="nome_igreja">Nome da igreja</label>
+    <input id="nome_igreja" type="text" name="nome_igreja" required maxlength="255" value="' . $nome . '">
+  </div>
+  <div class="field">
+    <label for="telefone_igreja">Telefone (uso interno; não exibido publicamente como preferência de contato)</label>
+    <input id="telefone_igreja" type="text" name="telefone" maxlength="50" value="' . $telefone . '">
+  </div>
+  <div class="field">
+    <label for="cep">CEP</label>
+    <input id="cep" type="text" name="cep" required maxlength="20" placeholder="00000-000" value="' . $cep . '">
+  </div>
+  <div class="field">
+    <label for="cidade_igreja">Cidade</label>
+    <input id="cidade_igreja" type="text" name="cidade" maxlength="255" value="' . $cidade . '" placeholder="Preenchida pelo CEP ou manualmente">
+    <p class="field-hint">Com CEP válido, a cidade costuma ser obtida pelo ViaCEP. Se falhar, informe a cidade manualmente.</p>
+  </div>
+  <div class="field">
+    <label for="cnpj">CNPJ (opcional; pode ser exigido em verificações futuras)</label>
+    <input id="cnpj" type="text" name="cnpj" maxlength="20" value="' . $cnpj . '">
+  </div>
+  <button type="submit" class="btn btn-primary">Salvar perfil igreja</button>
+</form>
+</div>';
 
         return Response::html(Html::layout('Meu perfil igreja', $body, $this->csrf->token()));
     }

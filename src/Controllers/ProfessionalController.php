@@ -39,19 +39,33 @@ final class ProfessionalController
         $selectedSkills = $profile['habilidades'] ?? [];
 
         $body = $this->messagesHtml();
-        $body .= '<h1>Meu perfil ministro</h1>
+        $body .= '<div class="card form-card">
+<h1 class="page-title">Meu perfil ministro</h1>
+<p class="form-lead" style="text-align:left">Este é o seu perfil público de ministro na busca. Outros usuários (por exemplo, líderes de igreja) poderão encontrá-lo e <strong>convidá-lo a atuar</strong> com o ministério deles, de acordo com as habilidades que você informar.</p>
 <form method="post" action="' . Html::u('/meu-perfil/ministro') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
-  <label>Nome público <input type="text" name="nome_publico" required maxlength="255" value="' . $nomePublico . '"></label>
-  <label>Telefone <input type="text" name="telefone" maxlength="50" value="' . $telefone . '"></label>
-  <label>Cidade <input type="text" name="cidade" required maxlength="255" value="' . $cidade . '"></label>
-  <label>Habilidades/dons</label>
-  <select name="habilidades[]" multiple required size="6" style="width:100%;max-width:24rem;padding:0.4rem;">'
+  <div class="field">
+    <label for="nome_publico">Nome público</label>
+    <input id="nome_publico" type="text" name="nome_publico" required maxlength="255" value="' . $nomePublico . '">
+  </div>
+  <div class="field">
+    <label for="telefone">Telefone</label>
+    <input id="telefone" type="text" name="telefone" maxlength="50" value="' . $telefone . '">
+  </div>
+  <div class="field">
+    <label for="cidade">Cidade</label>
+    <input id="cidade" type="text" name="cidade" required maxlength="255" value="' . $cidade . '">
+  </div>
+  <div class="field">
+    <label for="habilidades">Habilidades e dons</label>
+    <select id="habilidades" name="habilidades[]" multiple required size="6" style="width:100%;max-width:none;padding:0.4rem;">'
             . $this->skillsOptionsHtml($skills, $selectedSkills) .
         '</select>
-  <p>Segure Ctrl (Windows) para selecionar mais de uma habilidade.</p>
-  <button type="submit">Salvar perfil ministro</button>
-</form>';
+    <p class="field-hint">Segure Ctrl (Windows) ou Cmd (Mac) para selecionar mais de uma opção.</p>
+  </div>
+  <button type="submit" class="btn btn-primary">Salvar perfil ministro</button>
+</form>
+</div>';
 
         return Response::html(Html::layout('Meu perfil ministro', $body, $this->csrf->token()));
     }

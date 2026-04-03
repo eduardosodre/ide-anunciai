@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\View;
 
+use App\Config\Site;
 use App\Http\BasePath;
 use App\Session\SessionFacade;
 
@@ -20,35 +21,43 @@ final class Html
         return BasePath::url($path);
     }
 
-    public static function layout(string $title, string $body, ?string $csrfToken = null): string
-    {
+    /**
+     * @param string $extraHead    HTML extra dentro de &lt;head&gt; (ex.: CSS de bibliotecas).
+     * @param string $extraFooter  Scripts/HTML antes de &lt;/body&gt; (após app.js).
+     */
+    public static function layout(
+        string $title,
+        string $body,
+        ?string $csrfToken = null,
+        string $extraHead = '',
+        string $extraFooter = ''
+    ): string {
+        $siteName = Site::NAME;
         $uid = SessionFacade::userId();
         $navMain = '';
         if ($uid !== null && $csrfToken !== null) {
-            $adminLinks = '';
+            $navMain = self::navLinksHtml(Site::navUser());
             if (SessionFacade::isAdmin()) {
-                $adminLinks = '<span class="nav-sep"></span><a href="' . self::u('/admin/verificacoes') . '">Admin verificações</a>'
-                    . '<a href="' . self::u('/admin/revisao') . '">Admin revisão</a>'
-                    . '<a href="' . self::u('/admin/denuncias') . '">Admin denúncias</a>';
+                $navMain .= '<span class="nav-sep"></span>' . self::navLinksHtml(Site::navAdmin());
             }
-            $navMain = '<a href="' . self::u('/') . '">Início</a>'
-                . '<a href="' . self::u('/busca') . '">Buscar</a>'
-                . '<a href="' . self::u('/conta') . '">Minha conta</a>'
-                . '<a href="' . self::u('/chat') . '">Conversas</a>'
-                . '<a href="' . self::u('/meu-perfil/ministro') . '">Perfil ministro</a>'
-                . '<a href="' . self::u('/meu-perfil/igreja') . '">Perfil igreja</a>'
-                . '<a href="' . self::u('/verificacao') . '">Verificação</a>'
-                . $adminLinks
-                . '<span class="nav-sep"></span>'
+            $navMain .= '<span class="nav-sep"></span>'
                 . '<form action="' . self::u('/sair') . '" method="post" class="nav-logout">'
                 . '<input type="hidden" name="csrf_token" value="' . self::escape($csrfToken) . '">'
                 . '<button type="submit">Sair</button>'
                 . '</form>';
         } else {
-            $navMain = '<a href="' . self::u('/') . '">Início</a>'
-                . '<a href="' . self::u('/busca') . '">Buscar</a>'
-                . '<a href="' . self::u('/cadastro') . '">Cadastrar</a>'
-                . '<a href="' . self::u('/login') . '">Entrar</a>';
+            $navMain = self::navLinksHtml(Site::navGuest());
+        }
+
+        $footerNav = '';
+        $sep = '<span aria-hidden="true"> · </span>';
+        $first = true;
+        foreach (Site::footerLinks() as $link) {
+            if (!$first) {
+                $footerNav .= $sep;
+            }
+            $first = false;
+            $footerNav .= '<a href="' . self::u($link['path']) . '">' . self::escape($link['label']) . '</a>';
         }
 
         $baseAttr = self::escape(BasePath::get());
@@ -59,7 +68,8 @@ final class Html
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <title>' . self::escape($title) . ' — ide-anunciai</title>
+    <title>' . self::escape($title) . ' — ' . self::escape($siteName) . '</title>
+    ' . $extraHead . '
     <style>
         :root {
             --bg: #f8f9fb;
@@ -372,12 +382,14 @@ final class Html
         .busca-loading { color: var(--muted); padding: 0.75rem 0; }
         .link-row { text-align: center; margin-top: 1.25rem; font-size: 0.95rem; color: var(--muted); }
         .link-row a { font-weight: 500; }
+        .avatar-crop-wrap { margin-top: 0.75rem; max-width: 100%; }
+        .avatar-crop-wrap img { display: block; max-width: 100%; }
     </style>
 </head>
 <body>
 <header class="site-header">
     <div class="header-inner">
-        <a class="brand" href="' . self::u('/') . '">ide-anunciai</a>
+        <a class="brand" href="' . self::u('/') . '">' . self::escape($siteName) . '</a>
         <input type="checkbox" id="site-nav-toggle" class="nav-toggle sr-only">
         <label for="site-nav-toggle" class="nav-toggle-label"><span aria-hidden="true">☰</span><span class="sr-only">Abrir ou fechar menu</span></label>
         <nav class="main-nav" aria-label="Principal">' . $navMain . '</nav>
@@ -385,17 +397,23 @@ final class Html
 </header>
 <main>' . $body . '</main>
 <footer class="site-footer">
-    <nav aria-label="Rodapé">
-        <a href="' . self::u('/') . '">Início</a>
-        <span aria-hidden="true"> · </span>
-        <a href="' . self::u('/busca') . '">Buscar</a>
-        <span aria-hidden="true"> · </span>
-        <a href="' . self::u('/privacidade') . '">Privacidade</a>
-    </nav>
-    <p style="margin:0.5rem 0 0">MVP — conectando igrejas, ministros e profissionais</p>
+    <nav aria-label="Rodapé">' . $footerNav . '</nav>
+    <p style="margin:0.5rem 0 0">' . self::escape(Site::FOOTER_TAGLINE) . '</p>
 </footer>
 <script src="' . self::u('/js/app.js') . '" defer></script>
+' . $extraFooter . '
 </body>
 </html>';
+    }
+
+    /** @param list<array{label: string, path: string}> $items */
+    private static function navLinksHtml(array $items): string
+    {
+        $html = '';
+        foreach ($items as $item) {
+            $html .= '<a href="' . self::u($item['path']) . '">' . self::escape($item['label']) . '</a>';
+        }
+
+        return $html;
     }
 }

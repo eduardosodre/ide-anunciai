@@ -31,13 +31,18 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 
 ---
 
+## Manutenção centralizada (nome e menus)
+
+- **Configuração única:** `src/Config/Site.php` define o **nome do site** (`Site::NAME`), **itens do menu** (visitante, usuário logado, admin) e **links do rodapé** + texto do rodapé (`Site::FOOTER_TAGLINE`). Alterar ali reflete no cabeçalho e no `<title>` (via `Html::layout()`).
+- **Páginas com assets extra:** `Html::layout($title, $body, $csrf, $extraHead, $extraFooter)` — usado em **Minha conta** para CSS/JS do recorte de foto (Cropper.js).
+
 ## Estrutura de navegação (MVP)
 
 - **Home:** proposta + links (Buscar, Cadastrar, Login).
 - **Busca:** formulário CEP/cidade + raio (km); resultados de profissionais e igrejas; filtros (tipo, habilidade).
 - **Perfil público:** profissional ou igreja; botão “Iniciar conversa” (exige login).
 - **Área logada:**
-  - Minha conta (nome, e-mail, foto).
+  - Minha conta (nome, e-mail, foto com **pré-visualização e recorte** antes do envio; ver `public/js/avatar-crop.js`).
   - Meu perfil ministro (opcional) — criação/edição.
   - Meu perfil igreja (opcional) — criação/edição.
   - Verificação (status e envio de documentos para selo).
