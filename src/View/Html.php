@@ -384,6 +384,41 @@ final class Html
         .link-row a { font-weight: 500; }
         .avatar-crop-wrap { margin-top: 0.75rem; max-width: 100%; }
         .avatar-crop-wrap img { display: block; max-width: 100%; }
+        .section-heading {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 0.5rem;
+            color: var(--text);
+        }
+        .section-heading:first-child { margin-top: 0; }
+        .data-table-wrap { overflow-x: auto; margin-top: 0.75rem; -webkit-overflow-scrolling: touch; }
+        .data-table {
+            width: 100%;
+            min-width: 36rem;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid var(--border);
+            padding: 0.55rem 0.65rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        .data-table thead th {
+            background: var(--bg);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .data-table tbody tr:nth-child(even) { background: rgba(0,0,0,.025); }
+        @media (prefers-color-scheme: dark) {
+            .data-table tbody tr:nth-child(even) { background: rgba(255,255,255,.03); }
+        }
+        .empty-state {
+            padding: 1rem 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>

@@ -45,7 +45,7 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
   - Minha conta (nome, e-mail, foto com **pré-visualização e recorte** antes do envio; ver `public/js/avatar-crop.js`).
   - Meu perfil ministro (opcional) — criação/edição.
   - Meu perfil igreja (opcional) — criação/edição.
-  - Verificação (status e envio de documentos para selo).
+  - Verificação (status e envio de documentos para selo) — página em cartões, textos explicativos, campos com *hints* e tabela de solicitações estilizada (`/verificacao`).
   - Chat (lista de conversas e detalhe).
   - Sair.
 - **Administração (admin):** fila de verificações (ministro e igreja), aprovação/rejeição, re-verificação de alterações; recuperação de senha não gerida aqui (é fluxo do usuário).

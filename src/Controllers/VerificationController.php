@@ -37,13 +37,22 @@ final class VerificationController
         $requests = $this->verifications->listOwnRequests($userId);
 
         $body = $this->messagesHtml();
-        $body .= '<h1>Verificação</h1>';
-        $body .= '<h2>Solicitar verificação de ministro</h2>';
-        $body .= $this->renderMinisterForm($professional);
-        $body .= '<h2>Solicitar verificação de igreja</h2>';
-        $body .= $this->renderChurchForm($church);
-        $body .= '<h2>Minhas solicitações</h2>';
-        $body .= $this->renderRequestsTable($requests);
+        $body .= '<h1 class="page-title">Verificação</h1>
+<div class="card" style="margin-bottom:1.25rem">
+<p class="form-lead" style="text-align:left;margin:0">O <strong>selo verificado</strong> mostra que a equipe conferiu os dados do seu perfil. Informe apenas dados verdadeiros. CPF (ministro) e CNPJ (igreja) são necessários para análise; documentos extras ajudam a agilizar o processo.</p>
+</div>';
+        $body .= '<div class="card form-card" style="margin-top:0">
+<h2 class="section-heading">Solicitar verificação de ministro</h2>
+' . $this->renderMinisterForm($professional) . '
+</div>';
+        $body .= '<div class="card form-card">
+<h2 class="section-heading">Solicitar verificação de igreja</h2>
+' . $this->renderChurchForm($church) . '
+</div>';
+        $body .= '<div class="card" style="margin-top:1.25rem">
+<h2 class="section-heading">Minhas solicitações</h2>
+' . $this->renderRequestsTable($requests) . '
+</div>';
 
         return Response::html(Html::layout('Verificação', $body, $this->csrf->token()));
     }
@@ -237,60 +246,103 @@ final class VerificationController
     private function renderMinisterForm(?array $professional): string
     {
         if ($professional === null) {
-            return '<p>Perfil de ministro ainda não criado. Cadastre em <a href="' . Html::u('/meu-perfil/ministro') . '">Meu perfil ministro</a>.</p>';
+            return '<p class="empty-state">Perfil de ministro ainda não criado. Crie o perfil em <a href="' . Html::u('/meu-perfil/ministro') . '">Meu perfil ministro</a> e volte aqui para solicitar o selo.</p>';
         }
 
-        return '<form method="post" action="' . Html::u('/verificacao') . '">
+        return '<p class="form-lead" style="text-align:left;margin:0 0 1rem">Preencha o CPF (somente números ou com pontuação). O RG é opcional, mas pode acelerar a conferência. Se enviar um documento comprobatório, descreva o tipo e onde o arquivo pode ser acessado (caminho público ou link acordado com o suporte).</p>
+<form method="post" action="' . Html::u('/verificacao') . '" class="verification-form">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="tipo_entidade" value="ministro">
-  <label>RG <input type="text" name="rg" maxlength="50"></label>
-  <label>CPF <input type="text" name="cpf" maxlength="20" required></label>
-  <label>Documento 1 - tipo <input type="text" name="documento_tipo[]" maxlength="100" placeholder="Ex.: selfie com documento"></label>
-  <label>Documento 1 - nome arquivo <input type="text" name="documento_nome[]" maxlength="255"></label>
-  <label>Documento 1 - caminho <input type="text" name="documento_caminho[]" maxlength="500" placeholder="/uploads/doc1.jpg"></label>
-  <button type="submit">Solicitar verificação ministro</button>
+  <div class="field">
+    <label for="verif-ministro-cpf">CPF</label>
+    <input id="verif-ministro-cpf" type="text" name="cpf" maxlength="20" required inputmode="numeric" autocomplete="off" placeholder="000.000.000-00">
+    <p class="field-hint">Obrigatório. Usado apenas para verificação interna.</p>
+  </div>
+  <div class="field">
+    <label for="verif-ministro-rg">RG (opcional)</label>
+    <input id="verif-ministro-rg" type="text" name="rg" maxlength="50" autocomplete="off" placeholder="Número do documento de identidade">
+  </div>
+  <fieldset class="field" style="border:1px solid var(--border);border-radius:8px;padding:0.85rem 1rem;margin:1rem 0 0">
+    <legend class="field-hint" style="padding:0 0.35rem;font-weight:600;color:var(--text)">Documento comprobatório (opcional)</legend>
+    <p class="field-hint" style="margin-top:0.35rem">Ex.: foto do rosto com documento, comprovante vinculado ao ministério. Indique tipo, nome do arquivo e URL ou caminho acessível pela equipe.</p>
+    <div class="field" style="margin-bottom:0.65rem">
+      <label for="verif-doc-m-tipo">Tipo do documento</label>
+      <input id="verif-doc-m-tipo" type="text" name="documento_tipo[]" maxlength="100" placeholder="Ex.: selfie com documento em mãos">
+    </div>
+    <div class="field" style="margin-bottom:0.65rem">
+      <label for="verif-doc-m-nome">Nome do arquivo</label>
+      <input id="verif-doc-m-nome" type="text" name="documento_nome[]" maxlength="255" placeholder="Ex.: verificacao-ministro.jpg">
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <label for="verif-doc-m-path">URL ou caminho do arquivo</label>
+      <input id="verif-doc-m-path" type="text" name="documento_caminho[]" maxlength="500" placeholder="https://… ou /uploads/…">
+    </div>
+  </fieldset>
+  <button type="submit" class="btn btn-primary" style="width:100%;max-width:none;margin-top:1.15rem">Enviar solicitação de verificação (ministro)</button>
 </form>';
     }
 
     private function renderChurchForm(?array $church): string
     {
         if ($church === null) {
-            return '<p>Perfil de igreja ainda não criado. Cadastre em <a href="' . Html::u('/meu-perfil/igreja') . '">Meu perfil igreja</a>.</p>';
+            return '<p class="empty-state">Perfil de igreja ainda não criado. Crie o perfil em <a href="' . Html::u('/meu-perfil/igreja') . '">Meu perfil igreja</a> e volte aqui para solicitar o selo.</p>';
         }
 
-        return '<form method="post" action="' . Html::u('/verificacao') . '">
+        return '<p class="form-lead" style="text-align:left;margin:0 0 1rem">Informe o <strong>CNPJ</strong> da entidade (14 dígitos). Documentos como estatuto ou ata podem ser referenciados abaixo para agilizar a análise.</p>
+<form method="post" action="' . Html::u('/verificacao') . '" class="verification-form">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="tipo_entidade" value="igreja">
-  <label>CNPJ <input type="text" name="cnpj" maxlength="20" required></label>
-  <label>Documento 1 - tipo <input type="text" name="documento_tipo[]" maxlength="100" placeholder="Ex.: estatuto"></label>
-  <label>Documento 1 - nome arquivo <input type="text" name="documento_nome[]" maxlength="255"></label>
-  <label>Documento 1 - caminho <input type="text" name="documento_caminho[]" maxlength="500" placeholder="/uploads/doc-igreja.pdf"></label>
-  <button type="submit">Solicitar verificação igreja</button>
+  <div class="field">
+    <label for="verif-igreja-cnpj">CNPJ</label>
+    <input id="verif-igreja-cnpj" type="text" name="cnpj" maxlength="20" required inputmode="numeric" autocomplete="off" placeholder="00.000.000/0001-00">
+    <p class="field-hint">Obrigatório para verificação de igreja. Confira se coincide com o cadastro do perfil público.</p>
+  </div>
+  <fieldset class="field" style="border:1px solid var(--border);border-radius:8px;padding:0.85rem 1rem;margin:1rem 0 0">
+    <legend class="field-hint" style="padding:0 0.35rem;font-weight:600;color:var(--text)">Documento comprobatório (opcional)</legend>
+    <p class="field-hint" style="margin-top:0.35rem">Ex.: estatuto, ata de constituição ou carta de reconhecimento. Indique tipo, nome do arquivo e URL ou caminho acessível.</p>
+    <div class="field" style="margin-bottom:0.65rem">
+      <label for="verif-doc-i-tipo">Tipo do documento</label>
+      <input id="verif-doc-i-tipo" type="text" name="documento_tipo[]" maxlength="100" placeholder="Ex.: estatuto social">
+    </div>
+    <div class="field" style="margin-bottom:0.65rem">
+      <label for="verif-doc-i-nome">Nome do arquivo</label>
+      <input id="verif-doc-i-nome" type="text" name="documento_nome[]" maxlength="255" placeholder="Ex.: estatuto-igreja.pdf">
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <label for="verif-doc-i-path">URL ou caminho do arquivo</label>
+      <input id="verif-doc-i-path" type="text" name="documento_caminho[]" maxlength="500" placeholder="https://… ou /uploads/…">
+    </div>
+  </fieldset>
+  <button type="submit" class="btn btn-primary" style="width:100%;max-width:none;margin-top:1.15rem">Enviar solicitação de verificação (igreja)</button>
 </form>';
     }
 
     private function renderRequestsTable(array $requests): string
     {
         if ($requests === []) {
-            return '<p>Nenhuma solicitação registrada.</p>';
+            return '<p class="empty-state" style="margin:0">Nenhuma solicitação registrada ainda. Use os formulários acima quando o perfil estiver pronto.</p>';
         }
 
         $lines = '';
         foreach ($requests as $row) {
+            $motivo = (string) ($row['motivo_rejeicao'] ?? '');
             $lines .= '<tr>'
                 . '<td>' . (int) $row['id'] . '</td>'
                 . '<td>' . Html::escape((string) $row['tipo_entidade']) . '</td>'
                 . '<td>' . Html::escape((string) $row['tipo_fluxo']) . '</td>'
-                . '<td>' . Html::escape((string) $row['status']) . '</td>'
-                . '<td>' . Html::escape((string) ($row['motivo_rejeicao'] ?? '')) . '</td>'
+                . '<td><strong>' . Html::escape((string) $row['status']) . '</strong></td>'
+                . '<td>' . Html::escape($motivo !== '' ? $motivo : '—') . '</td>'
                 . '<td>' . Html::escape((string) $row['criado_em']) . '</td>'
                 . '</tr>';
         }
 
-        return '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse">
-<thead><tr><th>ID</th><th>Entidade</th><th>Fluxo</th><th>Status</th><th>Motivo</th><th>Criado em</th></tr></thead>
+        return '<p class="field-hint" style="margin:0 0 0.5rem">Acompanhe o status das suas solicitações. Em caso de rejeição, o motivo aparece na coluna indicada.</p>
+<div class="data-table-wrap">
+<table class="data-table">
+<thead><tr><th scope="col">ID</th><th scope="col">Entidade</th><th scope="col">Fluxo</th><th scope="col">Status</th><th scope="col">Motivo</th><th scope="col">Criado em</th></tr></thead>
 <tbody>' . $lines . '</tbody>
-</table>';
+</table>
+</div>';
     }
 
     private function renderAdminRequests(array $rows, string $contextPath): string
