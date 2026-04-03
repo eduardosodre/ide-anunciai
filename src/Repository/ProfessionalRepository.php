@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Util\PerfilUuid;
 use PDO;
 
 final class ProfessionalRepository
@@ -29,7 +30,7 @@ final class ProfessionalRepository
 
     public function findPublicById(int $professionalId): ?array
     {
-        $sql = 'SELECT p.id, p.usuario_id, p.nome_publico, p.cidade, p.estado, p.verificado, p.pendente_revisao,
+        $sql = 'SELECT p.id, p.perfil_uuid, p.usuario_id, p.nome_publico, p.cidade, p.estado, p.verificado, p.pendente_revisao,
                        p.public_nome_publico_aprovado, p.public_cidade_aprovado, p.public_habilidades_aprovado
                 FROM profissional p
                 INNER JOIN usuario u ON u.id = p.usuario_id
@@ -42,6 +43,35 @@ final class ProfessionalRepository
             return null;
         }
 
+        return $this->hydratePublicProfileRow($row);
+    }
+
+    public function findPublicByPerfilUuid(string $perfilUuid): ?array
+    {
+        $perfilUuid = strtolower(trim($perfilUuid));
+        if ($perfilUuid === '') {
+            return null;
+        }
+
+        $sql = 'SELECT p.id, p.perfil_uuid, p.usuario_id, p.nome_publico, p.cidade, p.estado, p.verificado, p.pendente_revisao,
+                       p.public_nome_publico_aprovado, p.public_cidade_aprovado, p.public_habilidades_aprovado
+                FROM profissional p
+                INNER JOIN usuario u ON u.id = p.usuario_id
+                WHERE p.perfil_uuid = :perfil_uuid AND u.ativo = 1
+                LIMIT 1';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['perfil_uuid' => $perfilUuid]);
+        $row = $stmt->fetch();
+        if ($row === false) {
+            return null;
+        }
+
+        return $this->hydratePublicProfileRow($row);
+    }
+
+    /** @param array<string, mixed> $row */
+    private function hydratePublicProfileRow(array $row): array
+    {
         $useApprovedSnapshot = (int) $row['verificado'] === 1
             && (int) $row['pendente_revisao'] === 1
             && $row['public_nome_publico_aprovado'] !== null
@@ -86,10 +116,11 @@ final class ProfessionalRepository
         try {
             if ($profile === null) {
                 $stmt = $this->pdo->prepare(
-                    'INSERT INTO profissional (usuario_id, nome_publico, telefone, cidade, estado, verificado, pendente_revisao, criado_em, atualizado_em)
-                     VALUES (:usuario_id, :nome_publico, :telefone, :cidade, :estado, 0, 0, :criado_em, :atualizado_em)'
+                    'INSERT INTO profissional (perfil_uuid, usuario_id, nome_publico, telefone, cidade, estado, verificado, pendente_revisao, criado_em, atualizado_em)
+                     VALUES (:perfil_uuid, :usuario_id, :nome_publico, :telefone, :cidade, :estado, 0, 0, :criado_em, :atualizado_em)'
                 );
                 $stmt->execute([
+                    'perfil_uuid' => PerfilUuid::generate(),
                     'usuario_id' => $userId,
                     'nome_publico' => $nomePublico,
                     'telefone' => $telefone,
@@ -185,7 +216,7 @@ final class ProfessionalRepository
         if ($ufFiltro !== null && $ufFiltro !== '') {
             $whereUf = ' AND (p.estado IS NULL OR UPPER(TRIM(p.estado)) = :uf_filtro)';
         }
-        $sql = 'SELECT p.id, p.usuario_id, p.nome_publico, p.cidade, p.estado, p.verificado, p.pendente_revisao,
+        $sql = 'SELECT p.id, p.perfil_uuid, p.usuario_id, p.nome_publico, p.cidade, p.estado, p.verificado, p.pendente_revisao,
                        p.public_nome_publico_aprovado, p.public_cidade_aprovado, p.public_habilidades_aprovado,
                        ' . $distanceFormula . ' AS distancia_km
                 FROM profissional p

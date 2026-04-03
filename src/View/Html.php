@@ -380,6 +380,79 @@ final class Html
         button[type=submit]:disabled, .btn:disabled { opacity: .68; cursor: not-allowed; }
         .busca-results { margin-top: 1rem; }
         .busca-loading { color: var(--muted); padding: 0.75rem 0; }
+        .busca-summary { font-size: 0.95rem; color: var(--muted); margin: 0 0 0.75rem; }
+        .busca-result-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+        .busca-result {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.85rem 1rem;
+            background: var(--surface);
+            transition: border-color .15s, box-shadow .15s;
+        }
+        .busca-result:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+        .busca-result-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.4rem 0.65rem;
+            margin-bottom: 0.35rem;
+        }
+        .busca-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .busca-tag--ministro {
+            background: rgba(26, 86, 219, 0.12);
+            color: var(--accent);
+        }
+        .busca-tag--igreja {
+            background: rgba(120, 80, 180, 0.14);
+            color: #6b4f9a;
+        }
+        @media (prefers-color-scheme: dark) {
+            .busca-tag--igreja { color: #c4a8e8; background: rgba(180, 140, 220, 0.12); }
+        }
+        .busca-result-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-decoration: none;
+            color: var(--text);
+            flex: 1 1 12rem;
+            min-width: 0;
+        }
+        .busca-result-title:hover { color: var(--accent); text-decoration: underline; }
+        .busca-result-meta {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.45;
+        }
+        .busca-result-meta strong { color: var(--text); font-weight: 600; }
+        .busca-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 0.55rem;
+        }
+        .busca-skill-pill {
+            font-size: 0.78rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 999px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .busca-igreja-hint {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin: 0.45rem 0 0;
+            font-style: italic;
+        }
         .link-row { text-align: center; margin-top: 1.25rem; font-size: 0.95rem; color: var(--muted); }
         .link-row a { font-weight: 500; }
         .avatar-crop-wrap { margin-top: 0.75rem; max-width: 100%; }

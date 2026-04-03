@@ -10,8 +10,8 @@ Definição das telas, formulários e parâmetros de busca para implementação 
 |-------------|--------|-----------|
 | / | Público | Home: proposta do site + links Buscar, Cadastrar, Login |
 | /busca | Público | Formulário CEP/cidade + raio (km); listagem de resultados |
-| /perfil/profissional/{id} | Público | Perfil público do ministro; botão Iniciar conversa |
-| /perfil/igreja/{id} | Público | Perfil público da igreja; botão Iniciar conversa |
+| /perfil/profissional/{uuid} | Público | Perfil público do ministro (UUID); ID numérico redireciona 301 |
+| /perfil/igreja/{uuid} | Público | Perfil público da igreja (UUID); ID numérico redireciona 301 |
 | /cadastro | Público | Cadastro base (nome completo, e-mail, senha) |
 | /login | Público | E-mail e senha; link “Esqueci minha senha” |
 | /recuperar-senha | Público | Solicitação de recuperação (e-mail) |

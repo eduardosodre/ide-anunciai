@@ -215,6 +215,18 @@
     });
   }
 
+  function formatKm(km) {
+    if (km === undefined || km === null || isNaN(Number(km))) {
+      return '';
+    }
+    return (
+      Number(km).toLocaleString('pt-BR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 1,
+      }) + ' km'
+    );
+  }
+
   function renderBuscaResults(data) {
     var meta = data.meta || {};
     var centro = meta.centro || {};
@@ -230,33 +242,72 @@
         '</p>';
     }
     if (items.length === 0) {
-      html += '<p>Nenhum resultado.</p></div>';
+      html += '<p>Nenhum perfil encontrado neste raio. Tente ampliar o km ou mudar o local.</p></div>';
       return html;
     }
-    html += '<ul class="result-list">';
+    var totalShown = meta.total !== undefined ? meta.total : items.length;
+    html +=
+      '<p class="busca-summary" role="status">' +
+      String(totalShown) +
+      (totalShown === 1 ? ' resultado' : ' resultados') +
+      ' (ordenado por distância)</p>';
+    html += '<ul class="busca-result-list" role="list">';
     items.forEach(function (item) {
-      var badge = item.verificado ? ' <small>[Verificado]</small>' : '';
-      var dist =
-        item.distancia_km !== undefined && item.distancia_km !== null
-          ? ' — ' + escapeHtml(String(item.distancia_km)) + ' km'
-          : '';
+      var tipo = String(item.tipo || '');
+      var tagClass = tipo === 'profissional' ? 'busca-tag--ministro' : 'busca-tag--igreja';
+      var tipoLabel = escapeHtml(
+        String(item.tipo_label || (tipo === 'profissional' ? 'Ministro' : 'Igreja'))
+      );
+      var verified = item.verificado
+        ? ' <span class="badge-verified">Verificado</span>'
+        : '';
+      var distStr = formatKm(item.distancia_km);
       var loc = escapeHtml(String(item.cidade || ''));
       if (item.estado) {
-        loc += ' — ' + escapeHtml(String(item.estado));
+        loc += ' · ' + escapeHtml(String(item.estado));
       }
+      var metaLine =
+        '<strong>' +
+        loc +
+        '</strong>' +
+        (distStr ? ' · aprox. ' + escapeHtml(distStr) + ' do centro da busca' : '');
+      html += '<li class="busca-result" role="listitem">';
+      html += '<div class="busca-result-head">';
+      html += '<span class="busca-tag ' + tagClass + '">' + tipoLabel + '</span>';
       html +=
-        '<li><a href="' +
+        '<a class="busca-result-title" href="' +
         escapeAttr(String(item.url || '#')) +
         '">' +
         escapeHtml(String(item.nome || '')) +
-        '</a> (' +
-        escapeHtml(String(item.tipo || '')) +
-        ')' +
-        badge +
-        ' — ' +
-        loc +
-        dist +
-        '</li>';
+        '</a>';
+      html += verified;
+      html += '</div>';
+      html += '<p class="busca-result-meta">' + metaLine + '</p>';
+      if (tipo === 'profissional' && item.habilidades && item.habilidades.length) {
+        var skills = item.habilidades;
+        var maxShow = 5;
+        var shown = skills.slice(0, maxShow);
+        html += '<div class="busca-skills" aria-label="Habilidades">';
+        shown.forEach(function (s) {
+          html +=
+            '<span class="busca-skill-pill">' + escapeHtml(String(s.label || '')) + '</span>';
+        });
+        if (skills.length > maxShow) {
+          html +=
+            '<span class="busca-skill-pill">+' +
+            (skills.length - maxShow) +
+            '</span>';
+        }
+        html += '</div>';
+      }
+      if (tipo === 'igreja') {
+        html +=
+          '<p class="busca-igreja-hint">Perfil institucional — abra para ver dados públicos e iniciar conversa.</p>';
+      } else if (tipo === 'profissional' && (!item.habilidades || !item.habilidades.length)) {
+        html +=
+          '<p class="busca-igreja-hint">Ministro — abra o perfil para ver habilidades completas.</p>';
+      }
+      html += '</li>';
     });
     html += '</ul></div>';
     return html;

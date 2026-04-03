@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS usuario (
 
 CREATE TABLE IF NOT EXISTS profissional (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    perfil_uuid CHAR(36) NOT NULL,
     usuario_id INT UNSIGNED NOT NULL,
     nome_publico VARCHAR(255) NOT NULL,
     telefone VARCHAR(50) NULL,
@@ -40,6 +41,7 @@ CREATE TABLE IF NOT EXISTS profissional (
     criado_em DATETIME NOT NULL,
     atualizado_em DATETIME NOT NULL,
     PRIMARY KEY (id),
+    UNIQUE KEY uq_profissional_perfil_uuid (perfil_uuid),
     UNIQUE KEY uq_profissional_usuario (usuario_id),
     KEY idx_profissional_cidade (cidade),
     KEY idx_profissional_verificado (verificado),
@@ -66,6 +68,7 @@ CREATE TABLE IF NOT EXISTS profissional_habilidade (
 
 CREATE TABLE IF NOT EXISTS igreja (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    perfil_uuid CHAR(36) NOT NULL,
     usuario_id INT UNSIGNED NOT NULL,
     nome_igreja VARCHAR(255) NOT NULL,
     email_contato VARCHAR(255) NOT NULL,
@@ -83,6 +86,7 @@ CREATE TABLE IF NOT EXISTS igreja (
     criado_em DATETIME NOT NULL,
     atualizado_em DATETIME NOT NULL,
     PRIMARY KEY (id),
+    UNIQUE KEY uq_igreja_perfil_uuid (perfil_uuid),
     UNIQUE KEY uq_igreja_usuario (usuario_id),
     KEY idx_igreja_cidade (cidade),
     KEY idx_igreja_verificado (verificado),

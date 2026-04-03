@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Util\PerfilUuid;
 use PDO;
 
 final class ChurchRepository
@@ -23,7 +24,7 @@ final class ChurchRepository
 
     public function findPublicById(int $churchId): ?array
     {
-        $sql = 'SELECT i.id, i.usuario_id, i.nome_igreja, i.cidade, i.verificado, i.pendente_revisao,
+        $sql = 'SELECT i.id, i.perfil_uuid, i.usuario_id, i.nome_igreja, i.cidade, i.estado, i.verificado, i.pendente_revisao,
                        i.public_nome_igreja_aprovado, i.public_cidade_aprovado
                 FROM igreja i
                 INNER JOIN usuario u ON u.id = i.usuario_id
@@ -37,6 +38,36 @@ final class ChurchRepository
             return null;
         }
 
+        return $this->hydratePublicChurchRow($row);
+    }
+
+    public function findPublicByPerfilUuid(string $perfilUuid): ?array
+    {
+        $perfilUuid = strtolower(trim($perfilUuid));
+        if ($perfilUuid === '') {
+            return null;
+        }
+
+        $sql = 'SELECT i.id, i.perfil_uuid, i.usuario_id, i.nome_igreja, i.cidade, i.estado, i.verificado, i.pendente_revisao,
+                       i.public_nome_igreja_aprovado, i.public_cidade_aprovado
+                FROM igreja i
+                INNER JOIN usuario u ON u.id = i.usuario_id
+                WHERE i.perfil_uuid = :perfil_uuid AND u.ativo = 1
+                LIMIT 1';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['perfil_uuid' => $perfilUuid]);
+        $row = $stmt->fetch();
+
+        if ($row === false) {
+            return null;
+        }
+
+        return $this->hydratePublicChurchRow($row);
+    }
+
+    /** @param array<string, mixed> $row */
+    private function hydratePublicChurchRow(array $row): array
+    {
         $useApprovedSnapshot = (int) $row['verificado'] === 1
             && (int) $row['pendente_revisao'] === 1
             && $row['public_nome_igreja_aprovado'] !== null
@@ -79,10 +110,11 @@ final class ChurchRepository
         try {
             if ($profile === null) {
                 $stmt = $this->pdo->prepare(
-                    'INSERT INTO igreja (usuario_id, nome_igreja, email_contato, telefone, cep, cidade, estado, cnpj, verificado, pendente_revisao, criado_em, atualizado_em)
-                     VALUES (:usuario_id, :nome_igreja, :email_contato, :telefone, :cep, :cidade, :estado, :cnpj, 0, 0, :criado_em, :atualizado_em)'
+                    'INSERT INTO igreja (perfil_uuid, usuario_id, nome_igreja, email_contato, telefone, cep, cidade, estado, cnpj, verificado, pendente_revisao, criado_em, atualizado_em)
+                     VALUES (:perfil_uuid, :usuario_id, :nome_igreja, :email_contato, :telefone, :cep, :cidade, :estado, :cnpj, 0, 0, :criado_em, :atualizado_em)'
                 );
                 $stmt->execute([
+                    'perfil_uuid' => PerfilUuid::generate(),
                     'usuario_id' => $userId,
                     'nome_igreja' => $nomeIgreja,
                     'email_contato' => $emailContato,
@@ -176,7 +208,7 @@ final class ChurchRepository
         if ($ufFiltro !== null && $ufFiltro !== '') {
             $whereUf = ' AND (i.estado IS NULL OR UPPER(TRIM(i.estado)) = :uf_filtro)';
         }
-        $sql = 'SELECT i.id, i.usuario_id, i.nome_igreja, i.cidade, i.estado, i.verificado, i.pendente_revisao,
+        $sql = 'SELECT i.id, i.perfil_uuid, i.usuario_id, i.nome_igreja, i.cidade, i.estado, i.verificado, i.pendente_revisao,
                        i.public_nome_igreja_aprovado, i.public_cidade_aprovado,
                        ' . $distanceFormula . ' AS distancia_km
                 FROM igreja i

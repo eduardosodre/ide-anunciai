@@ -149,8 +149,8 @@ A especificação está em **[docs/](docs/README.md)**. O desenvolvimento do có
 - `POST /api/auth/password/forgot` — JSON: `email`
 - `POST /api/auth/password/reset` — JSON: `token`, `nova_senha`, `nova_senha_confirmacao`
 - `GET /api/privacy/export` — exporta dados do usuário (JSON, requer sessão)
-- `GET /api/profissionais/{id}` — dados públicos do perfil ministro (nome público, cidade, habilidades, verificado)
-- `GET /api/igrejas/{id}` — dados públicos da igreja (nome, cidade, verificado)
+- `GET /api/profissionais/{uuid}` — dados públicos do perfil ministro (aceita UUID ou ID numérico legado; resposta inclui `perfil_uuid`)
+- `GET /api/igrejas/{uuid}` — dados públicos da igreja (idem)
 - `POST /api/admin/verificacoes/{id}/decisao` — endpoint admin (sessão autenticada e `usuario.admin=1`) para aprovar/rejeitar solicitação (`acao=aprovar|rejeitar`, `motivo_rejeicao` opcional)
 - `POST /api/reports` — registra denúncia (requer sessão): `usuario_alvo_id`, `descricao`
 - `POST /api/chat/conversations` — inicia conversa (sessão): `tipo_destino` (`profissional`|`igreja`), `destino_id`, `mensagem_inicial`
@@ -166,13 +166,13 @@ Para testar com sessão, use o mesmo cookie de sessão após `login` ou `registe
 
 - Schema com `profissional`, `habilidade` e `profissional_habilidade` (N:N), incluindo `verificado` e `pendente_revisao`.
 - CRUD do próprio perfil ministro em HTML: `GET/POST /meu-perfil/ministro`
-- Perfil público: `GET /perfil/profissional/{id}` (sem telefone; link para iniciar conversa quando logado)
+- Perfil público: `GET /perfil/profissional/{uuid}` (sem telefone; link para iniciar conversa quando logado; UUID em `perfil_uuid`)
 
 ### Etapa 5 — igreja
 
 - Schema com `igreja` (1:1 com `usuario`), campos `verificado` e `pendente_revisao`, `latitude`/`longitude` reservados para Etapa 8.
 - CRUD: `GET/POST /meu-perfil/igreja` — cidade obtida via **ViaCEP** quando possível; e-mail de contato gravado = e-mail da conta.
-- Perfil público: `GET /perfil/igreja/{id}` (sem telefone nem e-mail públicos; link para iniciar conversa quando logado)
+- Perfil público: `GET /perfil/igreja/{uuid}` (sem telefone nem e-mail públicos; link para iniciar conversa quando logado)
 
 ### Etapa 6 — verificação e re-verificação
 
@@ -185,7 +185,7 @@ Para testar com sessão, use o mesmo cookie de sessão após `login` ou `registe
 
 - Banco: tabela `denuncia` com índices para consulta administrativa e anti-abuso.
 - Usuário: `GET/POST /denunciar` com descrição obrigatória e rate limit (3 por par/dia, 10 por denunciante/dia).
-- Perfis públicos: link “Denunciar este perfil” em `/perfil/profissional/{id}` e `/perfil/igreja/{id}`.
+- Perfis públicos: link “Denunciar este perfil” em `/perfil/profissional/{uuid}` e `/perfil/igreja/{uuid}`.
 - Admin: `GET /admin/denuncias` para listar denúncias e `POST /admin/usuarios/{id}/inativar` para moderação.
 
 ### Etapa 8 — busca por localização
@@ -206,7 +206,7 @@ Para testar com sessão, use o mesmo cookie de sessão após `login` ou `registe
 - Estilos globais e navegação responsiva no layout HTML compartilhado (`src/View/Html.php`).
 - Home com hero e CTAs; atalhos para sessão logada.
 - Busca e política de privacidade com estrutura visual consistente (cards).
-- Perfis públicos (`/perfil/profissional/{id}`, `/perfil/igreja/{id}`): card, selo verificado, texto explícito de que telefone/e-mail não são públicos; visitante é orientado a entrar para conversa e denúncia; usuário logado vê botões de ação conforme regras.
+- Perfis públicos (`/perfil/profissional/{uuid}`, `/perfil/igreja/{uuid}`): card, selo verificado, texto explícito de que telefone/e-mail não são públicos; visitante é orientado a entrar para conversa e denúncia; usuário logado vê botões de ação conforme regras.
 - Deploy: em produção, use **HTTPS**, `DocumentRoot` em `public/`, `database.php` fora do repositório e `base_url` apontando para a URL pública. `GET /api/health` inclui `stage` (10 quando a Etapa 10 está fechada no código).
 
 ## Como validar a Etapa 6 (fluxo completo)
@@ -215,8 +215,8 @@ Para testar com sessão, use o mesmo cookie de sessão após `login` ou `registe
 2. Enviar solicitação em `/verificacao`.
 3. Acessar com usuário admin (`usuario.admin=1`) e aprovar em `/admin/verificacoes`.
 4. Confirmar selo verificado e dados públicos atualizados em:
-   - `/perfil/profissional/{id}` e `/api/profissionais/{id}`
-   - `/perfil/igreja/{id}` e `/api/igrejas/{id}`
+   - `/perfil/profissional/{uuid}` e `/api/profissionais/{uuid}`
+   - `/perfil/igreja/{uuid}` e `/api/igrejas/{uuid}`
 5. Editar um perfil já verificado (`/meu-perfil/ministro` ou `/meu-perfil/igreja`) alterando dados públicos.
 6. Verificar que o perfil foi para revisão (`/admin/revisao`) e, enquanto pendente, o público continua vendo os dados aprovados anteriores.
 7. Aprovar em `/admin/revisao` e confirmar que a nova versão foi publicada no HTML e na API.

@@ -30,6 +30,7 @@ Um usuário pode ter um registro de ministro/profissional vinculado.
 | Campo | Tipo | Obrigatório | Notas |
 |-------|------|-------------|-------|
 | id | INT PK AUTO_INCREMENT | sim | |
+| perfil_uuid | CHAR(36) UNIQUE | sim | UUID v4 na URL pública `/perfil/profissional/{uuid}` |
 | usuario_id | INT FK → usuario.id | sim | UNIQUE (1:1) |
 | nome_completo | VARCHAR(255) | sim | |
 | telefone | VARCHAR(50) | não | |
@@ -70,6 +71,7 @@ Um usuário pode ter um registro de igreja vinculado.
 | Campo | Tipo | Obrigatório | Notas |
 |-------|------|-------------|-------|
 | id | INT PK AUTO_INCREMENT | sim | |
+| perfil_uuid | CHAR(36) UNIQUE | sim | UUID v4 na URL pública `/perfil/igreja/{uuid}` |
 | usuario_id | INT FK → usuario.id | sim | UNIQUE (1:1) |
 | cnpj | VARCHAR(20) | sim | CNPJ da igreja |
 | nome_igreja | VARCHAR(255) | sim | |

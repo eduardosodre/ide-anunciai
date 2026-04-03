@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Config\BrazilStates;
+use App\Http\BasePath;
 use App\Http\Request;
 use App\Http\Response;
 use App\Repository\ProfessionalRepository;
@@ -12,6 +13,7 @@ use App\Repository\VerificationRepository;
 use App\Security\Csrf;
 use App\Service\GeoLocationService;
 use App\Session\SessionFacade;
+use App\Util\PerfilUuid;
 use App\View\Html;
 
 final class ProfessionalController
@@ -152,15 +154,23 @@ final class ProfessionalController
 
     public function publicGet(Request $request): Response
     {
-        $professionalId = (int) $request->route('id', 0);
-        if ($professionalId <= 0) {
-            return Response::html('<h1>404</h1><p>Perfil não encontrado.</p>', 404);
-        }
-
-        $profile = $this->professionals->findPublicById($professionalId);
+        $param = trim((string) $request->route('uuid', ''));
+        $profile = $this->resolvePublicProfessionalProfile($param);
         if ($profile === null) {
             return Response::html('<h1>404</h1><p>Perfil não encontrado.</p>', 404);
         }
+
+        if ($param !== '' && ctype_digit($param)) {
+            $canonical = (string) ($profile['perfil_uuid'] ?? '');
+            if ($canonical !== '') {
+                return Response::redirect(
+                    BasePath::url('/perfil/profissional/' . rawurlencode($canonical)),
+                    301
+                );
+            }
+        }
+
+        $professionalId = (int) $profile['id'];
 
         $verifiedBadge = ((int) $profile['verificado'] === 1)
             ? ' <span class="badge-verified">Verificado</span>'
@@ -207,17 +217,7 @@ final class ProfessionalController
 
     public function publicApiGet(Request $request): Response
     {
-        $professionalId = (int) $request->route('id', 0);
-        if ($professionalId <= 0) {
-            return Response::json([
-                'error' => [
-                    'code' => 'NOT_FOUND',
-                    'message' => 'Profissional não encontrado.',
-                ],
-            ], 404);
-        }
-
-        $profile = $this->professionals->findPublicById($professionalId);
+        $profile = $this->resolvePublicProfessionalProfile(trim((string) $request->route('uuid', '')));
         if ($profile === null) {
             return Response::json([
                 'error' => [
@@ -229,6 +229,7 @@ final class ProfessionalController
 
         return Response::json([
             'id' => (int) $profile['id'],
+            'perfil_uuid' => (string) ($profile['perfil_uuid'] ?? ''),
             'nome_publico' => (string) $profile['nome_publico'],
             'cidade' => (string) $profile['cidade'],
             'estado' => isset($profile['estado']) && (string) $profile['estado'] !== ''
@@ -244,6 +245,27 @@ final class ProfessionalController
                 $profile['habilidades'] ?? []
             ),
         ]);
+    }
+
+    private function resolvePublicProfessionalProfile(string $param): ?array
+    {
+        $param = trim($param);
+        if ($param === '') {
+            return null;
+        }
+        if (ctype_digit($param)) {
+            $id = (int) $param;
+            if ($id <= 0) {
+                return null;
+            }
+
+            return $this->professionals->findPublicById($id);
+        }
+        if (!PerfilUuid::isValid($param)) {
+            return null;
+        }
+
+        return $this->professionals->findPublicByPerfilUuid($param);
     }
 
     private function ufSelectHtml(?string $selectedUf): string

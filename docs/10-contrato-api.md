@@ -60,7 +60,9 @@ Contrato técnico para o backend PHP (sem framework), alinhado às rotas de [07-
 
 - **200:** HTML resultados + meta paginação (query string repetida).
 
-### GET `/perfil/profissional/{id}` | GET `/perfil/igreja/{id}`
+### GET `/perfil/profissional/{uuid}` | GET `/perfil/igreja/{uuid}`
+
+- `{uuid}`: UUID v4 (`perfil_uuid`). URLs antigas só com número (`/perfil/profissional/1`) respondem **301** para a URL canônica com UUID.
 
 - **200:** HTML perfil público.
 - **404:** perfil inexistente ou usuário inativo.

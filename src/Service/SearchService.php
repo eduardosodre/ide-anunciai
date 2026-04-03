@@ -73,6 +73,7 @@ final class SearchService
             foreach ($pros as $row) {
                 $items[] = [
                     'tipo' => 'profissional',
+                    'tipo_label' => 'Ministro',
                     'id' => (int) $row['id'],
                     'usuario_id' => (int) $row['usuario_id'],
                     'nome' => (string) $row['nome_publico'],
@@ -86,7 +87,15 @@ final class SearchService
                         static fn (array $s): array => ['id' => (int) $s['id'], 'label' => (string) $s['label']],
                         $row['habilidades'] ?? []
                     ),
-                    'url' => BasePath::url('/perfil/profissional/' . (int) $row['id']),
+                    'perfil_uuid' => (string) ($row['perfil_uuid'] ?? ''),
+                    'url' => BasePath::url(
+                        '/perfil/profissional/'
+                        . rawurlencode(
+                            (isset($row['perfil_uuid']) && (string) $row['perfil_uuid'] !== '')
+                                ? (string) $row['perfil_uuid']
+                                : (string) (int) $row['id']
+                        )
+                    ),
                 ];
             }
         }
@@ -102,6 +111,7 @@ final class SearchService
             foreach ($igs as $row) {
                 $items[] = [
                     'tipo' => 'igreja',
+                    'tipo_label' => 'Igreja',
                     'id' => (int) $row['id'],
                     'usuario_id' => (int) $row['usuario_id'],
                     'nome' => (string) $row['nome_igreja'],
@@ -111,7 +121,15 @@ final class SearchService
                         : null,
                     'verificado' => (int) $row['verificado'] === 1,
                     'distancia_km' => round((float) $row['distancia_km'], 2),
-                    'url' => BasePath::url('/perfil/igreja/' . (int) $row['id']),
+                    'perfil_uuid' => (string) ($row['perfil_uuid'] ?? ''),
+                    'url' => BasePath::url(
+                        '/perfil/igreja/'
+                        . rawurlencode(
+                            (isset($row['perfil_uuid']) && (string) $row['perfil_uuid'] !== '')
+                                ? (string) $row['perfil_uuid']
+                                : (string) (int) $row['id']
+                        )
+                    ),
                 ];
             }
         }
@@ -122,6 +140,7 @@ final class SearchService
             'items' => $items,
             'meta' => [
                 'message' => 'Busca realizada com sucesso.',
+                'total' => count($items),
                 'centro' => $center,
                 'pagina' => $pagina,
                 'limite' => $limite,

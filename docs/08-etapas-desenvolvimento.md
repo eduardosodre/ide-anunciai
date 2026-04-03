@@ -59,7 +59,7 @@ Todo o desenvolvimento está dividido em **10 etapas**. A **Etapa 1** documenta 
 
 **Entregáveis:** Cadastro e edição de ministro com habilidades; perfil público de profissional.
 
-**Status:** implementado no código (schema em `database/schema.sql`, CRUD HTML em `/meu-perfil/ministro`, perfil público em `/perfil/profissional/{id}` e endpoint público `GET /api/profissionais/{id}`).
+**Status:** implementado no código (schema em `database/schema.sql`, CRUD HTML em `/meu-perfil/ministro`, perfil público em `/perfil/profissional/{uuid}` e endpoint público `GET /api/profissionais/{uuid}`).
 
 ---
 
@@ -73,7 +73,7 @@ Todo o desenvolvimento está dividido em **10 etapas**. A **Etapa 1** documenta 
 
 **Decisão de produto:** o e-mail de contato da igreja é o **e-mail da conta** (`usuario.email`); o campo `email_contato` no banco é gravado automaticamente com esse valor.
 
-**Status:** implementado no código (tabela `igreja` em `database/schema.sql`, CRUD em `/meu-perfil/igreja`, ViaCEP para cidade, perfil público em `/perfil/igreja/{id}`, `GET /api/igrejas/{id}`). A exibição de snapshot aprovado enquanto `pendente_revisao=1` está na **Etapa 6** (verificação e re-verificação).
+**Status:** implementado no código (tabela `igreja` em `database/schema.sql`, CRUD em `/meu-perfil/igreja`, ViaCEP para cidade, perfil público em `/perfil/igreja/{uuid}`, `GET /api/igrejas/{uuid}`). A exibição de snapshot aprovado enquanto `pendente_revisao=1` está na **Etapa 6** (verificação e re-verificação).
 
 ---
 

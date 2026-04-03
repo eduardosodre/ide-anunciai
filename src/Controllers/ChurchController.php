@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Http\BasePath;
 use App\Http\Request;
 use App\Http\Response;
 use App\Repository\ChurchRepository;
@@ -13,6 +14,7 @@ use App\Security\Csrf;
 use App\Service\GeoLocationService;
 use App\Service\ViaCepClient;
 use App\Session\SessionFacade;
+use App\Util\PerfilUuid;
 use App\View\Html;
 
 final class ChurchController
@@ -181,15 +183,23 @@ final class ChurchController
 
     public function publicGet(Request $request): Response
     {
-        $id = (int) $request->route('id', 0);
-        if ($id <= 0) {
-            return Response::html('<h1>404</h1><p>Perfil não encontrado.</p>', 404);
-        }
-
-        $row = $this->churches->findPublicById($id);
+        $param = trim((string) $request->route('uuid', ''));
+        $row = $this->resolvePublicChurchProfile($param);
         if ($row === null) {
             return Response::html('<h1>404</h1><p>Perfil não encontrado.</p>', 404);
         }
+
+        if ($param !== '' && ctype_digit($param)) {
+            $canonical = (string) ($row['perfil_uuid'] ?? '');
+            if ($canonical !== '') {
+                return Response::redirect(
+                    BasePath::url('/perfil/igreja/' . rawurlencode($canonical)),
+                    301
+                );
+            }
+        }
+
+        $id = (int) $row['id'];
 
         $badge = ((int) $row['verificado'] === 1)
             ? ' <span class="badge-verified">Verificado</span>'
@@ -227,14 +237,7 @@ final class ChurchController
 
     public function publicApiGet(Request $request): Response
     {
-        $id = (int) $request->route('id', 0);
-        if ($id <= 0) {
-            return Response::json([
-                'error' => ['code' => 'NOT_FOUND', 'message' => 'Igreja não encontrada.'],
-            ], 404);
-        }
-
-        $row = $this->churches->findPublicById($id);
+        $row = $this->resolvePublicChurchProfile(trim((string) $request->route('uuid', '')));
         if ($row === null) {
             return Response::json([
                 'error' => ['code' => 'NOT_FOUND', 'message' => 'Igreja não encontrada.'],
@@ -243,6 +246,7 @@ final class ChurchController
 
         return Response::json([
             'id' => (int) $row['id'],
+            'perfil_uuid' => (string) ($row['perfil_uuid'] ?? ''),
             'nome_igreja' => (string) $row['nome_igreja'],
             'cidade' => (string) $row['cidade'],
             'estado' => isset($row['estado']) && (string) $row['estado'] !== ''
@@ -250,6 +254,27 @@ final class ChurchController
                 : null,
             'verificado' => (int) $row['verificado'] === 1,
         ]);
+    }
+
+    private function resolvePublicChurchProfile(string $param): ?array
+    {
+        $param = trim($param);
+        if ($param === '') {
+            return null;
+        }
+        if (ctype_digit($param)) {
+            $id = (int) $param;
+            if ($id <= 0) {
+                return null;
+            }
+
+            return $this->churches->findPublicById($id);
+        }
+        if (!PerfilUuid::isValid($param)) {
+            return null;
+        }
+
+        return $this->churches->findPublicByPerfilUuid($param);
     }
 
     private function messagesHtml(): string
