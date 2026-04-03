@@ -25,7 +25,7 @@ final class VerificationController
     ) {
     }
 
-    public function userGet(final Request $request): Response
+    public function userGet(Request $request): Response
     {
         $userId = SessionFacade::userId();
         if ($userId === null) {
@@ -48,7 +48,7 @@ final class VerificationController
         return Response::html(Html::layout('Verificação', $body, $this->csrf->token()));
     }
 
-    public function userPost(final Request $request): Response
+    public function userPost(Request $request): Response
     {
         $userId = SessionFacade::userId();
         if ($userId === null) {
@@ -138,7 +138,7 @@ final class VerificationController
         return Response::redirect('/verificacao', 302);
     }
 
-    public function adminQueueGet(final Request $request): Response
+    public function adminQueueGet(Request $request): Response
     {
         $admin = $this->requireAdminUser();
         if ($admin === null) {
@@ -153,7 +153,7 @@ final class VerificationController
         return Response::html(Html::layout('Admin verificações', $body, $this->csrf->token()));
     }
 
-    public function adminReviewGet(final Request $request): Response
+    public function adminReviewGet(Request $request): Response
     {
         $admin = $this->requireAdminUser();
         if ($admin === null) {
@@ -168,7 +168,7 @@ final class VerificationController
         return Response::html(Html::layout('Admin revisão', $body, $this->csrf->token()));
     }
 
-    public function adminDecisionPost(final Request $request): Response
+    public function adminDecisionPost(Request $request): Response
     {
         $admin = $this->requireAdminUser();
         if ($admin === null) {
@@ -201,7 +201,7 @@ final class VerificationController
         return Response::redirect($contexto === 'revisao' ? '/admin/revisao' : '/admin/verificacoes', 302);
     }
 
-    public function adminDecisionApiPost(final Request $request): Response
+    public function adminDecisionApiPost(Request $request): Response
     {
         $admin = $this->requireAdminUser();
         if ($admin === null) {
@@ -234,7 +234,7 @@ final class VerificationController
         ]);
     }
 
-    private function renderMinisterForm(final ?array $professional): string
+    private function renderMinisterForm(?array $professional): string
     {
         if ($professional === null) {
             return '<p>Perfil de ministro ainda não criado. Cadastre em <a href="' . Html::u('/meu-perfil/ministro') . '">Meu perfil ministro</a>.</p>';
@@ -252,7 +252,7 @@ final class VerificationController
 </form>';
     }
 
-    private function renderChurchForm(final ?array $church): string
+    private function renderChurchForm(?array $church): string
     {
         if ($church === null) {
             return '<p>Perfil de igreja ainda não criado. Cadastre em <a href="' . Html::u('/meu-perfil/igreja') . '">Meu perfil igreja</a>.</p>';
@@ -269,7 +269,7 @@ final class VerificationController
 </form>';
     }
 
-    private function renderRequestsTable(final array $requests): string
+    private function renderRequestsTable(array $requests): string
     {
         if ($requests === []) {
             return '<p>Nenhuma solicitação registrada.</p>';
@@ -293,7 +293,7 @@ final class VerificationController
 </table>';
     }
 
-    private function renderAdminRequests(final array $rows, final string $contextPath): string
+    private function renderAdminRequests(array $rows, string $contextPath): string
     {
         if ($rows === []) {
             return '<p>Sem itens pendentes.</p>';
@@ -349,7 +349,7 @@ final class VerificationController
         return ((int) ($user['admin'] ?? 0) === 1) ? $user : null;
     }
 
-    private function extractDocuments(final Request $request): array
+    private function extractDocuments(Request $request): array
     {
         $tipos = $request->input('documento_tipo', []);
         $nomes = $request->input('documento_nome', []);
@@ -377,14 +377,14 @@ final class VerificationController
         return $documents;
     }
 
-    private function nullableTrim(final string $value): ?string
+    private function nullableTrim(string $value): ?string
     {
         $trimmed = trim($value);
 
         return $trimmed === '' ? null : $trimmed;
     }
 
-    private function onlyDigitsOrNull(final string $value): ?string
+    private function onlyDigitsOrNull(string $value): ?string
     {
         $digits = preg_replace('/\D/u', '', $value) ?? '';
 

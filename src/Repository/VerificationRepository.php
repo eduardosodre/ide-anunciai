@@ -12,7 +12,7 @@ final class VerificationRepository
     {
     }
 
-    public function listOwnRequests(final int $userId): array
+    public function listOwnRequests(int $userId): array
     {
         $stmt = $this->pdo->prepare(
             'SELECT id, tipo_entidade, tipo_fluxo, status, motivo_rejeicao, criado_em, atualizado_em
@@ -25,7 +25,7 @@ final class VerificationRepository
         return $stmt->fetchAll();
     }
 
-    public function hasPendingRequestForEntity(final string $tipoEntidade, final int $entidadeId): bool
+    public function hasPendingRequestForEntity(string $tipoEntidade, int $entidadeId): bool
     {
         $stmt = $this->pdo->prepare(
             'SELECT id
@@ -45,13 +45,13 @@ final class VerificationRepository
     }
 
     public function createVerificationRequest(
-        final int $userId,
-        final string $tipoEntidade,
-        final int $entidadeId,
-        final ?string $rg,
-        final ?string $cpf,
-        final ?string $cnpj,
-        final array $documentos
+        int $userId,
+        string $tipoEntidade,
+        int $entidadeId,
+        ?string $rg,
+        ?string $cpf,
+        ?string $cnpj,
+        array $documentos
     ): int {
         $now = (new \DateTimeImmutable('now'))->format('Y-m-d H:i:s');
         $this->pdo->beginTransaction();
@@ -105,7 +105,7 @@ final class VerificationRepository
         return $solicitacaoId;
     }
 
-    public function createRevisionRequestIfNeeded(final int $userId, final string $tipoEntidade, final int $entidadeId): void
+    public function createRevisionRequestIfNeeded(int $userId, string $tipoEntidade, int $entidadeId): void
     {
         if ($this->hasPendingRequestForEntity($tipoEntidade, $entidadeId)) {
             return;
@@ -142,7 +142,7 @@ final class VerificationRepository
         ]);
     }
 
-    public function listPendingForAdmin(final string $tipoFluxo): array
+    public function listPendingForAdmin(string $tipoFluxo): array
     {
         $stmt = $this->pdo->prepare(
             'SELECT vs.*, u.nome AS usuario_nome, u.email AS usuario_email
@@ -166,10 +166,10 @@ final class VerificationRepository
     }
 
     public function approveOrReject(
-        final int $solicitacaoId,
-        final int $adminUserId,
-        final string $acao,
-        final ?string $motivoRejeicao
+        int $solicitacaoId,
+        int $adminUserId,
+        string $acao,
+        ?string $motivoRejeicao
     ): ?array {
         $solicitacao = $this->findRequestById($solicitacaoId);
         if ($solicitacao === null) {
@@ -217,7 +217,7 @@ final class VerificationRepository
         return $this->findRequestById($solicitacaoId);
     }
 
-    private function applyApproval(final string $tipoEntidade, final int $entidadeId, final string $now): void
+    private function applyApproval(string $tipoEntidade, int $entidadeId, string $now): void
     {
         if ($tipoEntidade === 'ministro') {
             $profile = $this->findProfessionalById($entidadeId);
@@ -270,7 +270,7 @@ final class VerificationRepository
         ]);
     }
 
-    private function applyRejection(final string $tipoEntidade, final int $entidadeId, final string $now): void
+    private function applyRejection(string $tipoEntidade, int $entidadeId, string $now): void
     {
         $table = $tipoEntidade === 'ministro' ? 'profissional' : 'igreja';
         $stmt = $this->pdo->prepare(
@@ -285,7 +285,7 @@ final class VerificationRepository
         ]);
     }
 
-    private function findRequestById(final int $solicitacaoId): ?array
+    private function findRequestById(int $solicitacaoId): ?array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM verificacao_solicitacao WHERE id = :id LIMIT 1');
         $stmt->execute(['id' => $solicitacaoId]);
@@ -294,7 +294,7 @@ final class VerificationRepository
         return $row === false ? null : $row;
     }
 
-    private function insertDocuments(final int $solicitacaoId, final array $documentos, final string $now): void
+    private function insertDocuments(int $solicitacaoId, array $documentos, string $now): void
     {
         if ($documentos === []) {
             return;
@@ -330,7 +330,7 @@ final class VerificationRepository
         }
     }
 
-    private function findDocumentsByRequestId(final int $solicitacaoId): array
+    private function findDocumentsByRequestId(int $solicitacaoId): array
     {
         $stmt = $this->pdo->prepare(
             'SELECT id, tipo_documento, nome_arquivo, caminho_arquivo
@@ -343,7 +343,7 @@ final class VerificationRepository
         return $stmt->fetchAll();
     }
 
-    private function findProfessionalById(final int $professionalId): ?array
+    private function findProfessionalById(int $professionalId): ?array
     {
         $stmt = $this->pdo->prepare(
             'SELECT id, nome_publico, cidade
@@ -357,7 +357,7 @@ final class VerificationRepository
         return $row === false ? null : $row;
     }
 
-    private function findChurchById(final int $churchId): ?array
+    private function findChurchById(int $churchId): ?array
     {
         $stmt = $this->pdo->prepare(
             'SELECT id, nome_igreja, cidade
@@ -371,7 +371,7 @@ final class VerificationRepository
         return $row === false ? null : $row;
     }
 
-    private function findProfessionalSkillIds(final int $professionalId): array
+    private function findProfessionalSkillIds(int $professionalId): array
     {
         $stmt = $this->pdo->prepare(
             'SELECT habilidade_id
