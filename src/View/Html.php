@@ -376,6 +376,10 @@ final class Html
             vertical-align: -0.15rem;
             margin-right: 0.4rem;
         }
+        .btn .btn-spinner[hidden],
+        .btn .btn-label[hidden] {
+            display: none !important;
+        }
         @keyframes app-spin { to { transform: rotate(360deg); } }
         button[type=submit]:disabled, .btn:disabled { opacity: .68; cursor: not-allowed; }
         .busca-results { margin-top: 1rem; }

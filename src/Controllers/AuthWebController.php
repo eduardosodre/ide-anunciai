@@ -26,8 +26,8 @@ final class AuthWebController
 <div class="card form-card">
 <h1 class="form-card-title">Criar conta</h1>
 <p class="form-lead">Preencha os dados. As validações aparecem abaixo de cada campo.</p>
-<div id="form-register-global" class="form-global-error" role="alert" aria-live="polite"></div>
 <form id="form-register" method="post" action="' . Html::u('/cadastro') . '" novalidate>
+  <div id="form-register-global" class="form-global-error" role="alert" aria-live="polite"></div>
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <div class="field">
     <label for="reg-nome">Nome completo</label>
@@ -106,16 +106,18 @@ final class AuthWebController
 <div class="card form-card">
 <h1 class="form-card-title">Entrar</h1>
 <p class="form-lead">Use seu e-mail e senha cadastrados.</p>
-<div id="form-login-global" class="form-global-error" role="alert" aria-live="polite"></div>
 <form id="form-login" method="post" action="' . Html::u('/login') . '" novalidate>
+  <div id="form-login-global" class="form-global-error" role="alert" aria-live="polite"></div>
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <div class="field">
     <label for="login-email">E-mail</label>
     <input id="login-email" type="email" name="email" autocomplete="username">
+    <div class="field-error" data-error-for="email"></div>
   </div>
   <div class="field">
     <label for="login-senha">Senha</label>
     <input id="login-senha" type="password" name="senha" autocomplete="current-password">
+    <div class="field-error" data-error-for="senha"></div>
   </div>
   <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
@@ -174,8 +176,8 @@ final class AuthWebController
 <div class="card form-card">
 <h1 class="form-card-title">Recuperar senha</h1>
 <p class="form-lead">Informe seu e-mail. Se existir cadastro, enviaremos um link para redefinir a senha.</p>
-<div id="form-recuperar-global" class="form-msg-success" role="status" aria-live="polite" style="display:none"></div>
 <form id="form-recuperar" method="post" action="' . Html::u('/recuperar-senha') . '" novalidate>
+  <div id="form-recuperar-global" class="form-msg-success" role="status" aria-live="polite" style="display:none"></div>
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <div class="field">
     <label for="rec-email">E-mail</label>
@@ -222,8 +224,8 @@ final class AuthWebController
 <div class="card form-card">
 <h1 class="form-card-title">Nova senha</h1>
 <p class="form-lead">Defina uma senha forte para sua conta.</p>
-<div id="form-redefinir-global" class="form-global-error" role="alert" aria-live="polite"></div>
 <form id="form-redefinir" method="post" action="' . Html::u('/redefinir-senha') . '" novalidate>
+  <div id="form-redefinir-global" class="form-global-error" role="alert" aria-live="polite"></div>
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="token" value="' . Html::escape($token) . '">
   <div class="field">

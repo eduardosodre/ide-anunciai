@@ -55,6 +55,7 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 
 ## Usabilidade
 
+- **Login, cadastro, recuperar e redefinir senha:** envio via `public/js/app.js` (API JSON). A caixa de mensagem global de cada tela (`#form-login-global`, `#form-register-global`, etc.) fica **como primeiro filho dentro do `<form>`**, para o script localizar com `form.querySelector` e exibir erros de credenciais ou de rede. Campos usam `.field-error` com `data-error-for` alinhado ao `name` do input. O spinner do botão fica oculto até o envio (atributo `hidden` + CSS que não sobrescreve `[hidden]`).
 - Formulários com **labels** e mensagens de erro **inline** ou próximas ao campo.
 - **Feedback:** confirmação após cadastro, início de conversa, recuperação de senha e ações de admin.
 - **Estados de carregamento:** indicador ao submeter formulários ou ao buscar resultados.
