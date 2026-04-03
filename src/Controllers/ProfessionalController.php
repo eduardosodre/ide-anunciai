@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Config\BrazilStates;
 use App\Http\Request;
 use App\Http\Response;
 use App\Repository\ProfessionalRepository;
@@ -36,6 +37,9 @@ final class ProfessionalController
         $nomePublico = Html::escape((string) ($profile['nome_publico'] ?? ''));
         $telefone = Html::escape((string) ($profile['telefone'] ?? ''));
         $cidade = Html::escape((string) ($profile['cidade'] ?? ''));
+        $estadoSel = isset($profile['estado']) && (string) $profile['estado'] !== ''
+            ? strtoupper((string) $profile['estado'])
+            : '';
         $selectedSkills = $profile['habilidades'] ?? [];
 
         $body = $this->messagesHtml();
@@ -55,6 +59,14 @@ final class ProfessionalController
   <div class="field">
     <label for="cidade">Cidade</label>
     <input id="cidade" type="text" name="cidade" required maxlength="255" value="' . $cidade . '">
+    <p class="field-hint">Somente o município (sem UF no campo; o estado é selecionado abaixo).</p>
+  </div>
+  <div class="field">
+    <label for="estado_ministro">Estado (UF)</label>
+    <select id="estado_ministro" name="estado" required>
+' . $this->ufSelectHtml($estadoSel !== '' ? $estadoSel : null) . '
+    </select>
+    <p class="field-hint">Evita ambiguidade na busca (cidades homônimas em estados diferentes).</p>
   </div>
   <div class="field">
     <label for="habilidades">Habilidades e dons</label>
@@ -86,6 +98,7 @@ final class ProfessionalController
         $nomePublico = trim((string) $request->input('nome_publico', ''));
         $telefone = trim((string) $request->input('telefone', ''));
         $cidade = trim((string) $request->input('cidade', ''));
+        $estadoRaw = strtoupper(trim((string) $request->input('estado', '')));
         $skillIds = $this->extractSkillIds($request->input('habilidades', []));
 
         $errors = [];
@@ -94,6 +107,9 @@ final class ProfessionalController
         }
         if ($cidade === '') {
             $errors[] = 'Cidade é obrigatória.';
+        }
+        if ($estadoRaw === '' || !BrazilStates::isValidUf($estadoRaw)) {
+            $errors[] = 'Selecione um estado (UF) válido.';
         }
         if ($skillIds === []) {
             $errors[] = 'Selecione ao menos uma habilidade.';
@@ -115,9 +131,10 @@ final class ProfessionalController
             $nomePublico,
             $telefone === '' ? null : $telefone,
             $cidade,
+            $estadoRaw,
             $validSkillIds
         );
-        $coords = $this->geo->resolveFromCity($cidade);
+        $coords = $this->geo->resolveFromCity($cidade, $estadoRaw);
         $this->professionals->updateCoordinatesByUserId(
             $userId,
             $coords !== null ? (float) $coords['latitude'] : null,
@@ -169,9 +186,13 @@ final class ProfessionalController
             ? '<p class="profile-muted"><a href="' . Html::u('/denunciar') . '?alvo=' . (int) $profile['usuario_id'] . '">Denunciar este perfil</a></p>'
             : '<p class="profile-muted"><a href="' . Html::u('/login') . '">Entre</a> para denunciar.</p>';
 
+        $loc = Html::escape((string) $profile['cidade']);
+        if (isset($profile['estado']) && (string) $profile['estado'] !== '') {
+            $loc .= ' — ' . Html::escape(strtoupper((string) $profile['estado']));
+        }
         $body = '<div class="card">
 <h1>' . Html::escape((string) $profile['nome_publico']) . $verifiedBadge . '</h1>
-<p><strong>Cidade:</strong> ' . Html::escape((string) $profile['cidade']) . '</p>
+<p><strong>Local:</strong> ' . $loc . '</p>
 <p class="profile-muted">Telefone e e-mail não são exibidos no perfil público; contato via conversa.</p>
 <h2>Habilidades</h2>
 <ul class="skills-list">' . $skillsHtml . '</ul>
@@ -209,6 +230,9 @@ final class ProfessionalController
             'id' => (int) $profile['id'],
             'nome_publico' => (string) $profile['nome_publico'],
             'cidade' => (string) $profile['cidade'],
+            'estado' => isset($profile['estado']) && (string) $profile['estado'] !== ''
+                ? strtoupper((string) $profile['estado'])
+                : null,
             'verificado' => (int) $profile['verificado'] === 1,
             'habilidades' => array_map(
                 static fn (array $item): array => [
@@ -219,6 +243,17 @@ final class ProfessionalController
                 $profile['habilidades'] ?? []
             ),
         ]);
+    }
+
+    private function ufSelectHtml(?string $selectedUf): string
+    {
+        $html = '<option value="">Selecione o estado</option>';
+        foreach (BrazilStates::map() as $uf => $nome) {
+            $sel = ($selectedUf !== null && strtoupper($selectedUf) === $uf) ? ' selected' : '';
+            $html .= '<option value="' . Html::escape($uf) . '"' . $sel . '>' . Html::escape($nome . ' (' . $uf . ')') . '</option>';
+        }
+
+        return $html;
     }
 
     private function skillsOptionsHtml(array $skills, array $selected): string

@@ -69,6 +69,7 @@ final class ChurchRepository
         ?string $telefone,
         string $cep,
         string $cidade,
+        ?string $estadoUf,
         ?string $cnpjDigits
     ): int {
         $profile = $this->findByUserId($userId);
@@ -78,8 +79,8 @@ final class ChurchRepository
         try {
             if ($profile === null) {
                 $stmt = $this->pdo->prepare(
-                    'INSERT INTO igreja (usuario_id, nome_igreja, email_contato, telefone, cep, cidade, cnpj, verificado, pendente_revisao, criado_em, atualizado_em)
-                     VALUES (:usuario_id, :nome_igreja, :email_contato, :telefone, :cep, :cidade, :cnpj, 0, 0, :criado_em, :atualizado_em)'
+                    'INSERT INTO igreja (usuario_id, nome_igreja, email_contato, telefone, cep, cidade, estado, cnpj, verificado, pendente_revisao, criado_em, atualizado_em)
+                     VALUES (:usuario_id, :nome_igreja, :email_contato, :telefone, :cep, :cidade, :estado, :cnpj, 0, 0, :criado_em, :atualizado_em)'
                 );
                 $stmt->execute([
                     'usuario_id' => $userId,
@@ -88,6 +89,7 @@ final class ChurchRepository
                     'telefone' => $telefone,
                     'cep' => $cep,
                     'cidade' => $cidade,
+                    'estado' => $estadoUf,
                     'cnpj' => $cnpjDigits,
                     'criado_em' => $now,
                     'atualizado_em' => $now,
@@ -102,6 +104,7 @@ final class ChurchRepository
                     $telefone,
                     $cep,
                     $cidade,
+                    $estadoUf,
                     $cnpjDigits
                 );
                 $pendente = ((int) $profile['verificado'] === 1 && $hasMeaningfulChange) ? 1 : (int) $profile['pendente_revisao'];
@@ -112,6 +115,7 @@ final class ChurchRepository
                         telefone = :telefone,
                         cep = :cep,
                         cidade = :cidade,
+                        estado = :estado,
                         cnpj = :cnpj,
                         pendente_revisao = :pendente_revisao,
                         atualizado_em = :atualizado_em
@@ -123,6 +127,7 @@ final class ChurchRepository
                     'telefone' => $telefone,
                     'cep' => $cep,
                     'cidade' => $cidade,
+                    'estado' => $estadoUf,
                     'cnpj' => $cnpjDigits,
                     'pendente_revisao' => $pendente,
                     'atualizado_em' => $now,
@@ -155,20 +160,31 @@ final class ChurchRepository
         ]);
     }
 
-    public function searchByRadius(float $latitude, float $longitude, int $raioKm, int $offset, int $limit): array
-    {
+    public function searchByRadius(
+        float $latitude,
+        float $longitude,
+        int $raioKm,
+        ?string $ufFiltro,
+        int $offset,
+        int $limit
+    ): array {
         $distanceFormula = '(6371 * ACOS(
             COS(RADIANS(:lat)) * COS(RADIANS(i.latitude)) * COS(RADIANS(i.longitude) - RADIANS(:lng))
             + SIN(RADIANS(:lat)) * SIN(RADIANS(i.latitude))
         ))';
-        $sql = 'SELECT i.id, i.usuario_id, i.nome_igreja, i.cidade, i.verificado, i.pendente_revisao,
+        $whereUf = '';
+        if ($ufFiltro !== null && $ufFiltro !== '') {
+            $whereUf = ' AND (i.estado IS NULL OR UPPER(TRIM(i.estado)) = :uf_filtro)';
+        }
+        $sql = 'SELECT i.id, i.usuario_id, i.nome_igreja, i.cidade, i.estado, i.verificado, i.pendente_revisao,
                        i.public_nome_igreja_aprovado, i.public_cidade_aprovado,
                        ' . $distanceFormula . ' AS distancia_km
                 FROM igreja i
                 INNER JOIN usuario u ON u.id = i.usuario_id
                 WHERE u.ativo = 1
                   AND i.latitude IS NOT NULL
-                  AND i.longitude IS NOT NULL
+                  AND i.longitude IS NOT NULL'
+                . $whereUf . '
                 HAVING distancia_km <= :raio_km
                 ORDER BY distancia_km ASC
                 LIMIT :limit OFFSET :offset';
@@ -178,6 +194,9 @@ final class ChurchRepository
         $stmt->bindValue(':raio_km', $raioKm, PDO::PARAM_INT);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        if ($ufFiltro !== null && $ufFiltro !== '') {
+            $stmt->bindValue(':uf_filtro', strtoupper(trim($ufFiltro)));
+        }
         $stmt->execute();
         $rows = $stmt->fetchAll();
         foreach ($rows as &$row) {
@@ -201,13 +220,18 @@ final class ChurchRepository
         ?string $telefone,
         string $cep,
         string $cidade,
+        ?string $estadoUf,
         ?string $cnpjDigits
     ): bool {
+        $curEst = isset($profile['estado']) ? (string) $profile['estado'] : '';
+        $newEst = $estadoUf ?? '';
+
         return (string) $profile['nome_igreja'] !== $nomeIgreja
             || (string) $profile['email_contato'] !== $emailContato
             || (string) ($profile['telefone'] ?? '') !== (string) ($telefone ?? '')
             || (string) $profile['cep'] !== $cep
             || (string) $profile['cidade'] !== $cidade
+            || $curEst !== $newEst
             || (string) ($profile['cnpj'] ?? '') !== (string) ($cnpjDigits ?? '');
     }
 }

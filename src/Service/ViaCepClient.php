@@ -35,13 +35,15 @@ final class ViaCepClient
         }
 
         $localidade = isset($data['localidade']) ? trim((string) $data['localidade']) : '';
-        $uf = isset($data['uf']) ? trim((string) $data['uf']) : '';
+        $uf = isset($data['uf']) ? strtoupper(trim((string) $data['uf'])) : '';
 
         if ($localidade === '') {
             return null;
         }
 
         return [
+            'localidade' => $localidade,
+            'uf' => $uf,
             'cidade' => $localidade . ($uf !== '' ? ' - ' . $uf : ''),
             'logradouro' => isset($data['logradouro']) ? (string) $data['logradouro'] : '',
             'bairro' => isset($data['bairro']) ? (string) $data['bairro'] : '',

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Config\BrazilStates;
 use App\Http\Request;
 use App\Http\Response;
 use App\Repository\ProfessionalRepository;
@@ -53,6 +54,10 @@ final class HomeController
         $body = $this->flashMessages();
         $cep = trim((string) $request->query('cep', ''));
         $cidade = trim((string) $request->query('cidade', ''));
+        $estado = strtoupper(trim((string) $request->query('estado', '')));
+        if ($estado !== '' && !BrazilStates::isValidUf($estado)) {
+            $estado = '';
+        }
         $raio = (int) $request->query('raio_km', 20);
         $tipo = (string) $request->query('tipo', 'ambos');
         $habilidadeId = (int) $request->query('habilidade_id', 0);
@@ -60,15 +65,23 @@ final class HomeController
 
         $body .= '<h1 class="page-title">Busca</h1>
 <div class="card form-card">
-<p class="form-lead" style="text-align:left;margin-top:0">Informe CEP ou cidade e filtros. Os resultados aparecem abaixo sem recarregar a página.</p>
+<p class="form-lead" style="text-align:left;margin-top:0">Informe <strong>CEP</strong> (o sistema usa cidade e UF do ViaCEP para o centro da busca) ou <strong>cidade + estado (UF)</strong> para evitar homônimos entre estados. Depois ajuste raio e filtros. Os resultados aparecem abaixo sem recarregar a página.</p>
 <form id="form-busca" method="get" action="' . Html::u('/busca') . '">
   <div class="field">
     <label for="busca-cep">CEP</label>
     <input id="busca-cep" type="text" name="cep" maxlength="20" value="' . Html::escape($cep) . '" placeholder="ex.: 01310100" autocomplete="postal-code">
+    <p class="field-hint">Somente números; com CEP válido, cidade e UF são obtidos automaticamente.</p>
   </div>
   <div class="field">
     <label for="busca-cidade">Cidade</label>
-    <input id="busca-cidade" type="text" name="cidade" maxlength="255" value="' . Html::escape($cidade) . '" placeholder="ex.: São Paulo" autocomplete="address-level2">
+    <input id="busca-cidade" type="text" name="cidade" maxlength="255" value="' . Html::escape($cidade) . '" placeholder="ex.: Campinas" autocomplete="address-level2">
+  </div>
+  <div class="field">
+    <label for="busca-estado">Estado (UF)</label>
+    <select id="busca-estado" name="estado">
+' . $this->ufSelectHtml($estado !== '' ? $estado : null) . '
+    </select>
+    <p class="field-hint">Recomendado ao buscar por cidade (ex.: há Campinas em SP e em PB). Com CEP preenchido, o centro da busca usa o UF do CEP.</p>
   </div>
   <div class="field">
     <label for="busca-raio">Raio (km)</label>
@@ -145,6 +158,17 @@ final class HomeController
             $selected = $selectedSkillId === $id ? ' selected' : '';
             $label = Html::escape((string) ($skill['label'] ?? ''));
             $html .= '<option value="' . $id . '"' . $selected . '>' . $label . '</option>';
+        }
+
+        return $html;
+    }
+
+    private function ufSelectHtml(?string $selectedUf): string
+    {
+        $html = '<option value="">Selecione o UF (opcional)</option>';
+        foreach (BrazilStates::map() as $uf => $nome) {
+            $sel = ($selectedUf !== null && strtoupper($selectedUf) === $uf) ? ' selected' : '';
+            $html .= '<option value="' . Html::escape($uf) . '"' . $sel . '>' . Html::escape($nome . ' (' . $uf . ')') . '</option>';
         }
 
         return $html;

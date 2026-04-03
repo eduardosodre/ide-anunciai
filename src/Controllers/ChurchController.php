@@ -70,7 +70,7 @@ final class ChurchController
   <div class="field">
     <label for="cidade_igreja">Cidade</label>
     <input id="cidade_igreja" type="text" name="cidade" maxlength="255" value="' . $cidade . '" placeholder="Preenchida pelo CEP ou manualmente">
-    <p class="field-hint">Com CEP válido, a cidade costuma ser obtida pelo ViaCEP. Se falhar, informe a cidade manualmente.</p>
+    <p class="field-hint">Com CEP válido, cidade e UF são obtidos pelo ViaCEP e gravados para a busca. Se falhar, informe a cidade manualmente.</p>
   </div>
   <div class="field">
     <label for="cnpj">CNPJ (opcional; pode ser exigido em verificações futuras)</label>
@@ -131,8 +131,15 @@ final class ChurchController
 
         $via = strlen($cepDigits) === 8 ? $this->viaCep->consultar($cepDigits) : null;
         $cidadeFinal = $cidadeInput;
-        if ($via !== null && isset($via['cidade'])) {
-            $cidadeFinal = (string) $via['cidade'];
+        $estadoUf = null;
+        if ($via !== null) {
+            $loc = trim((string) ($via['localidade'] ?? ''));
+            if ($loc !== '') {
+                $cidadeFinal = $loc;
+            }
+            if (isset($via['uf']) && (string) $via['uf'] !== '') {
+                $estadoUf = strtoupper(trim((string) $via['uf']));
+            }
         }
         if (trim($cidadeFinal) === '') {
             $errors[] = 'Não foi possível obter a cidade pelo CEP; informe a cidade manualmente ou corrija o CEP.';
@@ -153,9 +160,10 @@ final class ChurchController
             $telefone === '' ? null : $telefone,
             $cepFormatted,
             $cidadeFinal,
+            $estadoUf,
             $cnpjDigits
         );
-        $coords = $this->geo->resolveFromCepOrCity($cepFormatted, $cidadeFinal);
+        $coords = $this->geo->resolveFromCepOrCity($cepFormatted, $cidadeFinal, $estadoUf);
         $this->churches->updateCoordinatesByUserId(
             $userId,
             $coords !== null ? (float) $coords['latitude'] : null,
@@ -201,9 +209,13 @@ final class ChurchController
             ? '<p class="profile-muted"><a href="' . Html::u('/denunciar') . '?alvo=' . (int) $row['usuario_id'] . '">Denunciar este perfil</a></p>'
             : '<p class="profile-muted"><a href="' . Html::u('/login') . '">Entre</a> para denunciar.</p>';
 
+        $locI = Html::escape((string) $row['cidade']);
+        if (isset($row['estado']) && (string) $row['estado'] !== '') {
+            $locI .= ' — ' . Html::escape(strtoupper((string) $row['estado']));
+        }
         $body = '<div class="card">
 <h1>' . Html::escape((string) $row['nome_igreja']) . $badge . '</h1>
-<p><strong>Cidade:</strong> ' . Html::escape((string) $row['cidade']) . '</p>
+<p><strong>Local:</strong> ' . $locI . '</p>
 <p class="profile-muted">Telefone e e-mail não são exibidos no perfil público; contato via conversa.</p>
 <div class="profile-actions" aria-label="Contato e moderação">
 ' . $chatBlock . $denunciaBlock . '
@@ -233,6 +245,9 @@ final class ChurchController
             'id' => (int) $row['id'],
             'nome_igreja' => (string) $row['nome_igreja'],
             'cidade' => (string) $row['cidade'],
+            'estado' => isset($row['estado']) && (string) $row['estado'] !== ''
+                ? strtoupper((string) $row['estado'])
+                : null,
             'verificado' => (int) $row['verificado'] === 1,
         ]);
     }

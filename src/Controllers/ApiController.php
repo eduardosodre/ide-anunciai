@@ -36,6 +36,7 @@ final class ApiController
         $result = $this->search->search(
             $this->nullableString($request->query('cep')),
             $this->nullableString($request->query('cidade')),
+            $this->nullableString($request->query('estado')),
             (int) $request->query('raio_km', 20),
             (string) $request->query('tipo', 'ambos'),
             $this->nullableInt($request->query('habilidade_id')),

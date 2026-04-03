@@ -217,9 +217,18 @@
 
   function renderBuscaResults(data) {
     var meta = data.meta || {};
+    var centro = meta.centro || {};
     var items = data.items || [];
     var html = '';
     html += '<div class="card"><p><strong>' + escapeHtml(String(meta.message || '')) + '</strong></p>';
+    if (centro.label) {
+      html +=
+        '<p class="field-hint" style="margin:0.35rem 0 0.75rem">Centro da busca: <strong>' +
+        escapeHtml(String(centro.label)) +
+        '</strong>' +
+        (centro.uf ? ' (UF ' + escapeHtml(String(centro.uf)) + ')' : '') +
+        '</p>';
+    }
     if (items.length === 0) {
       html += '<p>Nenhum resultado.</p></div>';
       return html;
@@ -231,6 +240,10 @@
         item.distancia_km !== undefined && item.distancia_km !== null
           ? ' — ' + escapeHtml(String(item.distancia_km)) + ' km'
           : '';
+      var loc = escapeHtml(String(item.cidade || ''));
+      if (item.estado) {
+        loc += ' — ' + escapeHtml(String(item.estado));
+      }
       html +=
         '<li><a href="' +
         escapeAttr(String(item.url || '#')) +
@@ -241,7 +254,7 @@
         ')' +
         badge +
         ' — ' +
-        escapeHtml(String(item.cidade || '')) +
+        loc +
         dist +
         '</li>';
     });

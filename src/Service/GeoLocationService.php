@@ -10,15 +10,51 @@ final class GeoLocationService
     {
     }
 
-    public function resolveFromCity(string $city): ?array
+    /**
+     * Geocodifica por nome de município e, se informado, UF (evita cidades homônimas).
+     *
+     * @return array{latitude: float, longitude: float, label: string, uf: ?string}|null
+     */
+    public function resolveFromCity(string $city, ?string $uf = null): ?array
     {
-        $city = trim($city);
-        if ($city === '') {
+        return $this->resolveFromLocalityUf(trim($city), $this->normalizeUf($uf));
+    }
+
+    /**
+     * CEP: ViaCEP define localidade e UF; geocodificação usa "Localidade, UF, Brasil".
+     * Se o CEP falhar, usa cidade e UF informados no formulário.
+     *
+     * @return array{latitude: float, longitude: float, label: string, uf: ?string}|null
+     */
+    public function resolveFromCepOrCity(string $cep, string $fallbackCity, ?string $fallbackUf = null): ?array
+    {
+        $fromCep = $this->viaCep->consultar($cep);
+        if ($fromCep !== null) {
+            $loc = trim((string) ($fromCep['localidade'] ?? ''));
+            $uf = $this->normalizeUf($fromCep['uf'] ?? null);
+            if ($loc !== '') {
+                return $this->resolveFromLocalityUf($loc, $uf);
+            }
+        }
+
+        return $this->resolveFromLocalityUf(trim($fallbackCity), $this->normalizeUf($fallbackUf));
+    }
+
+    /**
+     * @return array{latitude: float, longitude: float, label: string, uf: ?string}|null
+     */
+    public function resolveFromLocalityUf(string $localidade, ?string $uf): ?array
+    {
+        $localidade = trim($localidade);
+        if ($localidade === '') {
             return null;
         }
 
-        $query = rawurlencode($city . ', Brasil');
-        $url = 'https://nominatim.openstreetmap.org/search?q=' . $query . '&format=json&limit=1';
+        $query = $uf !== null
+            ? $localidade . ', ' . $uf . ', Brasil'
+            : $localidade . ', Brasil';
+
+        $url = 'https://nominatim.openstreetmap.org/search?q=' . rawurlencode($query) . '&format=json&limit=1';
         $ctx = stream_context_create([
             'http' => [
                 'timeout' => 8,
@@ -39,17 +75,26 @@ final class GeoLocationService
             return null;
         }
 
-        return ['latitude' => $lat, 'longitude' => $lng];
+        $label = $uf !== null ? $localidade . ', ' . $uf : $localidade;
+
+        return [
+            'latitude' => $lat,
+            'longitude' => $lng,
+            'label' => $label,
+            'uf' => $uf,
+        ];
     }
 
-    public function resolveFromCepOrCity(string $cep, string $fallbackCity): ?array
+    private function normalizeUf(?string $uf): ?string
     {
-        $resolvedCity = $fallbackCity;
-        $fromCep = $this->viaCep->consultar($cep);
-        if ($fromCep !== null && isset($fromCep['cidade']) && trim((string) $fromCep['cidade']) !== '') {
-            $resolvedCity = (string) $fromCep['cidade'];
+        if ($uf === null) {
+            return null;
+        }
+        $u = strtoupper(trim($uf));
+        if (strlen($u) !== 2 || !ctype_alpha($u)) {
+            return null;
         }
 
-        return $this->resolveFromCity($resolvedCity);
+        return $u;
     }
 }
