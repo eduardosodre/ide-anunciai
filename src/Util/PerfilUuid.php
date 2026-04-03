@@ -15,10 +15,14 @@ final class PerfilUuid
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($b), 4));
     }
 
+    /**
+     * Aceita qualquer UUID no formato 8-4-4-4-12 (hex), incl. v1 do MySQL (LOWER(UUID()))
+     * e v4 gerado por generate().
+     */
     public static function isValid(string $value): bool
     {
         return (bool) preg_match(
-            '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i',
+            '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i',
             trim($value)
         );
     }
