@@ -22,9 +22,14 @@ final class AuthWebController
     public function cadastroGet(Request $request): Response
     {
         $body = $this->messagesHtml();
-        $body .= '<div class="page-auth">
+        $body .= '<section class="page-head-stitch page-auth-head">
+<p class="hero-kicker">Acesso</p>
+<h1 class="page-title">Crie sua conta</h1>
+<p class="form-lead" style="text-align:left;margin:0">Cadastre-se para conversar com igrejas e ministros na plataforma.</p>
+</section>
+<div class="page-auth">
 <div class="card form-card">
-<h1 class="form-card-title">Criar conta</h1>
+<h2 class="form-card-title">Criar conta</h2>
 <p class="form-lead">Preencha os dados. As validações aparecem abaixo de cada campo.</p>
 <form id="form-register" method="post" action="' . Html::u('/cadastro') . '" novalidate>
   <div id="form-register-global" class="form-global-error" role="alert" aria-live="polite"></div>
@@ -102,9 +107,14 @@ final class AuthWebController
     public function loginGet(Request $request): Response
     {
         $body = $this->messagesHtml();
-        $body .= '<div class="page-auth">
+        $body .= '<section class="page-head-stitch page-auth-head">
+<p class="hero-kicker">Acesso</p>
+<h1 class="page-title">Entrar na comunidade</h1>
+<p class="form-lead" style="text-align:left;margin:0">Use seu e-mail e senha para acessar conversas, perfis e busca avançada.</p>
+</section>
+<div class="page-auth">
 <div class="card form-card">
-<h1 class="form-card-title">Entrar</h1>
+<h2 class="form-card-title">Entrar</h2>
 <p class="form-lead">Use seu e-mail e senha cadastrados.</p>
 <form id="form-login" method="post" action="' . Html::u('/login') . '" novalidate>
   <div id="form-login-global" class="form-global-error" role="alert" aria-live="polite"></div>
@@ -172,9 +182,14 @@ final class AuthWebController
     public function recuperarGet(Request $request): Response
     {
         $body = $this->messagesHtml();
-        $body .= '<div class="page-auth">
+        $body .= '<section class="page-head-stitch page-auth-head">
+<p class="hero-kicker">Recuperação</p>
+<h1 class="page-title">Recuperar senha</h1>
+<p class="form-lead" style="text-align:left;margin:0">Se houver conta para o e-mail informado, você receberá o link de redefinição.</p>
+</section>
+<div class="page-auth">
 <div class="card form-card">
-<h1 class="form-card-title">Recuperar senha</h1>
+<h2 class="form-card-title">Recuperar senha</h2>
 <p class="form-lead">Informe seu e-mail. Se existir cadastro, enviaremos um link para redefinir a senha.</p>
 <form id="form-recuperar" method="post" action="' . Html::u('/recuperar-senha') . '" novalidate>
   <div id="form-recuperar-global" class="form-msg-success" role="status" aria-live="polite" style="display:none"></div>
@@ -220,9 +235,14 @@ final class AuthWebController
     {
         $token = (string) $request->query('token', '');
         $body = $this->messagesHtml();
-        $body .= '<div class="page-auth">
+        $body .= '<section class="page-head-stitch page-auth-head">
+<p class="hero-kicker">Segurança</p>
+<h1 class="page-title">Definir nova senha</h1>
+<p class="form-lead" style="text-align:left;margin:0">Use uma senha forte para proteger o acesso da sua conta.</p>
+</section>
+<div class="page-auth">
 <div class="card form-card">
-<h1 class="form-card-title">Nova senha</h1>
+<h2 class="form-card-title">Nova senha</h2>
 <p class="form-lead">Defina uma senha forte para sua conta.</p>
 <form id="form-redefinir" method="post" action="' . Html::u('/redefinir-senha') . '" novalidate>
   <div id="form-redefinir-global" class="form-global-error" role="alert" aria-live="polite"></div>

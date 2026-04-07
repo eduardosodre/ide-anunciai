@@ -69,6 +69,9 @@ final class Html
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <title>' . self::escape($title) . ' — ' . self::escape($siteName) . '</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
     ' . $extraHead . '
     <style>
         :root {
@@ -317,6 +320,14 @@ final class Html
         }
         .profile-actions .btn { margin-top: 0; }
         .profile-muted { font-size: 0.9rem; color: var(--muted); margin: 0; }
+        .profile-contact-logged {
+            margin: 1.25rem 0;
+            padding: 1rem 1.1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .profile-contact-title { font-size: 1.05rem; margin: 0 0 0.65rem; }
         .skills-list { margin: 0.35rem 0 0; padding-left: 1.25rem; }
         h1 { font-size: 1.45rem; margin-top: 0; }
         h2 { font-size: 1.15rem; margin: 1.25rem 0 0.5rem; }
@@ -497,6 +508,7 @@ final class Html
             font-size: 0.95rem;
         }
     </style>
+    <link rel="stylesheet" href="' . self::u('/css/stitch-theme.css') . '">
 </head>
 <body>
 <header class="site-header">

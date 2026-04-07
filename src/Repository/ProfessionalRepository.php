@@ -31,6 +31,7 @@ final class ProfessionalRepository
     public function findPublicById(int $professionalId): ?array
     {
         $sql = 'SELECT p.id, p.perfil_uuid, p.usuario_id, p.nome_publico, p.cidade, p.estado, p.verificado, p.pendente_revisao,
+                       p.telefone, u.email AS usuario_email,
                        p.public_nome_publico_aprovado, p.public_cidade_aprovado, p.public_habilidades_aprovado
                 FROM profissional p
                 INNER JOIN usuario u ON u.id = p.usuario_id
@@ -54,6 +55,7 @@ final class ProfessionalRepository
         }
 
         $sql = 'SELECT p.id, p.perfil_uuid, p.usuario_id, p.nome_publico, p.cidade, p.estado, p.verificado, p.pendente_revisao,
+                       p.telefone, u.email AS usuario_email,
                        p.public_nome_publico_aprovado, p.public_cidade_aprovado, p.public_habilidades_aprovado
                 FROM profissional p
                 INNER JOIN usuario u ON u.id = p.usuario_id

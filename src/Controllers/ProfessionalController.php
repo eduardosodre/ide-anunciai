@@ -201,10 +201,14 @@ final class ProfessionalController
         if (isset($profile['estado']) && (string) $profile['estado'] !== '') {
             $loc .= ' — ' . Html::escape(strtoupper((string) $profile['estado']));
         }
-        $body = '<div class="card">
+        $privacyContact = $this->professionalPrivacyAndContactHtml($viewerId, $profile);
+        $body = '<section class="profile-public-head">
+<p class="hero-kicker">Perfil público</p>
 <h1>' . Html::escape((string) $profile['nome_publico']) . $verifiedBadge . '</h1>
 <p><strong>Local:</strong> ' . $loc . '</p>
-<p class="profile-muted">Telefone e e-mail não são exibidos no perfil público; contato via conversa.</p>
+</section>
+<div class="card profile-public-card">
+' . $privacyContact . '
 <h2>Habilidades</h2>
 <ul class="skills-list">' . $skillsHtml . '</ul>
 <div class="profile-actions" aria-label="Contato e moderação">
@@ -312,6 +316,41 @@ final class ProfessionalController
         }
 
         return array_values(array_unique($ids));
+    }
+
+    private function professionalPrivacyAndContactHtml(?int $viewerId, array $profile): string
+    {
+        if ($viewerId === null) {
+            return '<p class="profile-muted">Telefone e e-mail não são exibidos no perfil público; contato via conversa.</p>';
+        }
+
+        $html = '<p class="profile-muted">Telefone e e-mail abaixo são visíveis apenas para quem está logado. Prefira também a conversa na plataforma.</p>';
+        $html .= $this->professionalMemberContactHtml($profile);
+
+        return $html;
+    }
+
+    /** @param array<string, mixed> $profile */
+    private function professionalMemberContactHtml(array $profile): string
+    {
+        $tel = trim((string) ($profile['telefone'] ?? ''));
+        $email = trim((string) ($profile['usuario_email'] ?? ''));
+        $parts = ['<div class="profile-contact-logged">', '<h2 class="profile-contact-title">Contato</h2>'];
+        if ($tel !== '') {
+            $telDigits = preg_replace('/\D+/', '', $tel);
+            $telHref = $telDigits !== '' ? 'tel:' . $telDigits : '#';
+            $parts[] = '<p><strong>Telefone:</strong> <a href="' . Html::escape($telHref) . '">' . Html::escape($tel) . '</a></p>';
+        } else {
+            $parts[] = '<p class="profile-muted"><strong>Telefone:</strong> não informado.</p>';
+        }
+        if ($email !== '') {
+            $parts[] = '<p><strong>E-mail:</strong> <a href="' . Html::escape('mailto:' . $email) . '">' . Html::escape($email) . '</a></p>';
+        } else {
+            $parts[] = '<p class="profile-muted"><strong>E-mail:</strong> não informado na conta.</p>';
+        }
+        $parts[] = '</div>';
+
+        return implode('', $parts);
     }
 
     private function messagesHtml(): string

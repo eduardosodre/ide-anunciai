@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Talent Search | The Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#007070",
+                        "inverse-primary": "#8ecef7",
+                        "background": "#f9f9fa",
+                        "surface-tint": "#176589",
+                        "tertiary-fixed": "#ffdcc3",
+                        "outline-variant": "#c0c7ce",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary-fixed": "#2f1500",
+                        "surface": "#f9f9fa",
+                        "on-surface-variant": "#40484e",
+                        "secondary-container": "#96f2f1",
+                        "surface-container-highest": "#e2e2e3",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e8e8e9",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f3f3f4",
+                        "surface-variant": "#e2e2e3",
+                        "secondary": "#006a6a",
+                        "on-tertiary-container": "#ffbc86",
+                        "outline": "#70787e",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "on-primary-fixed-variant": "#004c6b",
+                        "primary-fixed-dim": "#8ecef7",
+                        "primary-container": "#005b7f",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#c6e7ff",
+                        "on-secondary-fixed": "#002020",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1a1c1d",
+                        "primary": "#00425e",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004f50",
+                        "inverse-surface": "#2f3132",
+                        "tertiary-container": "#824500",
+                        "surface-bright": "#f9f9fa",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1a1c1d",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-primary-fixed": "#001e2d",
+                        "secondary-fixed": "#96f2f1",
+                        "on-primary-container": "#91d1fb",
+                        "secondary-fixed-dim": "#79d5d5",
+                        "tertiary": "#613100"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0 12px 32px -4px rgba(0, 30, 45, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-teal-950 dark:text-teal-50">
+                The Sanctuary
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-400 hover:text-teal-800 dark:hover:text-teal-200 transition-colors" href="#">Find Church</a>
+<a class="text-teal-900 dark:text-white font-bold border-b-2 border-teal-800 dark:border-teal-400 pb-1" href="#">Talent Feed</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-teal-800 dark:hover:text-teal-200 transition-colors" href="#">About Us</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 mr-4">
+<button class="material-symbols-outlined text-slate-600 hover:bg-slate-50 p-2 rounded-full transition-all">notifications</button>
+<button class="material-symbols-outlined text-slate-600 hover:bg-slate-50 p-2 rounded-full transition-all">message</button>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-xl font-semibold shadow-lg hover:scale-95 active:scale-90 transition-transform">
+                    Join Community
+                </button>
+</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 h-[1px] w-full"></div>
+</nav>
+<main class="pt-24 pb-20 max-w-7xl mx-auto px-6">
+<!-- Hero Search Section -->
+<header class="mb-12">
+<h1 class="font-headline text-5xl md:text-6xl font-extrabold text-primary tracking-tight mb-6">
+                Connect with <span class="text-tertiary">Anointed</span> Talent.
+            </h1>
+<!-- Search & Filter Shell -->
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-wrap gap-4 items-end">
+<div class="flex-1 min-w-[280px]">
+<label class="block font-label text-sm font-semibold mb-2 ml-1 text-outline">Search by Specialty or Name</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 focus:ring-0 focus:bg-surface-container-lowest transition-colors" placeholder="Worship Leader, Evangelist..." type="text"/>
+</div>
+</div>
+<div class="w-full md:w-48">
+<label class="block font-label text-sm font-semibold mb-2 ml-1 text-outline">Postal Code (CEP)</label>
+<input class="w-full bg-surface-container-highest border-none rounded-lg py-4 px-4 focus:ring-0 focus:bg-surface-container-lowest transition-colors" placeholder="00000-000" type="text"/>
+</div>
+<div class="w-full md:w-48">
+<label class="block font-label text-sm font-semibold mb-2 ml-1 text-outline">Distance</label>
+<select class="w-full bg-surface-container-highest border-none rounded-lg py-4 px-4 focus:ring-0 focus:bg-surface-container-lowest transition-colors">
+<option>Within 10 km</option>
+<option>Within 20 km</option>
+<option>Within 50 km</option>
+<option>Global/Remote</option>
+</select>
+</div>
+<button class="bg-primary text-on-primary h-[56px] px-8 rounded-xl font-bold flex items-center gap-2 hover:bg-primary-container transition-all">
+<span class="material-symbols-outlined">filter_list</span>
+                    Find Talent
+                </button>
+</div>
+</header>
+<!-- Category Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+<!-- Musicians -->
+<div class="relative overflow-hidden group cursor-pointer rounded-xl h-48 flex items-end p-6 surface-container-low">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="close-up of hands playing a grand piano in a sunlit sanctuary with warm wooden textures and soft bokeh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBnjW1UeytG_A8Ek3_E2zf_GIfZozbyEa8ChV8LZkMMiMiKOujoa2yBlLYPTuuLIfEPmjPbAg8GtwTYMTSvMcBy6G2dVODX8wcXx05GGtBuplABJZMZ1VLSpz-lLDin4GBzB-hD3CMZRXB-WA3ZMxWLbRrXKs6rrsP_1xTaMDHE2udjavpnzZaZsaA9YcQezaysBXddGcLDOGWwz8r74IUqaTSb3nPR45MJNbFIWg5mWMb6DggHmprrGy2UYj10OjQjKHQRRM6zcc"/>
+<div class="relative z-20">
+<h3 class="font-headline text-2xl font-bold text-white mb-1">Musicians</h3>
+<p class="text-primary-fixed text-sm">Worship leaders, pianists, drummers</p>
+</div>
+</div>
+<!-- Preachers -->
+<div class="relative overflow-hidden group cursor-pointer rounded-xl h-48 flex items-end p-6 surface-container-low">
+<div class="absolute inset-0 bg-gradient-to-t from-tertiary-container/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="silhouette of a speaker on a stage with soft golden lighting and a warm welcoming atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXLZGoUuCBX04Q-BwUnGQm44oDazDXpcIsmIimQa0AKHh8A5cE-wkV2Uy7EVSMn_y8tpq7Bqd1BXGrhouU7OpG9o5KAQbTQX49sFduOewIvHO-NIVGovt9MBJXlbmomSDNTo3KcJvLB-xr6_0P9UHq8V1Iupvl2CGDfLtqmitCucxmXMvzuhpnMB6n-W1nabc9ug8m7CseG2hQige3_uylLRiyFgd9xCLU3YAXisMaSTViyVKF-gbTFlJ6RfPdOBF-N003mbpI820"/>
+<div class="relative z-20">
+<h3 class="font-headline text-2xl font-bold text-white mb-1">Preachers</h3>
+<p class="text-tertiary-fixed text-sm">Guest speakers, evangelists, pastors</p>
+</div>
+</div>
+<!-- Teachers -->
+<div class="relative overflow-hidden group cursor-pointer rounded-xl h-48 flex items-end p-6 surface-container-low">
+<div class="absolute inset-0 bg-gradient-to-t from-secondary/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="modern library or study space with light streaming through large windows onto open books" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALPWgAJUThZa4Gj00zaowRF1GDX17Q_qPrurgYM7hIXJXUW6JYfga5WC75owANcRmas88ZkOVIk72JHX4_M_b0iuu9jyJ9nCThdcVA6K1C3f4qLNKsEhhs0oK7v8yChFhNTBmvoAfHcO7WZggaFltocG3gOWX_deK4cy_gmKaLT5C0Cxhm2QEbyXX9ICm9-ukeXsoqIncKaM1drO4rzL7EuZ5-4BUeYFnEzVr7h3WeiEyz6yQKBNXrMvGTSPbrvPnmHmmJ6LeXtiI"/>
+<div class="relative z-20">
+<h3 class="font-headline text-2xl font-bold text-white mb-1">Teachers</h3>
+<p class="text-secondary-fixed text-sm">Theologians, bible study leaders</p>
+</div>
+</div>
+</section>
+<!-- Talent Results -->
+<section>
+<div class="flex justify-between items-baseline mb-8">
+<h2 class="font-headline text-3xl font-bold text-on-surface">Available Talents <span class="text-outline font-normal text-lg ml-2">(128 found)</span></h2>
+<div class="flex items-center gap-2 text-primary font-semibold cursor-pointer hover:underline">
+                    Sort by Relevance <span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+<!-- Bento-style Talent Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Talent Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl editorial-shadow flex gap-6 hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/20">
+<div class="relative flex-shrink-0">
+<img class="w-32 h-32 rounded-xl object-cover" data-alt="professional portrait of a smiling woman with a warm expression in a bright modern office setting with plants" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClpBURdaD1HX_XhS3X-H2RLW_wWRMRNX0N-4mD4xYXPMKN6zWFZ477rUgQwhUK_JtKAXjDY3U-wPIeYS_gHlVA43J34CJ_MGdhT8MToD4qG2okJ8kHjT8gY_-iZSCGKq3vQl5x6Qp1R8UrEZqJoYPrM0YPbmScUXRTgvwdy1Xj_F0OgYOmLoFFExUoZCNIHAHeytKYUgAx6fN2q2xjngJ36eOUgeHlZgs4Qvj4-PLGDT--iSJOsh-dQxlIKDB04pJ2UZuMk2lMuMM"/>
+<div class="absolute -bottom-2 -right-2 bg-tertiary text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="text-xs font-bold uppercase tracking-widest text-secondary mb-1 block">Musician • Worship Leader</span>
+<h3 class="font-headline text-xl font-bold text-primary">Sarah J. Miller</h3>
+</div>
+<div class="text-right">
+<span class="block text-xl font-bold text-on-surface">4.9</span>
+<span class="text-xs text-outline font-medium">124 reviews</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-4">A classically trained vocalist and songwriter with over 15 years leading worship for regional conferences and local congregations.</p>
+<div class="flex items-center gap-4 mt-auto">
+<div class="flex items-center gap-1 text-xs font-semibold bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">location_on</span> 12km away
+                            </div>
+<button class="ml-auto text-primary font-bold text-sm flex items-center gap-1 group">
+                                View Profile <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Talent Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl editorial-shadow flex gap-6 hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/20">
+<div class="relative flex-shrink-0">
+<img class="w-32 h-32 rounded-xl object-cover" data-alt="close-up of a middle-aged man with a friendly face speaking passionately in a warm indoor light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsZ77Mb1L2VhJlOROaaLPgAHeTBH_51M4PvV8oSwsRrXhzQqOSNIlRVV5jUks7XLYQrvM_EQ2gpSvtOB9tZh0J6djrpP46T2y6SapyUNnnU1a4B4NaxEFriNTYS8bq1x6G_N1mVj-UQdqJLZDXgbR98_5wp4UnpYdveGybU8ufQbuep3K1nXEm3b-OxEhCLaEmRCz0mVT0Cj_c_fmpUEFdzdCiAOID5JbljQ25UdG57-QEi0dOkM7wSpNZ8a1B8iypI6EqhQ3DTUY"/>
+<div class="absolute -bottom-2 -right-2 bg-tertiary text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="text-xs font-bold uppercase tracking-widest text-tertiary mb-1 block">Preacher • Teacher</span>
+<h3 class="font-headline text-xl font-bold text-primary">Dr. David Chen</h3>
+</div>
+<div class="text-right">
+<span class="block text-xl font-bold text-on-surface">5.0</span>
+<span class="text-xs text-outline font-medium">89 reviews</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-4">PhD in Biblical Studies specializing in New Testament hermeneutics. Engaging speaker known for connecting ancient truths with modern life.</p>
+<div class="flex items-center gap-4 mt-auto">
+<div class="flex items-center gap-1 text-xs font-semibold bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">location_on</span> 45km away
+                            </div>
+<button class="ml-auto text-primary font-bold text-sm flex items-center gap-1 group">
+                                View Profile <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Talent Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl editorial-shadow flex gap-6 hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/20">
+<div class="relative flex-shrink-0">
+<img class="w-32 h-32 rounded-xl object-cover" data-alt="young man with glasses playing an acoustic guitar in a soft lit living room with plants in the background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5B2QBU4dPkh07TQo74wdJCys0NMKmMYDXIDkVIllqKECQ8MxfM4-BB3kIvwYxtub-eVT4p4lsmpqYPZMnJgJAZxYEg5JYjn3XyjHMyjym0U1vm322uPWOzVKcG9ic2xeBq3qdZqvoN7SOgOv5GRsmeYGfhwwe5HQdiR2dDr6MpXPT31bY-PeWvdyALpocGh1_iQ8fz-vVg1klgJy3lF7auQtNfyWx07dVEylXSFI9NOSGRoQoeumU8NtFE4IfAR9XKS8SAB8VPXY"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="text-xs font-bold uppercase tracking-widest text-secondary mb-1 block">Musician • Guitarist</span>
+<h3 class="font-headline text-xl font-bold text-primary">Marcus Thorne</h3>
+</div>
+<div class="text-right">
+<span class="block text-xl font-bold text-on-surface">4.8</span>
+<span class="text-xs text-outline font-medium">56 reviews</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm line-clamp-2 mb-4">Versatile acoustic and electric guitarist available for youth events, retreats, and regular service fill-ins.</p>
+<div class="flex items-center gap-4 mt-auto">
+<div class="flex items-center gap-1 text-xs font-semibold bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">location_on</span> 8km away
+                            </div>
+<button class="ml-auto text-primary font-bold text-sm flex items-center gap-1 group">
+                                View Profile <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Talent Card 4 -->
+<div class="bg-tertiary-container p-6 rounded-xl editorial-shadow flex gap-6 hover:opacity-95 transition-opacity relative overflow-hidden">
+<!-- Reflection Style Card Variation -->
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-9xl">format_quote</span>
+</div>
+<div class="relative z-10 flex flex-col justify-center">
+<h4 class="font-headline text-2xl font-bold text-on-tertiary-container mb-2">Are you a talent?</h4>
+<p class="text-tertiary-fixed mb-6 text-sm">Join the 500+ creatives and speakers sharing their gifts through The Sanctuary ethos.</p>
+<button class="bg-on-tertiary-container text-tertiary-container w-fit px-6 py-2 rounded-lg font-bold">Register Today</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Pagination -->
+<nav class="mt-16 flex justify-center items-center gap-2">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-container-low text-outline">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-container-low text-on-surface-variant">2</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-container-low text-on-surface-variant">3</button>
+<span class="px-2 text-outline">...</span>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-container-low text-on-surface-variant">12</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-container-low text-outline">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 py-12 max-w-7xl mx-auto gap-8">
+<div class="flex flex-col items-center md:items-start">
+<span class="text-lg font-bold text-teal-950 dark:text-teal-50 mb-2">The Sanctuary</span>
+<p class="font-body text-sm text-slate-500 dark:text-slate-400 text-center md:text-left max-w-xs">
+                    © 2024 The Sanctuary Ethos. Built for the Digital Cathedral.
+                </p>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-500 hover:text-teal-600 hover:underline transition-all text-sm" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-teal-600 hover:underline transition-all text-sm" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-teal-600 hover:underline transition-all text-sm" href="#">Church Partnership</a>
+<a class="text-slate-500 hover:text-teal-600 hover:underline transition-all text-sm" href="#">Talent Guidelines</a>
+<a class="text-slate-500 hover:text-teal-600 hover:underline transition-all text-sm" href="#">Contact Support</a>
+</div>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors">public</button>
+<button class="material-symbols-outlined text-slate-400 hover:text-primary transition-colors">share</button>
+</div>
+</div>
+</footer>
+</body></html>

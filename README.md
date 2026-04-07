@@ -166,13 +166,13 @@ Para testar com sessão, use o mesmo cookie de sessão após `login` ou `registe
 
 - Schema com `profissional`, `habilidade` e `profissional_habilidade` (N:N), incluindo `verificado` e `pendente_revisao`.
 - CRUD do próprio perfil ministro em HTML: `GET/POST /meu-perfil/ministro`
-- Perfil público: `GET /perfil/profissional/{uuid}` (sem telefone; link para iniciar conversa quando logado; UUID em `perfil_uuid`)
+- Perfil público: `GET /perfil/profissional/{uuid}` (telefone/e-mail só no HTML com sessão; link para iniciar conversa quando logado; UUID em `perfil_uuid`)
 
 ### Etapa 5 — igreja
 
 - Schema com `igreja` (1:1 com `usuario`), campos `verificado` e `pendente_revisao`, `latitude`/`longitude` reservados para Etapa 8.
 - CRUD: `GET/POST /meu-perfil/igreja` — cidade obtida via **ViaCEP** quando possível; e-mail de contato gravado = e-mail da conta.
-- Perfil público: `GET /perfil/igreja/{uuid}` (sem telefone nem e-mail públicos; link para iniciar conversa quando logado)
+- Perfil público: `GET /perfil/igreja/{uuid}` (telefone/e-mail/CEP só no HTML com sessão; link para iniciar conversa quando logado)
 
 ### Etapa 6 — verificação e re-verificação
 
@@ -206,7 +206,7 @@ Para testar com sessão, use o mesmo cookie de sessão após `login` ou `registe
 - Estilos globais e navegação responsiva no layout HTML compartilhado (`src/View/Html.php`).
 - Home com hero e CTAs; atalhos para sessão logada.
 - Busca e política de privacidade com estrutura visual consistente (cards).
-- Perfis públicos (`/perfil/profissional/{uuid}`, `/perfil/igreja/{uuid}`): card, selo verificado, texto explícito de que telefone/e-mail não são públicos; visitante é orientado a entrar para conversa e denúncia; usuário logado vê botões de ação conforme regras.
+- Perfis públicos (`/perfil/profissional/{uuid}`, `/perfil/igreja/{uuid}`): card, selo verificado; visitante vê texto de que telefone/e-mail não são públicos e é orientado a entrar para conversa e denúncia; **usuário logado** vê bloco de contato (tel/e-mail; igreja inclui CEP) e botões de ação conforme regras. APIs JSON públicas de perfil continuam **sem** telefone/e-mail.
 - Deploy: em produção, use **HTTPS**, `DocumentRoot` em `public/`, `database.php` fora do repositório e `base_url` apontando para a URL pública. `GET /api/health` inclui `stage` (10 quando a Etapa 10 está fechada no código).
 
 ## Como validar a Etapa 6 (fluxo completo)

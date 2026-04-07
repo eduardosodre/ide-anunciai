@@ -47,8 +47,12 @@ final class AccountController
             ) . '" alt="" class="avatar-current" width="120" height="120" style="width:120px;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--border)"></p>'
             : '';
 
-        $body .= '<div class="card form-card">
-<h1 class="page-title" style="margin-bottom:0.75rem">Minha conta</h1>
+        $body .= '<section class="page-head-stitch">
+<p class="hero-kicker">Conta</p>
+<h1 class="page-title">Minha conta</h1>
+<p class="form-lead" style="text-align:left;margin-top:0">Atualize nome, e-mail e foto de perfil.</p>
+</section>
+<div class="card form-card account-shell-stitch">
 ' . $foto . '
 <form id="form-conta" method="post" action="' . Html::u('/conta') . '" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">

@@ -64,7 +64,7 @@ Contrato técnico para o backend PHP (sem framework), alinhado às rotas de [07-
 
 - `{uuid}`: UUID v4 (`perfil_uuid`). URLs antigas só com número (`/perfil/profissional/1`) respondem **301** para a URL canônica com UUID.
 
-- **200:** HTML perfil público.
+- **200:** HTML perfil público. **Sessão ausente:** mesmo conteúdo resumido (sem telefone/e-mail). **Sessão autenticada:** HTML inclui bloco de contato (telefone, e-mail da conta ou e-mail de contato da igreja; igreja também exibe CEP formatado), além de conversa e denúncia conforme regras.
 - **404:** perfil inexistente ou usuário inativo.
 
 ### GET/POST `/cadastro`

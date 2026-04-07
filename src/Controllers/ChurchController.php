@@ -223,10 +223,14 @@ final class ChurchController
         if (isset($row['estado']) && (string) $row['estado'] !== '') {
             $locI .= ' — ' . Html::escape(strtoupper((string) $row['estado']));
         }
-        $body = '<div class="card">
+        $privacyContact = $this->churchPrivacyAndContactHtml($viewerId, $row);
+        $body = '<section class="profile-public-head">
+<p class="hero-kicker">Perfil público</p>
 <h1>' . Html::escape((string) $row['nome_igreja']) . $badge . '</h1>
 <p><strong>Local:</strong> ' . $locI . '</p>
-<p class="profile-muted">Telefone e e-mail não são exibidos no perfil público; contato via conversa.</p>
+</section>
+<div class="card profile-public-card">
+' . $privacyContact . '
 <div class="profile-actions" aria-label="Contato e moderação">
 ' . $chatBlock . $denunciaBlock . '
 </div>
@@ -254,6 +258,50 @@ final class ChurchController
                 : null,
             'verificado' => (int) $row['verificado'] === 1,
         ]);
+    }
+
+    private function churchPrivacyAndContactHtml(?int $viewerId, array $row): string
+    {
+        if ($viewerId === null) {
+            return '<p class="profile-muted">Telefone e e-mail não são exibidos no perfil público; contato via conversa.</p>';
+        }
+
+        $html = '<p class="profile-muted">Dados de contato e CEP abaixo são visíveis apenas para usuários logados. Prefira também a conversa na plataforma.</p>';
+        $html .= $this->churchMemberContactHtml($row);
+
+        return $html;
+    }
+
+    /** @param array<string, mixed> $row */
+    private function churchMemberContactHtml(array $row): string
+    {
+        $tel = trim((string) ($row['telefone'] ?? ''));
+        $email = trim((string) ($row['email_contato'] ?? ''));
+        $cepRaw = trim((string) ($row['cep'] ?? ''));
+        $cepDigits = preg_replace('/\D+/', '', $cepRaw);
+        $cepDisplay = strlen($cepDigits) === 8
+            ? substr($cepDigits, 0, 5) . '-' . substr($cepDigits, 5, 3)
+            : $cepRaw;
+
+        $parts = ['<div class="profile-contact-logged">', '<h2 class="profile-contact-title">Contato</h2>'];
+        if ($tel !== '') {
+            $telDigits = preg_replace('/\D+/', '', $tel);
+            $telHref = $telDigits !== '' ? 'tel:' . $telDigits : '#';
+            $parts[] = '<p><strong>Telefone:</strong> <a href="' . Html::escape($telHref) . '">' . Html::escape($tel) . '</a></p>';
+        } else {
+            $parts[] = '<p class="profile-muted"><strong>Telefone:</strong> não informado.</p>';
+        }
+        if ($email !== '') {
+            $parts[] = '<p><strong>E-mail:</strong> <a href="' . Html::escape('mailto:' . $email) . '">' . Html::escape($email) . '</a></p>';
+        } else {
+            $parts[] = '<p class="profile-muted"><strong>E-mail:</strong> não informado.</p>';
+        }
+        if ($cepDisplay !== '') {
+            $parts[] = '<p><strong>CEP:</strong> ' . Html::escape($cepDisplay) . '</p>';
+        }
+        $parts[] = '</div>';
+
+        return implode('', $parts);
     }
 
     private function resolvePublicChurchProfile(string $param): ?array

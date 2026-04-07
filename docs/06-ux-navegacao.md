@@ -28,6 +28,7 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 - Pode incluir vitrine ou destaque para busca (CEP + raio) e chamada para cadastro.
 - **Sem blog** no MVP.
 - Mostrar que visitantes veem dados resumidos e usuários logados veem informações adicionais.
+- **Perfis públicos (ministro e igreja):** visitante vê nome, local, habilidades (ministro), selo verificado e texto de que telefone/e-mail não são públicos; **usuário logado** vê um bloco **Contato** com telefone e e-mail cadastrados (e CEP no perfil de igreja), com links `tel:` / `mailto:`, além dos botões de conversa e denúncia. A API pública `GET /api/profissionais/{uuid}` e `GET /api/igrejas/{uuid}` **não** inclui esses campos — apenas o HTML autenticado por sessão.
 
 ---
 
@@ -68,6 +69,10 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 
 - Paleta de cores consistente; tipografia legível; hierarquia clara (títulos, subtítulos, corpo).
 - Espaçamento generoso; botões primários e secundários distintos; ícones quando ajudarem (busca, perfil, sair).
+- Base visual centralizada em `public/css/stitch-theme.css`, inspirada nos templates da pasta `stitch/` (home, busca e perfil): paleta teal/gold, tipografia Manrope + Inter, cards sem divisórias agressivas e header com efeito de vidro.
+- O `Html::layout()` continua como shell único (header/footer), carregando o tema global para todas as páginas HTML.
+- Adoção incremental dos templates da pasta `stitch/`: primeiro ciclo aplicado em **Início**, **Busca** e **Perfis públicos** (ministro/igreja), preservando rotas, contrato API e regras de sessão já existentes.
+- Segundo ciclo aplicado em **Login**, **Cadastro**, **Recuperar senha**, **Redefinir senha** e **Minha conta**, com cabeçalhos editoriais e shell visual unificado, sem alterar validações/client API e regras de autenticação já implementadas.
 
 ---
 

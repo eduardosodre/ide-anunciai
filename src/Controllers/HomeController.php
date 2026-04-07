@@ -24,26 +24,50 @@ final class HomeController
     {
         $body = $this->flashMessages();
         if (SessionFacade::userId() !== null) {
-            $body .= '<section class="hero hero-compact">
+            $body .= '<section class="hero hero-home hero-stitch">
+<p class="hero-kicker">Comunidade ativa</p>
 <h1>Olá de volta</h1>
-<p class="hero-lead">Use o menu para conversas, perfis e busca. Atalhos rápidos:</p>
+<p class="hero-lead">Acompanhe conversas, atualize seu perfil e encontre ministros e igrejas por localização.</p>
 <div class="hero-actions">
 <a class="btn btn-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
 <a class="btn btn-secondary" href="' . Html::u('/chat') . '">Conversas</a>
 <a class="btn btn-secondary" href="' . Html::u('/conta') . '">Minha conta</a>
 </div>
+</section>
+<section class="stitch-grid">
+  <article class="stitch-card">
+    <h2>Busca por raio</h2>
+    <p>Encontre perfis por CEP ou cidade + UF com ordenação por distância e filtro por habilidade.</p>
+    <a class="btn btn-secondary" href="' . Html::u('/busca') . '">Abrir busca</a>
+  </article>
+  <article class="stitch-card">
+    <h2>Privacidade e LGPD</h2>
+    <p>Saiba como os dados são tratados no MVP, com consentimento e exportação de dados da conta.</p>
+    <a class="btn btn-secondary" href="' . Html::u('/privacidade') . '">Ler política</a>
+  </article>
 </section>';
         } else {
-            $body .= '<section class="hero hero-home">
+            $body .= '<section class="hero hero-home hero-stitch">
+<p class="hero-kicker">Digital Cathedral</p>
 <h1>Conecte igrejas, ministros e profissionais</h1>
-<p class="hero-lead">Networking religioso: encontre quem precisa perto de você — busca por localização e habilidades, perfis verificados e primeiro contato por mensagem.</p>
+<p class="hero-lead">Networking religioso com busca por localização, perfis verificados e primeiro contato por mensagem.</p>
 <div class="hero-actions">
 <a class="btn btn-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
 <a class="btn btn-primary" href="' . Html::u('/cadastro') . '">Criar conta</a>
 <a class="btn btn-secondary" href="' . Html::u('/login') . '">Entrar</a>
 </div>
-<p style="margin-top:1.25rem;font-size:0.9rem;color:var(--muted)"><a href="' . Html::u('/privacidade') . '">Política de Privacidade</a> · <a href="' . Html::u('/api/health') . '">Status da API</a></p>
-</section>';
+</section>
+<section class="stitch-grid">
+  <article class="stitch-card">
+    <h2>Busca inteligente</h2>
+    <p>Localize perfis por CEP/cidade e raio em km, com filtros por tipo e habilidade.</p>
+  </article>
+  <article class="stitch-card">
+    <h2>Contato seguro</h2>
+    <p>Visitantes veem resumo e usuários logados têm acesso a mais informações e ações de conversa.</p>
+  </article>
+</section>
+<p class="hero-footnote"><a href="' . Html::u('/privacidade') . '">Política de Privacidade</a> · <a href="' . Html::u('/api/health') . '">Status da API</a></p>';
         }
 
         return Response::html(Html::layout('Início', $body, $this->csrf->token()));
@@ -63,9 +87,12 @@ final class HomeController
         $habilidadeId = (int) $request->query('habilidade_id', 0);
         $skills = $this->professionals->allSkills();
 
-        $body .= '<h1 class="page-title">Busca</h1>
-<div class="card form-card">
-<p class="form-lead" style="text-align:left;margin-top:0">Informe <strong>CEP</strong> (o sistema usa cidade e UF do ViaCEP para o centro da busca) ou <strong>cidade + estado (UF)</strong> para evitar homônimos entre estados. Depois ajuste raio e filtros. Os resultados aparecem abaixo sem recarregar a página.</p>
+        $body .= '<section class="page-head-stitch">
+<p class="hero-kicker">Busca geográfica</p>
+<h1 class="page-title">Encontre perfis por localização</h1>
+<p class="form-lead" style="text-align:left;margin-top:0">Informe <strong>CEP</strong> (usa cidade/UF do ViaCEP no centro da busca) ou <strong>cidade + estado (UF)</strong> para evitar homônimos. Resultados abaixo sem recarregar.</p>
+</section>
+<div class="card form-card search-shell-stitch">
 <form id="form-busca" method="get" action="' . Html::u('/busca') . '">
   <div class="field">
     <label for="busca-cep">CEP</label>
