@@ -215,6 +215,17 @@
     });
   }
 
+  function refreshTailwind() {
+    try {
+      var tw = typeof window !== 'undefined' ? window.tailwind : undefined;
+      if (tw && typeof tw.refresh === 'function') {
+        tw.refresh();
+      }
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
   function formatKm(km) {
     if (km === undefined || km === null || isNaN(Number(km))) {
       return '';
@@ -375,11 +386,15 @@
 
       if (!params.get('cep') && !params.get('cidade')) {
         out.innerHTML =
-          '<div class="card"><p>Informe CEP ou cidade para buscar perfis por raio.</p></div>';
+          '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 text-sm text-on-surface-variant" role="status">' +
+          'Informe CEP ou cidade para buscar perfis por raio.</div>';
+        refreshTailwind();
         return;
       }
 
-      out.innerHTML = '<div class="busca-loading">Buscando…</div>';
+      out.innerHTML =
+        '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 text-sm text-on-surface-variant" role="status">Buscando…</div>';
+      refreshTailwind();
       var btn = form.querySelector('button[type="submit"]');
       setLoading(btn, true);
       try {
@@ -391,18 +406,21 @@
         var data = JSON.parse(text);
         if (!r.ok) {
           out.innerHTML =
-            '<div class="card"><p class="form-global-error">Erro ao buscar.</p></div>';
+            '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 text-sm text-red-800 dark:text-red-200" role="alert">Erro ao buscar.</div>';
+          refreshTailwind();
           return;
         }
         out.innerHTML = renderBuscaResults(data);
+        refreshTailwind();
         if (params.get('cep') || params.get('cidade')) {
           history.replaceState(null, '', window.location.pathname + '?' + params.toString());
         }
       } catch (err) {
         out.innerHTML =
-          '<div class="card"><p class="form-global-error">' +
+          '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 text-sm text-red-800 dark:text-red-200" role="alert">' +
           escapeHtml(err.message || 'Erro de rede.') +
-          '</p></div>';
+          '</div>';
+        refreshTailwind();
       } finally {
         setLoading(btn, false);
       }
@@ -436,7 +454,9 @@
       runSearch();
     } else {
       out.innerHTML =
-        '<div class="card"><p>Informe CEP ou cidade para buscar perfis por raio.</p></div>';
+        '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 text-sm text-on-surface-variant" role="status">' +
+        'Informe CEP ou cidade para buscar perfis por raio.</div>';
+      refreshTailwind();
     }
   }
 

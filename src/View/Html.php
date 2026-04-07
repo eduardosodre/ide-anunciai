@@ -73,6 +73,16 @@ final class Html
     <script>
         tailwind.config = {
             darkMode: "class",
+            safelist: [
+                "mb-2", "flex", "flex-wrap", "items-center", "gap-2", "gap-3", "space-y-3", "mt-2", "mt-3", "mt-4",
+                "rounded-xl", "border", "border-outline-variant/30", "bg-surface", "bg-surface-container-low",
+                "bg-surface-container-lowest", "p-4", "p-5", "shadow-sm",
+                "font-headline", "text-xl", "text-lg", "text-sm", "text-xs", "font-bold", "font-semibold", "hover:underline",
+                "text-primary", "text-on-surface-variant", "text-white",
+                "inline-flex", "rounded-full", "px-2.5", "py-1", "text-[11px]", "uppercase", "tracking-wide",
+                "bg-secondary-container", "text-on-secondary-container", "bg-tertiary-container",
+                "text-red-800", "dark:text-red-200", "max-w-full"
+            ],
             theme: {
                 extend: {
                     colors: {
@@ -86,6 +96,7 @@ final class Html
                         tertiary: "#613100",
                         "tertiary-container": "#824500",
                         "secondary-container": "#96f2f1",
+                        "on-secondary-container": "#002728",
                         outline: "#70787e",
                         "outline-variant": "#c0c7ce"
                     },
@@ -538,7 +549,7 @@ final class Html
     </style>
     <link rel="stylesheet" href="' . self::u('/css/stitch-theme.css') . '">
 </head>
-<body>
+<body class="font-body antialiased text-on-surface">
 <header class="site-header">
     <div class="header-inner">
         <a class="brand" href="' . self::u('/') . '">' . self::escape($siteName) . '</a>
