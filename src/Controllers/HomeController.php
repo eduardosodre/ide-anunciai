@@ -24,48 +24,53 @@ final class HomeController
     {
         $body = $this->flashMessages();
         if (SessionFacade::userId() !== null) {
-            $body .= '<section class="hero hero-home hero-stitch">
+            $body .= '<section class="stitch-hero-shell">
+<div class="stitch-hero-copy">
 <p class="hero-kicker">Comunidade ativa</p>
-<h1>Olá de volta</h1>
-<p class="hero-lead">Acompanhe conversas, atualize seu perfil e encontre ministros e igrejas por localização.</p>
+<h1>Bem-vindo de volta</h1>
+<p class="hero-lead">Siga para conversas, atualização de perfil e busca por ministros e igrejas próximos de você.</p>
 <div class="hero-actions">
 <a class="btn btn-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
 <a class="btn btn-secondary" href="' . Html::u('/chat') . '">Conversas</a>
 <a class="btn btn-secondary" href="' . Html::u('/conta') . '">Minha conta</a>
 </div>
+</div>
+<div class="stitch-hero-side">
+<div class="stitch-highlight-card">
+<h3>Ações rápidas</h3>
+<p>Gerencie seu perfil público e acompanhe solicitações de verificação em poucos cliques.</p>
+<a class="btn btn-secondary" href="' . Html::u('/verificacao') . '">Verificação</a>
+</div>
+</div>
 </section>
-<section class="stitch-grid">
-  <article class="stitch-card">
-    <h2>Busca por raio</h2>
-    <p>Encontre perfis por CEP ou cidade + UF com ordenação por distância e filtro por habilidade.</p>
-    <a class="btn btn-secondary" href="' . Html::u('/busca') . '">Abrir busca</a>
-  </article>
-  <article class="stitch-card">
-    <h2>Privacidade e LGPD</h2>
-    <p>Saiba como os dados são tratados no MVP, com consentimento e exportação de dados da conta.</p>
-    <a class="btn btn-secondary" href="' . Html::u('/privacidade') . '">Ler política</a>
-  </article>
+<section class="stitch-bento">
+  <article class="stitch-card"><h2>Busca por raio</h2><p>CEP ou cidade + UF com ordenação por distância e filtros por tipo/habilidade.</p></article>
+  <article class="stitch-card"><h2>Perfis públicos</h2><p>Visual moderno com dados essenciais para visitante e informações adicionais para usuário logado.</p></article>
+  <article class="stitch-card"><h2>Conversa segura</h2><p>Contato inicial dentro da plataforma com rastreabilidade de mensagens.</p></article>
 </section>';
         } else {
-            $body .= '<section class="hero hero-home hero-stitch">
+            $body .= '<section class="stitch-hero-shell">
+<div class="stitch-hero-copy">
 <p class="hero-kicker">Digital Cathedral</p>
 <h1>Conecte igrejas, ministros e profissionais</h1>
-<p class="hero-lead">Networking religioso com busca por localização, perfis verificados e primeiro contato por mensagem.</p>
+<p class="hero-lead">Encontre pessoas e comunidades por localização, com perfis verificados e primeiro contato por mensagem.</p>
 <div class="hero-actions">
 <a class="btn btn-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
 <a class="btn btn-primary" href="' . Html::u('/cadastro') . '">Criar conta</a>
 <a class="btn btn-secondary" href="' . Html::u('/login') . '">Entrar</a>
 </div>
+</div>
+<div class="stitch-hero-side">
+<div class="stitch-highlight-card">
+<h3>Busca inteligente</h3>
+<p>Use CEP/cidade, raio em km e filtros para encontrar igrejas e ministros no contexto certo.</p>
+</div>
+</div>
 </section>
-<section class="stitch-grid">
-  <article class="stitch-card">
-    <h2>Busca inteligente</h2>
-    <p>Localize perfis por CEP/cidade e raio em km, com filtros por tipo e habilidade.</p>
-  </article>
-  <article class="stitch-card">
-    <h2>Contato seguro</h2>
-    <p>Visitantes veem resumo e usuários logados têm acesso a mais informações e ações de conversa.</p>
-  </article>
+<section class="stitch-bento">
+  <article class="stitch-card"><h2>Perfis confiáveis</h2><p>Fluxo de verificação com status e moderação para elevar a confiança da comunidade.</p></article>
+  <article class="stitch-card"><h2>Contato contextual</h2><p>Converse com o perfil certo sem expor dados sensíveis para visitantes anônimos.</p></article>
+  <article class="stitch-card"><h2>Privacidade LGPD</h2><p><a href="' . Html::u('/privacidade') . '">Leia a política</a> e veja como tratamos dados no MVP.</p></article>
 </section>
 <p class="hero-footnote"><a href="' . Html::u('/privacidade') . '">Política de Privacidade</a> · <a href="' . Html::u('/api/health') . '">Status da API</a></p>';
         }
@@ -92,7 +97,7 @@ final class HomeController
 <h1 class="page-title">Encontre perfis por localização</h1>
 <p class="form-lead form-lead-left form-lead-topless">Informe <strong>CEP</strong> (usa cidade/UF do ViaCEP no centro da busca) ou <strong>cidade + estado (UF)</strong> para evitar homônimos. Resultados abaixo sem recarregar.</p>
 </section>
-<div class="card form-card search-shell-stitch">
+<div class="card form-card search-shell-stitch search-shell-stitch-strong">
 <form id="form-busca" method="get" action="' . Html::u('/busca') . '">
   <div class="field">
     <label for="busca-cep">CEP</label>

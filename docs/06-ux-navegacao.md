@@ -74,6 +74,7 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 - Adoção incremental dos templates da pasta `stitch/`: primeiro ciclo aplicado em **Início**, **Busca** e **Perfis públicos** (ministro/igreja), preservando rotas, contrato API e regras de sessão já existentes.
 - Segundo ciclo aplicado em **Login**, **Cadastro**, **Recuperar senha**, **Redefinir senha** e **Minha conta**, com cabeçalhos editoriais e shell visual unificado, sem alterar validações/client API e regras de autenticação já implementadas.
 - Terceiro ciclo aplicado em **Meu perfil ministro**, **Meu perfil igreja**, **Verificação (usuário/admin)**, **Denúncia (usuário/admin)** e **Chat HTML**, com padronização visual de cabeçalhos, cards de ação e listas administrativas/conversas.
+- Ajuste de aderência ao Stitch: a **Home** e a **Busca** passaram de tema superficial para estrutura visual mais próxima dos templates (hero em duas colunas, cards de destaque e grid de blocos), mantendo as mesmas rotas e comportamento funcional.
 
 ---
 

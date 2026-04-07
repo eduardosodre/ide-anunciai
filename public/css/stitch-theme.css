@@ -340,3 +340,62 @@ input:focus, select:focus, textarea:focus {
 .footer-tagline {
     margin: 0.5rem 0 0;
 }
+
+.stitch-hero-shell {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stitch-hero-copy {
+    border-radius: 18px;
+    padding: 2rem 1.2rem;
+    background: linear-gradient(135deg, rgba(0, 66, 94, 0.96), rgba(0, 91, 127, 0.88));
+    color: #fff;
+}
+
+.stitch-hero-copy .hero-lead {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.stitch-hero-side {
+    display: flex;
+}
+
+.stitch-highlight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 1.2rem;
+    width: 100%;
+}
+
+.stitch-highlight-card h3 {
+    margin: 0 0 0.45rem;
+}
+
+.stitch-highlight-card p {
+    margin: 0 0 0.85rem;
+    color: var(--muted);
+}
+
+.stitch-bento {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: 0.4rem;
+}
+
+.search-shell-stitch-strong {
+    border-radius: 20px;
+    padding-top: 0.35rem;
+}
+
+@media (max-width: 900px) {
+    .stitch-hero-shell,
+    .stitch-bento {
+        grid-template-columns: 1fr;
+    }
+}
