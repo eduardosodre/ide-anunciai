@@ -69,6 +69,34 @@ final class Html
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <title>' . self::escape($title) . ' — ' . self::escape($siteName) . '</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00425e",
+                        "primary-container": "#005b7f",
+                        surface: "#f9f9fa",
+                        "surface-container-low": "#f3f3f4",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c1d",
+                        "on-surface-variant": "#40484e",
+                        tertiary: "#613100",
+                        "tertiary-container": "#824500",
+                        "secondary-container": "#96f2f1",
+                        outline: "#70787e",
+                        "outline-variant": "#c0c7ce"
+                    },
+                    fontFamily: {
+                        headline: ["Manrope", "Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">

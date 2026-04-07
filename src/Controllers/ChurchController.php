@@ -228,12 +228,12 @@ final class ChurchController
             $locI .= ' — ' . Html::escape(strtoupper((string) $row['estado']));
         }
         $privacyContact = $this->churchPrivacyAndContactHtml($viewerId, $row);
-        $body = '<section class="profile-public-head">
-<p class="hero-kicker">Perfil público</p>
-<h1>' . Html::escape((string) $row['nome_igreja']) . $badge . '</h1>
-<p><strong>Local:</strong> ' . $locI . '</p>
+        $body = '<section class="rounded-2xl bg-gradient-to-br from-primary to-primary-container px-6 py-8 text-white">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-white/80">Perfil público</p>
+<h1 class="font-headline text-4xl font-extrabold md:text-6xl">' . Html::escape((string) $row['nome_igreja']) . $badge . '</h1>
+<p class="mt-3 text-white/90"><strong>Local:</strong> ' . $locI . '</p>
 </section>
-<div class="card profile-public-card">
+<div class="mt-4 rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-6 shadow-sm">
 ' . $privacyContact . '
 <div class="profile-actions" aria-label="Contato e moderação">
 ' . $chatBlock . $denunciaBlock . '

@@ -24,56 +24,56 @@ final class HomeController
     {
         $body = $this->flashMessages();
         if (SessionFacade::userId() !== null) {
-            $body .= '<section class="stitch-hero-shell">
-<div class="stitch-hero-copy">
-<p class="hero-kicker">Comunidade ativa</p>
-<h1>Bem-vindo de volta</h1>
-<p class="hero-lead">Siga para conversas, atualização de perfil e busca por ministros e igrejas próximos de você.</p>
-<div class="hero-actions">
-<a class="btn btn-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
-<a class="btn btn-secondary" href="' . Html::u('/chat') . '">Conversas</a>
-<a class="btn btn-secondary" href="' . Html::u('/conta') . '">Minha conta</a>
+            $body .= '<section class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-primary-container px-6 py-10 text-white md:px-10">
+<div class="grid gap-8 lg:grid-cols-12 lg:items-center">
+<div class="lg:col-span-8">
+<p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-white/80">Comunidade ativa</p>
+<h1 class="font-headline text-4xl font-extrabold leading-tight md:text-6xl">Bem-vindo de volta</h1>
+<p class="mt-4 max-w-2xl text-white/90">Siga para conversas, atualização de perfil e busca por ministros e igrejas próximos de você.</p>
+<div class="mt-6 flex flex-wrap gap-3">
+<a class="inline-flex items-center rounded-full bg-white px-6 py-3 font-semibold text-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
+<a class="inline-flex items-center rounded-full border border-white/40 px-6 py-3 font-semibold text-white" href="' . Html::u('/chat') . '">Conversas</a>
+<a class="inline-flex items-center rounded-full border border-white/40 px-6 py-3 font-semibold text-white" href="' . Html::u('/conta') . '">Minha conta</a>
 </div>
 </div>
-<div class="stitch-hero-side">
-<div class="stitch-highlight-card">
-<h3>Ações rápidas</h3>
-<p>Gerencie seu perfil público e acompanhe solicitações de verificação em poucos cliques.</p>
-<a class="btn btn-secondary" href="' . Html::u('/verificacao') . '">Verificação</a>
+<div class="lg:col-span-4">
+<div class="rounded-xl bg-white/95 p-5 text-on-surface shadow-xl">
+<h3 class="font-headline text-xl font-bold">Ações rápidas</h3>
+<p class="mt-2 text-sm text-on-surface-variant">Gerencie seu perfil público e acompanhe solicitações de verificação.</p>
+<a class="mt-4 inline-flex rounded-full border border-outline-variant px-5 py-2 text-sm font-semibold text-primary" href="' . Html::u('/verificacao') . '">Ir para verificação</a>
 </div>
 </div>
-</section>
-<section class="stitch-bento">
-  <article class="stitch-card"><h2>Busca por raio</h2><p>CEP ou cidade + UF com ordenação por distância e filtros por tipo/habilidade.</p></article>
-  <article class="stitch-card"><h2>Perfis públicos</h2><p>Visual moderno com dados essenciais para visitante e informações adicionais para usuário logado.</p></article>
-  <article class="stitch-card"><h2>Conversa segura</h2><p>Contato inicial dentro da plataforma com rastreabilidade de mensagens.</p></article>
+</div>
 </section>';
         } else {
-            $body .= '<section class="stitch-hero-shell">
-<div class="stitch-hero-copy">
-<p class="hero-kicker">Digital Cathedral</p>
-<h1>Conecte igrejas, ministros e profissionais</h1>
-<p class="hero-lead">Encontre pessoas e comunidades por localização, com perfis verificados e primeiro contato por mensagem.</p>
-<div class="hero-actions">
-<a class="btn btn-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
-<a class="btn btn-primary" href="' . Html::u('/cadastro') . '">Criar conta</a>
-<a class="btn btn-secondary" href="' . Html::u('/login') . '">Entrar</a>
+            $body .= '<section class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-primary-container px-6 py-10 text-white md:px-10">
+<div class="grid gap-8 lg:grid-cols-12 lg:items-center">
+<div class="lg:col-span-7">
+<p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-white/80">Digital Cathedral</p>
+<h1 class="font-headline text-4xl font-extrabold leading-tight md:text-6xl">Conecte igrejas, ministros e profissionais</h1>
+<p class="mt-4 max-w-2xl text-white/90">Encontre pessoas e comunidades por localização, com perfis verificados e primeiro contato por mensagem.</p>
+<div class="mt-6 flex flex-wrap gap-3">
+<a class="inline-flex items-center rounded-full bg-white px-6 py-3 font-semibold text-primary" href="' . Html::u('/busca') . '">Buscar perfis</a>
+<a class="inline-flex items-center rounded-full bg-white px-6 py-3 font-semibold text-primary" href="' . Html::u('/cadastro') . '">Criar conta</a>
+<a class="inline-flex items-center rounded-full border border-white/40 px-6 py-3 font-semibold text-white" href="' . Html::u('/login') . '">Entrar</a>
 </div>
 </div>
-<div class="stitch-hero-side">
-<div class="stitch-highlight-card">
-<h3>Busca inteligente</h3>
-<p>Use CEP/cidade, raio em km e filtros para encontrar igrejas e ministros no contexto certo.</p>
+<div class="lg:col-span-5">
+<div class="rounded-xl bg-white/95 p-5 text-on-surface shadow-xl">
+<h3 class="font-headline text-xl font-bold">Busca inteligente</h3>
+<p class="mt-2 text-sm text-on-surface-variant">Use CEP/cidade, raio em km e filtros para encontrar igrejas e ministros no contexto certo.</p>
 </div>
 </div>
-</section>
-<section class="stitch-bento">
-  <article class="stitch-card"><h2>Perfis confiáveis</h2><p>Fluxo de verificação com status e moderação para elevar a confiança da comunidade.</p></article>
-  <article class="stitch-card"><h2>Contato contextual</h2><p>Converse com o perfil certo sem expor dados sensíveis para visitantes anônimos.</p></article>
-  <article class="stitch-card"><h2>Privacidade LGPD</h2><p><a href="' . Html::u('/privacidade') . '">Leia a política</a> e veja como tratamos dados no MVP.</p></article>
-</section>
-<p class="hero-footnote"><a href="' . Html::u('/privacidade') . '">Política de Privacidade</a> · <a href="' . Html::u('/api/health') . '">Status da API</a></p>';
+</div>
+</section>';
         }
+
+        $body .= '<section class="mt-4 grid gap-4 md:grid-cols-3">
+<article class="rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-5 shadow-sm"><h2 class="font-headline text-xl font-bold">Busca por raio</h2><p class="mt-2 text-sm text-on-surface-variant">CEP ou cidade + UF com ordenação por distância e filtros por tipo/habilidade.</p></article>
+<article class="rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-5 shadow-sm"><h2 class="font-headline text-xl font-bold">Perfis confiáveis</h2><p class="mt-2 text-sm text-on-surface-variant">Fluxo de verificação com status e moderação para elevar a confiança da comunidade.</p></article>
+<article class="rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-5 shadow-sm"><h2 class="font-headline text-xl font-bold">Contato contextual</h2><p class="mt-2 text-sm text-on-surface-variant">Converse com o perfil certo sem expor dados sensíveis para visitantes anônimos.</p></article>
+</section>
+<p class="mt-4 text-sm text-on-surface-variant"><a href="' . Html::u('/privacidade') . '">Política de Privacidade</a> · <a href="' . Html::u('/api/health') . '">Status da API</a></p>';
 
         return Response::html(Html::layout('Início', $body, $this->csrf->token()));
     }
@@ -92,12 +92,12 @@ final class HomeController
         $habilidadeId = (int) $request->query('habilidade_id', 0);
         $skills = $this->professionals->allSkills();
 
-        $body .= '<section class="page-head-stitch">
-<p class="hero-kicker">Busca geográfica</p>
-<h1 class="page-title">Encontre perfis por localização</h1>
-<p class="form-lead form-lead-left form-lead-topless">Informe <strong>CEP</strong> (usa cidade/UF do ViaCEP no centro da busca) ou <strong>cidade + estado (UF)</strong> para evitar homônimos. Resultados abaixo sem recarregar.</p>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Busca geográfica</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Encontre perfis por localização</h1>
+<p class="mt-2 text-sm text-on-surface-variant">Informe <strong>CEP</strong> (usa cidade/UF do ViaCEP no centro da busca) ou <strong>cidade + estado (UF)</strong> para evitar homônimos. Resultados abaixo sem recarregar.</p>
 </section>
-<div class="card form-card search-shell-stitch search-shell-stitch-strong">
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
 <form id="form-busca" method="get" action="' . Html::u('/busca') . '">
   <div class="field">
     <label for="busca-cep">CEP</label>
@@ -134,7 +134,7 @@ final class HomeController
       . $this->skillsOptionsHtml($skills, $habilidadeId) .
     '</select>
   </div>
-  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
+  <button type="submit" class="inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Buscar</span>
   </button>
