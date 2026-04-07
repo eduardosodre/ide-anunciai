@@ -241,3 +241,29 @@ input:focus, select:focus, textarea:focus {
 .account-shell-stitch {
     border-radius: 18px;
 }
+
+.moderation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.moderation-item {
+    margin-bottom: 0.9rem;
+    border-radius: 14px;
+}
+
+.moderation-actions-form {
+    margin-top: 0.65rem;
+}
+
+.moderation-doc-list {
+    margin: 0.35rem 0 0.35rem 1rem;
+}
+
+.moderation-pre {
+    white-space: pre-wrap;
+    background: var(--surface-low);
+    padding: 0.75rem;
+    border-radius: 8px;
+}

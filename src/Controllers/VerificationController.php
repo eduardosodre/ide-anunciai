@@ -37,7 +37,11 @@ final class VerificationController
         $requests = $this->verifications->listOwnRequests($userId);
 
         $body = $this->messagesHtml();
-        $body .= '<h1 class="page-title">Verificação</h1>
+        $body .= '<section class="page-head-stitch">
+<p class="hero-kicker">Confiança</p>
+<h1 class="page-title">Verificação</h1>
+<p class="form-lead" style="text-align:left;margin-top:0">Envie sua solicitação para receber o selo de perfil verificado.</p>
+</section>
 <div class="card" style="margin-bottom:1.25rem">
 <p class="form-lead" style="text-align:left;margin:0">O <strong>selo verificado</strong> mostra que a equipe conferiu os dados do seu perfil. Informe apenas dados verdadeiros. CPF (ministro) e CNPJ (igreja) são necessários para análise; documentos extras ajudam a agilizar o processo.</p>
 </div>';
@@ -156,7 +160,7 @@ final class VerificationController
 
         $rows = $this->verifications->listPendingForAdmin('solicitacao');
         $body = $this->messagesHtml();
-        $body .= '<h1>Admin · Verificações pendentes</h1>';
+        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Admin</p><h1 class="page-title">Verificações pendentes</h1></section>';
         $body .= $this->renderAdminRequests($rows, '/admin/verificacoes');
 
         return Response::html(Html::layout('Admin verificações', $body, $this->csrf->token()));
@@ -171,7 +175,7 @@ final class VerificationController
 
         $rows = $this->verifications->listPendingForAdmin('revisao');
         $body = $this->messagesHtml();
-        $body .= '<h1>Admin · Re-verificação</h1>';
+        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Admin</p><h1 class="page-title">Re-verificação</h1></section>';
         $body .= $this->renderAdminRequests($rows, '/admin/revisao');
 
         return Response::html(Html::layout('Admin revisão', $body, $this->csrf->token()));
@@ -348,7 +352,7 @@ final class VerificationController
     private function renderAdminRequests(array $rows, string $contextPath): string
     {
         if ($rows === []) {
-            return '<p>Sem itens pendentes.</p>';
+            return '<div class="card"><p class="empty-state">Sem itens pendentes.</p></div>';
         }
 
         $html = '';
@@ -365,20 +369,23 @@ final class VerificationController
                 $docsHtml = '<li>Sem documentos registrados.</li>';
             }
 
-            $html .= '<article style="border:1px solid #ddd;padding:1rem;margin-bottom:1rem;">
-<h3>Solicitação #' . (int) $row['id'] . ' (' . Html::escape((string) $row['tipo_entidade']) . ')</h3>
+            $html .= '<article class="card moderation-item">
+<h3 class="section-heading">Solicitação #' . (int) $row['id'] . ' (' . Html::escape((string) $row['tipo_entidade']) . ')</h3>
 <p><strong>Fluxo:</strong> ' . Html::escape((string) $row['tipo_fluxo']) . '</p>
 <p><strong>Solicitante:</strong> ' . Html::escape((string) $row['usuario_nome']) . ' (' . Html::escape((string) $row['usuario_email']) . ')</p>
 <p><strong>RG:</strong> ' . Html::escape((string) ($row['rg'] ?? '')) . ' | <strong>CPF:</strong> ' . Html::escape((string) ($row['cpf'] ?? '')) . ' | <strong>CNPJ:</strong> ' . Html::escape((string) ($row['cnpj'] ?? '')) . '</p>
 <p><strong>Documentos:</strong></p>
-<ul>' . $docsHtml . '</ul>
-<form method="post" action="' . Html::u('/admin/verificacoes/decisao') . '">
+<ul class="moderation-doc-list">' . $docsHtml . '</ul>
+<form method="post" action="' . Html::u('/admin/verificacoes/decisao') . '" class="moderation-actions-form">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="solicitacao_id" value="' . (int) $row['id'] . '">
   <input type="hidden" name="contexto" value="' . ($contextPath === '/admin/revisao' ? 'revisao' : 'solicitacao') . '">
-  <label>Motivo rejeição (opcional) <input type="text" name="motivo_rejeicao" maxlength="500"></label>
-  <button type="submit" name="acao" value="aprovar">Aprovar</button>
-  <button type="submit" name="acao" value="rejeitar">Rejeitar</button>
+  <div class="field">
+    <label>Motivo rejeição (opcional)</label>
+    <input type="text" name="motivo_rejeicao" maxlength="500">
+  </div>
+  <button type="submit" class="btn btn-primary" name="acao" value="aprovar">Aprovar</button>
+  <button type="submit" class="btn btn-secondary" name="acao" value="rejeitar">Rejeitar</button>
 </form>
 </article>';
         }

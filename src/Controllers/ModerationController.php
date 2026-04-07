@@ -49,17 +49,23 @@ final class ModerationController
         }
 
         $body = $this->messagesHtml();
-        $body .= '<h1>Denunciar usuário</h1>
+        $body .= '<section class="page-head-stitch">
+<p class="hero-kicker">Moderação</p>
+<h1 class="page-title">Denunciar usuário</h1>
+</section>
+<div class="card form-card account-shell-stitch">
 <p>Denunciando: <strong>' . Html::escape((string) $target['nome']) . '</strong></p>
 <form method="post" action="' . Html::u('/denunciar') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="usuario_alvo_id" value="' . $alvo . '">
-  <label>Descrição do motivo (obrigatório, mín. 10 caracteres)
-    <textarea name="descricao" required minlength="10" maxlength="8000" rows="6" style="width:100%;max-width:32rem"></textarea>
-  </label>
-  <button type="submit">Enviar denúncia</button>
+  <div class="field">
+    <label>Descrição do motivo (obrigatório, mín. 10 caracteres)</label>
+    <textarea name="descricao" required minlength="10" maxlength="8000" rows="6" style="width:100%;max-width:none"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Enviar denúncia</button>
 </form>
-<p><a href="' . Html::u('/') . '">Voltar ao início</a></p>';
+<p><a href="' . Html::u('/') . '">Voltar ao início</a></p>
+</div>';
 
         return Response::html(Html::layout('Denunciar', $body, $this->csrf->token()));
     }
@@ -101,28 +107,28 @@ final class ModerationController
 
         $rows = $this->reports->listForAdmin(200);
         $body = $this->messagesHtml();
-        $body .= '<h1>Admin — denúncias</h1>
+        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Admin</p><h1 class="page-title">Denúncias</h1></section>
 <p>Registros recentes (mais novos primeiro). Limite diário por par: 3; por denunciante: 10.</p>';
 
         if ($rows === []) {
             $body .= '<p>Nenhuma denúncia registrada.</p>';
         } else {
-            $body .= '<ul style="list-style:none;padding:0">';
+            $body .= '<ul class="moderation-list">';
             foreach ($rows as $row) {
                 $ativo = (int) ($row['denunciado_ativo'] ?? 0) === 1;
                 $statusDenunciado = $ativo ? 'ativo' : 'inativo';
-                $body .= '<li style="border:1px solid #ddd;padding:1rem;margin-bottom:1rem;border-radius:6px">
+                $body .= '<li class="card moderation-item">
 <p><strong>#' . (int) $row['id'] . '</strong> — ' . Html::escape((string) $row['criado_em']) . '</p>
 <p><strong>Denunciante:</strong> ' . Html::escape((string) $row['denunciante_nome'])
                     . ' &lt;' . Html::escape((string) $row['denunciante_email']) . '&gt;</p>
 <p><strong>Denunciado:</strong> ' . Html::escape((string) $row['denunciado_nome'])
                     . ' &lt;' . Html::escape((string) $row['denunciado_email']) . '&gt; (' . $statusDenunciado . ')</p>
 <p><strong>Descrição:</strong></p>
-<pre style="white-space:pre-wrap;background:#f5f5f5;padding:0.75rem">' . Html::escape((string) $row['descricao']) . '</pre>';
+<pre class="moderation-pre">' . Html::escape((string) $row['descricao']) . '</pre>';
                 if ($ativo && (int) $row['denunciado_id'] !== (int) $admin['id']) {
-                    $body .= '<form method="post" action="' . Html::u('/admin/usuarios/' . (int) $row['denunciado_id'] . '/inativar') . '" style="margin-top:0.5rem">
+                    $body .= '<form method="post" action="' . Html::u('/admin/usuarios/' . (int) $row['denunciado_id'] . '/inativar') . '" class="moderation-actions-form">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
-  <button type="submit">Inativar usuário denunciado</button>
+  <button type="submit" class="btn btn-secondary">Inativar usuário denunciado</button>
 </form>';
                 }
                 $body .= '</li>';

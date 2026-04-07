@@ -34,21 +34,24 @@ final class ChatController
 
         $body = $this->messagesHtml();
         if ($tipo === null || $entidadeId <= 0) {
-            $body .= '<h1>Iniciar conversa</h1><p>Parâmetros inválidos. Use o link no perfil público.</p><p><a href="' . Html::u('/busca') . '">Buscar perfis</a></p>';
+            $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Iniciar conversa</h1></section><div class="card"><p>Parâmetros inválidos. Use o link no perfil público.</p><p><a href="' . Html::u('/busca') . '">Buscar perfis</a></p></div>';
 
             return Response::html(Html::layout('Conversa', $body, $this->csrf->token()));
         }
 
-        $body .= '<h1>Iniciar conversa</h1>
+        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Iniciar conversa</h1></section>
+<div class="card form-card account-shell-stitch">
 <form method="post" action="' . Html::u('/chat/iniciar') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="tipo_entidade" value="' . Html::escape($tipo) . '">
   <input type="hidden" name="entidade_id" value="' . $entidadeId . '">
-  <label>Mensagem inicial (obrigatória, mín. 10 caracteres)
-    <textarea name="mensagem" required minlength="10" maxlength="8000" rows="6" style="width:100%;max-width:32rem"></textarea>
-  </label>
-  <button type="submit">Enviar</button>
-</form>';
+  <div class="field">
+    <label>Mensagem inicial (obrigatória, mín. 10 caracteres)</label>
+    <textarea name="mensagem" required minlength="10" maxlength="8000" rows="6" style="width:100%;max-width:none"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+</div>';
 
         return Response::html(Html::layout('Iniciar conversa', $body, $this->csrf->token()));
     }
@@ -100,13 +103,13 @@ final class ChatController
 
         $items = $this->chatService->listConversationsForUser($uid);
         $body = $this->messagesHtml();
-        $body .= '<h1>Conversas</h1>';
+        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Conversas</h1></section>';
         if ($items === []) {
-            $body .= '<p>Nenhuma conversa ainda.</p>';
+            $body .= '<div class="card"><p class="empty-state">Nenhuma conversa ainda.</p></div>';
         } else {
-            $body .= '<ul>';
+            $body .= '<ul class="moderation-list">';
             foreach ($items as $item) {
-                $body .= '<li><a href="' . Html::u('/chat/' . (int) $item['id']) . '">'
+                $body .= '<li class="card moderation-item"><a href="' . Html::u('/chat/' . (int) $item['id']) . '">'
                     . Html::escape((string) $item['outro_nome']) . '</a>'
                     . ' <small>(' . Html::escape((string) $item['tipo_entidade']) . ' #' . (int) $item['entidade_id'] . ')</small>'
                     . '</li>';
@@ -131,7 +134,7 @@ final class ChatController
 
         $msgs = $this->chat->listMessages($conversaId);
         $body = $this->messagesHtml();
-        $body .= '<h1>Conversa</h1><div style="margin:1rem 0">';
+        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Conversa</h1></section><div class="card moderation-item" style="margin:1rem 0">';
         foreach ($msgs as $m) {
             $body .= '<p style="border-bottom:1px solid #eee;padding:0.5rem 0"><strong>'
                 . Html::escape((string) $m['remetente_nome']) . '</strong> '
@@ -139,13 +142,16 @@ final class ChatController
                 . nl2br(Html::escape((string) $m['corpo'])) . '</p>';
         }
         $body .= '</div>
+<div class="card form-card account-shell-stitch">
 <form method="post" action="' . Html::u('/chat/' . $conversaId . '/mensagens') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
-  <label>Nova mensagem
-    <textarea name="corpo" required maxlength="8000" rows="4" style="width:100%;max-width:32rem"></textarea>
-  </label>
-  <button type="submit">Enviar</button>
+  <div class="field">
+    <label>Nova mensagem</label>
+    <textarea name="corpo" required maxlength="8000" rows="4" style="width:100%;max-width:none"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
+</div>
 <p><a href="' . Html::u('/chat') . '">Voltar às conversas</a></p>';
 
         return Response::html(Html::layout('Chat', $body, $this->csrf->token()));

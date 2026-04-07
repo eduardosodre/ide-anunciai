@@ -46,8 +46,12 @@ final class ProfessionalController
         $selectedSkills = $p['habilidades'] ?? [];
 
         $body = $this->messagesHtml();
-        $body .= '<div class="card form-card">
+        $body .= '<section class="page-head-stitch">
+<p class="hero-kicker">Perfil</p>
 <h1 class="page-title">Meu perfil ministro</h1>
+<p class="form-lead" style="text-align:left;margin-top:0">Atualize o perfil exibido na busca pública.</p>
+</section>
+<div class="card form-card account-shell-stitch">
 <p class="form-lead" style="text-align:left">Este é o seu perfil público de ministro na busca. Outros usuários (por exemplo, líderes de igreja) poderão encontrá-lo e <strong>convidá-lo a atuar</strong> com o ministério deles, de acordo com as habilidades que você informar.</p>
 <form method="post" action="' . Html::u('/meu-perfil/ministro') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">

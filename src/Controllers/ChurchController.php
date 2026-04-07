@@ -51,8 +51,12 @@ final class ChurchController
         $emailConta = Html::escape((string) $user['email']);
 
         $body = $this->messagesHtml();
-        $body .= '<div class="card form-card">
+        $body .= '<section class="page-head-stitch">
+<p class="hero-kicker">Perfil</p>
 <h1 class="page-title">Meu perfil igreja</h1>
+<p class="form-lead" style="text-align:left;margin-top:0">Atualize o perfil público da igreja para aparecer corretamente na busca.</p>
+</section>
+<div class="card form-card account-shell-stitch">
 <p class="form-lead" style="text-align:left">Você está criando o <strong>perfil público da sua igreja</strong>: ele será exibido na busca para outras pessoas encontrarem e entrarem em contato. Revise os dados com cuidado; o que salvar aqui é o que representa a igreja no site.</p>
 <p class="field-hint" style="margin-top:-0.5rem;margin-bottom:1rem"><strong>E-mail de contato:</strong> ' . $emailConta . ' — vem da sua conta; para alterar, use <a href="' . Html::u('/conta') . '">Minha conta</a>.</p>
 <form method="post" action="' . Html::u('/meu-perfil/igreja') . '">
