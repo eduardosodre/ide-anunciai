@@ -29,6 +29,7 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 - **Sem blog** no MVP.
 - Mostrar que visitantes veem dados resumidos e usuários logados veem informações adicionais.
 - **Perfis públicos (ministro e igreja):** visitante vê nome, local, habilidades (ministro), selo verificado e texto de que telefone/e-mail não são públicos; **usuário logado** vê um bloco **Contato** com telefone e e-mail cadastrados (e CEP no perfil de igreja), com links `tel:` / `mailto:`, além dos botões de conversa e denúncia. A API pública `GET /api/profissionais/{uuid}` e `GET /api/igrejas/{uuid}` **não** inclui esses campos — apenas o HTML autenticado por sessão.
+- **Perfil público ministro (layout Stitch):** rota `/perfil/profissional/{uuid}` replica a hierarquia do `stitch/perfil_do_talento_igreja/code.html`: hero full-bleed com imagem de fundo, overlay em gradiente, avatar (foto da conta ou iniciais), chip da primeira habilidade, selo verificado, CTAs (entrar / editar / conversar + copiar link), coluna com cartão “Palavra” (Salmos 19:1) e cartão “Conexão e ministério” (local + contato conforme login), coluna “Sobre” com texto gerado e chips de habilidades + link de denúncia. Material Symbols carregado só nesta página (`extraHead`). Foto pública vem de `usuario.foto_url` na query do repositório.
 
 ---
 
