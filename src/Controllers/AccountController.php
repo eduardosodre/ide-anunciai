@@ -47,12 +47,12 @@ final class AccountController
             ) . '" alt="" class="avatar-current account-avatar-current" width="120" height="120"></p>'
             : '';
 
-        $body .= '<section class="page-head-stitch">
-<p class="hero-kicker">Conta</p>
-<h1 class="page-title">Minha conta</h1>
-<p class="form-lead form-lead-left form-lead-topless">Atualize nome, e-mail e foto de perfil.</p>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Conta</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Minha conta</h1>
+<p class="mt-2 text-sm text-on-surface-variant">Atualize nome, e-mail e foto de perfil.</p>
 </section>
-<div class="card form-card account-shell-stitch">
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
 ' . $foto . '
 <form id="form-conta" method="post" action="' . Html::u('/conta') . '" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
@@ -73,7 +73,7 @@ final class AccountController
     <p class="field-hint mb-sm">Pré-visualização e recorte (arraste para posicionar; use a roda para zoom se disponível)</p>
     <img id="avatar-crop-img" alt="Recorte da foto">
   </div>
-  <button type="submit" class="btn btn-primary">Salvar dados e foto</button>
+  <button type="submit" class="mt-2 inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">Salvar dados e foto</button>
 </form>
 </div>';
 

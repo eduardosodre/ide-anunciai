@@ -22,15 +22,14 @@ final class AuthWebController
     public function cadastroGet(Request $request): Response
     {
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch page-auth-head">
-<p class="hero-kicker">Acesso</p>
-<h1 class="page-title">Crie sua conta</h1>
-<p class="form-lead form-lead-left form-lead-tight">Cadastre-se para conversar com igrejas e ministros na plataforma.</p>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Acesso</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Crie sua conta</h1>
+<p class="mt-2 text-sm text-on-surface-variant">Cadastre-se para conversar com igrejas e ministros na plataforma.</p>
 </section>
-<div class="page-auth">
-<div class="card form-card">
-<h2 class="form-card-title">Criar conta</h2>
-<p class="form-lead">Preencha os dados. As validações aparecem abaixo de cada campo.</p>
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<h2 class="font-headline text-2xl font-bold text-primary">Criar conta</h2>
+<p class="mt-1 text-sm text-on-surface-variant">Preencha os dados. As validações aparecem abaixo de cada campo.</p>
 <form id="form-register" method="post" action="' . Html::u('/cadastro') . '" novalidate>
   <div id="form-register-global" class="form-global-error" role="alert" aria-live="polite"></div>
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
@@ -62,7 +61,7 @@ final class AuthWebController
     </label>
     <div class="field-error" data-error-for="consentimento"></div>
   </div>
-  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
+  <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Cadastrar</span>
   </button>
@@ -107,15 +106,14 @@ final class AuthWebController
     public function loginGet(Request $request): Response
     {
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch page-auth-head">
-<p class="hero-kicker">Acesso</p>
-<h1 class="page-title">Entrar na comunidade</h1>
-<p class="form-lead form-lead-left form-lead-tight">Use seu e-mail e senha para acessar conversas, perfis e busca avançada.</p>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Acesso</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Entrar na comunidade</h1>
+<p class="mt-2 text-sm text-on-surface-variant">Use seu e-mail e senha para acessar conversas, perfis e busca avançada.</p>
 </section>
-<div class="page-auth">
-<div class="card form-card">
-<h2 class="form-card-title">Entrar</h2>
-<p class="form-lead">Use seu e-mail e senha cadastrados.</p>
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<h2 class="font-headline text-2xl font-bold text-primary">Entrar</h2>
+<p class="mt-1 text-sm text-on-surface-variant">Use seu e-mail e senha cadastrados.</p>
 <form id="form-login" method="post" action="' . Html::u('/login') . '" novalidate>
   <div id="form-login-global" class="form-global-error" role="alert" aria-live="polite"></div>
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
@@ -129,7 +127,7 @@ final class AuthWebController
     <input id="login-senha" type="password" name="senha" autocomplete="current-password">
     <div class="field-error" data-error-for="senha"></div>
   </div>
-  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
+  <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Entrar</span>
   </button>
@@ -182,15 +180,14 @@ final class AuthWebController
     public function recuperarGet(Request $request): Response
     {
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch page-auth-head">
-<p class="hero-kicker">Recuperação</p>
-<h1 class="page-title">Recuperar senha</h1>
-<p class="form-lead form-lead-left form-lead-tight">Se houver conta para o e-mail informado, você receberá o link de redefinição.</p>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Recuperação</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Recuperar senha</h1>
+<p class="mt-2 text-sm text-on-surface-variant">Se houver conta para o e-mail informado, você receberá o link de redefinição.</p>
 </section>
-<div class="page-auth">
-<div class="card form-card">
-<h2 class="form-card-title">Recuperar senha</h2>
-<p class="form-lead">Informe seu e-mail. Se existir cadastro, enviaremos um link para redefinir a senha.</p>
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<h2 class="font-headline text-2xl font-bold text-primary">Recuperar senha</h2>
+<p class="mt-1 text-sm text-on-surface-variant">Informe seu e-mail. Se existir cadastro, enviaremos um link para redefinir a senha.</p>
 <form id="form-recuperar" method="post" action="' . Html::u('/recuperar-senha') . '" novalidate>
   <div id="form-recuperar-global" class="form-msg-success form-msg-hidden" role="status" aria-live="polite"></div>
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
@@ -199,7 +196,7 @@ final class AuthWebController
     <input id="rec-email" type="email" name="email" autocomplete="email">
     <div class="field-error" data-error-for="email"></div>
   </div>
-  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
+  <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Enviar link</span>
   </button>
@@ -235,15 +232,14 @@ final class AuthWebController
     {
         $token = (string) $request->query('token', '');
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch page-auth-head">
-<p class="hero-kicker">Segurança</p>
-<h1 class="page-title">Definir nova senha</h1>
-<p class="form-lead form-lead-left form-lead-tight">Use uma senha forte para proteger o acesso da sua conta.</p>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Segurança</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Definir nova senha</h1>
+<p class="mt-2 text-sm text-on-surface-variant">Use uma senha forte para proteger o acesso da sua conta.</p>
 </section>
-<div class="page-auth">
-<div class="card form-card">
-<h2 class="form-card-title">Nova senha</h2>
-<p class="form-lead">Defina uma senha forte para sua conta.</p>
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<h2 class="font-headline text-2xl font-bold text-primary">Nova senha</h2>
+<p class="mt-1 text-sm text-on-surface-variant">Defina uma senha forte para sua conta.</p>
 <form id="form-redefinir" method="post" action="' . Html::u('/redefinir-senha') . '" novalidate>
   <div id="form-redefinir-global" class="form-global-error" role="alert" aria-live="polite"></div>
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
@@ -260,7 +256,7 @@ final class AuthWebController
     <div class="field-error" data-error-for="nova_senha_confirmacao"></div>
   </div>
   <div class="field-error" data-error-for="token"></div>
-  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
+  <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Redefinir</span>
   </button>

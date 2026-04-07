@@ -51,13 +51,13 @@ final class ChurchController
         $emailConta = Html::escape((string) $user['email']);
 
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch">
-<p class="hero-kicker">Perfil</p>
-<h1 class="page-title">Meu perfil igreja</h1>
-<p class="form-lead form-lead-left form-lead-topless">Atualize o perfil público da igreja para aparecer corretamente na busca.</p>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Perfil</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Meu perfil igreja</h1>
+<p class="mt-2 text-sm text-on-surface-variant">Atualize o perfil público da igreja para aparecer corretamente na busca.</p>
 </section>
-<div class="card form-card account-shell-stitch">
-<p class="form-lead form-lead-left">Você está criando o <strong>perfil público da sua igreja</strong>: ele será exibido na busca para outras pessoas encontrarem e entrarem em contato. Revise os dados com cuidado; o que salvar aqui é o que representa a igreja no site.</p>
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<p class="mt-1 text-sm text-on-surface-variant">Você está criando o <strong>perfil público da sua igreja</strong>: ele será exibido na busca para outras pessoas encontrarem e entrarem em contato. Revise os dados com cuidado; o que salvar aqui é o que representa a igreja no site.</p>
 <p class="field-hint hint-account-contact"><strong>E-mail de contato:</strong> ' . $emailConta . ' — vem da sua conta; para alterar, use <a href="' . Html::u('/conta') . '">Minha conta</a>.</p>
 <form method="post" action="' . Html::u('/meu-perfil/igreja') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
@@ -82,7 +82,7 @@ final class ChurchController
     <label for="cnpj">CNPJ (opcional; pode ser exigido em verificações futuras)</label>
     <input id="cnpj" type="text" name="cnpj" maxlength="20" value="' . $cnpj . '">
   </div>
-  <button type="submit" class="btn btn-primary">Salvar perfil igreja</button>
+  <button type="submit" class="mt-2 inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">Salvar perfil igreja</button>
 </form>
 </div>';
 

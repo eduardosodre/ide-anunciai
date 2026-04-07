@@ -232,29 +232,38 @@
     var centro = meta.centro || {};
     var items = data.items || [];
     var html = '';
-    html += '<div class="card"><p><strong>' + escapeHtml(String(meta.message || '')) + '</strong></p>';
+    html +=
+      '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-5 shadow-sm">';
+    html +=
+      '<p class="font-headline text-xl font-bold text-primary">' +
+      escapeHtml(String(meta.message || '')) +
+      '</p>';
     if (centro.label) {
       html +=
-        '<p class="field-hint" style="margin:0.35rem 0 0.75rem">Centro da busca: <strong>' +
+        '<p class="mt-2 text-sm text-on-surface-variant">Centro da busca: <strong>' +
         escapeHtml(String(centro.label)) +
         '</strong>' +
         (centro.uf ? ' (UF ' + escapeHtml(String(centro.uf)) + ')' : '') +
         '</p>';
     }
     if (items.length === 0) {
-      html += '<p>Nenhum perfil encontrado neste raio. Tente ampliar o km ou mudar o local.</p></div>';
+      html +=
+        '<p class="mt-3 text-on-surface-variant">Nenhum perfil encontrado neste raio. Tente ampliar o km ou mudar o local.</p></div>';
       return html;
     }
     var totalShown = meta.total !== undefined ? meta.total : items.length;
     html +=
-      '<p class="busca-summary" role="status">' +
+      '<p class="mt-2 text-sm text-on-surface-variant" role="status">' +
       String(totalShown) +
       (totalShown === 1 ? ' resultado' : ' resultados') +
       ' (ordenado por distância)</p>';
-    html += '<ul class="busca-result-list" role="list">';
+    html += '<ul class="mt-4 space-y-3" role="list">';
     items.forEach(function (item) {
       var tipo = String(item.tipo || '');
-      var tagClass = tipo === 'profissional' ? 'busca-tag--ministro' : 'busca-tag--igreja';
+      var tagClass =
+        tipo === 'profissional'
+          ? 'bg-secondary-container text-on-secondary-container'
+          : 'bg-tertiary-container text-white';
       var tipoLabel = escapeHtml(
         String(item.tipo_label || (tipo === 'profissional' ? 'Ministro' : 'Igreja'))
       );
@@ -271,30 +280,38 @@
         loc +
         '</strong>' +
         (distStr ? ' · aprox. ' + escapeHtml(distStr) + ' do centro da busca' : '');
-      html += '<li class="busca-result" role="listitem">';
-      html += '<div class="busca-result-head">';
-      html += '<span class="busca-tag ' + tagClass + '">' + tipoLabel + '</span>';
       html +=
-        '<a class="busca-result-title" href="' +
+        '<li class="rounded-xl border border-outline-variant/30 bg-surface p-4 shadow-sm" role="listitem">';
+      html += '<div class="mb-2 flex flex-wrap items-center gap-2">';
+      html +=
+        '<span class="inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ' +
+        tagClass +
+        '">' +
+        tipoLabel +
+        '</span>';
+      html +=
+        '<a class="font-headline text-lg font-bold text-primary hover:underline" href="' +
         escapeAttr(String(item.url || '#')) +
         '">' +
         escapeHtml(String(item.nome || '')) +
         '</a>';
       html += verified;
       html += '</div>';
-      html += '<p class="busca-result-meta">' + metaLine + '</p>';
+      html += '<p class="text-sm text-on-surface-variant">' + metaLine + '</p>';
       if (tipo === 'profissional' && item.habilidades && item.habilidades.length) {
         var skills = item.habilidades;
         var maxShow = 5;
         var shown = skills.slice(0, maxShow);
-        html += '<div class="busca-skills" aria-label="Habilidades">';
+        html += '<div class="mt-2 flex flex-wrap gap-2" aria-label="Habilidades">';
         shown.forEach(function (s) {
           html +=
-            '<span class="busca-skill-pill">' + escapeHtml(String(s.label || '')) + '</span>';
+            '<span class="inline-flex rounded-full bg-secondary-container px-2.5 py-1 text-xs font-semibold text-on-secondary-container">' +
+            escapeHtml(String(s.label || '')) +
+            '</span>';
         });
         if (skills.length > maxShow) {
           html +=
-            '<span class="busca-skill-pill">+' +
+            '<span class="inline-flex rounded-full bg-surface-container-low px-2.5 py-1 text-xs font-semibold text-on-surface-variant">+' +
             (skills.length - maxShow) +
             '</span>';
         }
@@ -302,10 +319,10 @@
       }
       if (tipo === 'igreja') {
         html +=
-          '<p class="busca-igreja-hint">Perfil institucional — abra para ver dados públicos e iniciar conversa.</p>';
+          '<p class="mt-2 text-xs text-on-surface-variant">Perfil institucional — abra para ver dados públicos e iniciar conversa.</p>';
       } else if (tipo === 'profissional' && (!item.habilidades || !item.habilidades.length)) {
         html +=
-          '<p class="busca-igreja-hint">Ministro — abra o perfil para ver habilidades completas.</p>';
+          '<p class="mt-2 text-xs text-on-surface-variant">Ministro — abra o perfil para ver habilidades completas.</p>';
       }
       html += '</li>';
     });

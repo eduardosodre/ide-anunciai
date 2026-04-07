@@ -46,13 +46,13 @@ final class ProfessionalController
         $selectedSkills = $p['habilidades'] ?? [];
 
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch">
-<p class="hero-kicker">Perfil</p>
-<h1 class="page-title">Meu perfil ministro</h1>
-<p class="form-lead form-lead-left form-lead-topless">Atualize o perfil exibido na busca pública.</p>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Perfil</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Meu perfil ministro</h1>
+<p class="mt-2 text-sm text-on-surface-variant">Atualize o perfil exibido na busca pública.</p>
 </section>
-<div class="card form-card account-shell-stitch">
-<p class="form-lead form-lead-left">Este é o seu perfil público de ministro na busca. Outros usuários (por exemplo, líderes de igreja) poderão encontrá-lo e <strong>convidá-lo a atuar</strong> com o ministério deles, de acordo com as habilidades que você informar.</p>
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<p class="mt-1 text-sm text-on-surface-variant">Este é o seu perfil público de ministro na busca. Outros usuários (por exemplo, líderes de igreja) poderão encontrá-lo e <strong>convidá-lo a atuar</strong> com o ministério deles, de acordo com as habilidades que você informar.</p>
 <form method="post" action="' . Html::u('/meu-perfil/ministro') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <div class="field">
@@ -82,7 +82,7 @@ final class ProfessionalController
         '</select>
     <p class="field-hint">Segure Ctrl (Windows) ou Cmd (Mac) para selecionar mais de uma opção.</p>
   </div>
-  <button type="submit" class="btn btn-primary">Salvar perfil ministro</button>
+  <button type="submit" class="mt-2 inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">Salvar perfil ministro</button>
 </form>
 </div>';
 
