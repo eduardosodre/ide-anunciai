@@ -90,7 +90,7 @@ final class HomeController
         $body .= '<section class="page-head-stitch">
 <p class="hero-kicker">Busca geográfica</p>
 <h1 class="page-title">Encontre perfis por localização</h1>
-<p class="form-lead" style="text-align:left;margin-top:0">Informe <strong>CEP</strong> (usa cidade/UF do ViaCEP no centro da busca) ou <strong>cidade + estado (UF)</strong> para evitar homônimos. Resultados abaixo sem recarregar.</p>
+<p class="form-lead form-lead-left form-lead-topless">Informe <strong>CEP</strong> (usa cidade/UF do ViaCEP no centro da busca) ou <strong>cidade + estado (UF)</strong> para evitar homônimos. Resultados abaixo sem recarregar.</p>
 </section>
 <div class="card form-card search-shell-stitch">
 <form id="form-busca" method="get" action="' . Html::u('/busca') . '">
@@ -129,7 +129,7 @@ final class HomeController
       . $this->skillsOptionsHtml($skills, $habilidadeId) .
     '</select>
   </div>
-  <button type="submit" class="btn btn-primary" style="width:100%;max-width:none;margin-top:0.5rem">
+  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Buscar</span>
   </button>
@@ -144,7 +144,7 @@ final class HomeController
     {
         $body = '<h1>Política de Privacidade</h1>
 <div class="card">
-<h2 style="margin-top:0">Versão e aceite</h2>
+<h2 class="mt-0">Versão e aceite</h2>
 <p>Versão <strong>1.0</strong> do documento de privacidade. O cadastro exige aceite explícito da política vigente (data e versão registradas na conta).</p>
 <h2>Dados que tratamos</h2>
 <p>Nome, e-mail, senha (armazenada apenas como hash), foto de perfil opcional, dados de perfis de ministro e igreja (incluindo localização quando informada), mensagens de chat e metadados necessários ao funcionamento do serviço.</p>

@@ -267,3 +267,76 @@ input:focus, select:focus, textarea:focus {
     padding: 0.75rem;
     border-radius: 8px;
 }
+
+.form-lead-left { text-align: left; }
+.form-lead-tight { margin: 0; }
+.form-lead-topless { margin-top: 0; }
+.form-lead-gap-bottom { margin: 0 0 1rem; }
+
+.btn-block {
+    width: 100%;
+    max-width: none;
+}
+
+.btn-spacing-sm { margin-top: 0.5rem; }
+.btn-spacing-md { margin-top: 1.15rem; }
+
+.form-msg-hidden { display: none; }
+
+.mt-0 { margin-top: 0; }
+.mb-sm { margin-bottom: 0.5rem; }
+
+.account-avatar-current {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.select-multiple-stitch {
+    width: 100%;
+    max-width: none;
+    padding: 0.4rem;
+}
+
+.hint-account-contact {
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+}
+
+.card-gap-bottom { margin-bottom: 1.25rem; }
+.card-gap-top { margin-top: 1.25rem; }
+.card-gap-y { margin: 1rem 0; }
+
+.verification-docs-fieldset {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin: 1rem 0 0;
+}
+
+.verification-docs-legend {
+    padding: 0 0.35rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.verification-docs-help { margin-top: 0.35rem; }
+.verification-doc-row { margin-bottom: 0.65rem; }
+.verification-doc-row-last { margin-bottom: 0; }
+.hint-table-head { margin: 0 0 0.5rem; }
+
+.textarea-full {
+    width: 100%;
+    max-width: none;
+}
+
+.chat-message-line {
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+}
+
+.footer-tagline {
+    margin: 0.5rem 0 0;
+}

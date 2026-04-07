@@ -522,7 +522,7 @@ final class Html
 <main>' . $body . '</main>
 <footer class="site-footer">
     <nav aria-label="Rodapé">' . $footerNav . '</nav>
-    <p style="margin:0.5rem 0 0">' . self::escape(Site::FOOTER_TAGLINE) . '</p>
+    <p class="footer-tagline">' . self::escape(Site::FOOTER_TAGLINE) . '</p>
 </footer>
 <script src="' . self::u('/js/app.js') . '" defer></script>
 ' . $extraFooter . '

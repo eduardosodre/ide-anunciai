@@ -47,7 +47,7 @@ final class ChatController
   <input type="hidden" name="entidade_id" value="' . $entidadeId . '">
   <div class="field">
     <label>Mensagem inicial (obrigatória, mín. 10 caracteres)</label>
-    <textarea name="mensagem" required minlength="10" maxlength="8000" rows="6" style="width:100%;max-width:none"></textarea>
+    <textarea name="mensagem" class="textarea-full" required minlength="10" maxlength="8000" rows="6"></textarea>
   </div>
   <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
@@ -134,9 +134,9 @@ final class ChatController
 
         $msgs = $this->chat->listMessages($conversaId);
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Conversa</h1></section><div class="card moderation-item" style="margin:1rem 0">';
+        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Conversa</h1></section><div class="card moderation-item card-gap-y">';
         foreach ($msgs as $m) {
-            $body .= '<p style="border-bottom:1px solid #eee;padding:0.5rem 0"><strong>'
+            $body .= '<p class="chat-message-line"><strong>'
                 . Html::escape((string) $m['remetente_nome']) . '</strong> '
                 . '<small>' . Html::escape((string) $m['criado_em']) . '</small><br>'
                 . nl2br(Html::escape((string) $m['corpo'])) . '</p>';
@@ -147,7 +147,7 @@ final class ChatController
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <div class="field">
     <label>Nova mensagem</label>
-    <textarea name="corpo" required maxlength="8000" rows="4" style="width:100%;max-width:none"></textarea>
+    <textarea name="corpo" class="textarea-full" required maxlength="8000" rows="4"></textarea>
   </div>
   <button type="submit" class="btn btn-primary">Enviar</button>
 </form>

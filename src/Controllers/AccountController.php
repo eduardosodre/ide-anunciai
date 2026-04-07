@@ -40,17 +40,17 @@ final class AccountController
         $email = Html::escape((string) $user['email']);
         $fotoRaw = isset($user['foto_url']) ? (string) $user['foto_url'] : '';
         $foto = $fotoRaw !== ''
-            ? '<p class="profile-muted" style="margin-top:0">Foto atual:</p><p><img src="' . Html::escape(
+            ? '<p class="profile-muted mt-0">Foto atual:</p><p><img src="' . Html::escape(
                 (str_starts_with($fotoRaw, 'http://') || str_starts_with($fotoRaw, 'https://'))
                     ? $fotoRaw
                     : Html::u($fotoRaw)
-            ) . '" alt="" class="avatar-current" width="120" height="120" style="width:120px;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--border)"></p>'
+            ) . '" alt="" class="avatar-current account-avatar-current" width="120" height="120"></p>'
             : '';
 
         $body .= '<section class="page-head-stitch">
 <p class="hero-kicker">Conta</p>
 <h1 class="page-title">Minha conta</h1>
-<p class="form-lead" style="text-align:left;margin-top:0">Atualize nome, e-mail e foto de perfil.</p>
+<p class="form-lead form-lead-left form-lead-topless">Atualize nome, e-mail e foto de perfil.</p>
 </section>
 <div class="card form-card account-shell-stitch">
 ' . $foto . '
@@ -70,7 +70,7 @@ final class AccountController
     <input id="avatar-input" type="file" name="foto" accept="image/jpeg,image/png,image/webp">
   </div>
   <div id="avatar-crop-wrap" class="avatar-crop-wrap" hidden>
-    <p class="field-hint" style="margin-bottom:0.5rem">Pré-visualização e recorte (arraste para posicionar; use a roda para zoom se disponível)</p>
+    <p class="field-hint mb-sm">Pré-visualização e recorte (arraste para posicionar; use a roda para zoom se disponível)</p>
     <img id="avatar-crop-img" alt="Recorte da foto">
   </div>
   <button type="submit" class="btn btn-primary">Salvar dados e foto</button>

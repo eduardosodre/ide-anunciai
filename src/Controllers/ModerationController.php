@@ -60,7 +60,7 @@ final class ModerationController
   <input type="hidden" name="usuario_alvo_id" value="' . $alvo . '">
   <div class="field">
     <label>Descrição do motivo (obrigatório, mín. 10 caracteres)</label>
-    <textarea name="descricao" required minlength="10" maxlength="8000" rows="6" style="width:100%;max-width:none"></textarea>
+    <textarea name="descricao" class="textarea-full" required minlength="10" maxlength="8000" rows="6"></textarea>
   </div>
   <button type="submit" class="btn btn-primary">Enviar denúncia</button>
 </form>

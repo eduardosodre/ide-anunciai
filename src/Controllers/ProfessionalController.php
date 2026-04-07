@@ -49,10 +49,10 @@ final class ProfessionalController
         $body .= '<section class="page-head-stitch">
 <p class="hero-kicker">Perfil</p>
 <h1 class="page-title">Meu perfil ministro</h1>
-<p class="form-lead" style="text-align:left;margin-top:0">Atualize o perfil exibido na busca pública.</p>
+<p class="form-lead form-lead-left form-lead-topless">Atualize o perfil exibido na busca pública.</p>
 </section>
 <div class="card form-card account-shell-stitch">
-<p class="form-lead" style="text-align:left">Este é o seu perfil público de ministro na busca. Outros usuários (por exemplo, líderes de igreja) poderão encontrá-lo e <strong>convidá-lo a atuar</strong> com o ministério deles, de acordo com as habilidades que você informar.</p>
+<p class="form-lead form-lead-left">Este é o seu perfil público de ministro na busca. Outros usuários (por exemplo, líderes de igreja) poderão encontrá-lo e <strong>convidá-lo a atuar</strong> com o ministério deles, de acordo com as habilidades que você informar.</p>
 <form method="post" action="' . Html::u('/meu-perfil/ministro') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <div class="field">
@@ -77,7 +77,7 @@ final class ProfessionalController
   </div>
   <div class="field">
     <label for="habilidades">Habilidades e dons</label>
-    <select id="habilidades" name="habilidades[]" multiple required size="6" style="width:100%;max-width:none;padding:0.4rem;">'
+    <select id="habilidades" class="select-multiple-stitch" name="habilidades[]" multiple required size="6">'
             . $this->skillsOptionsHtml($skills, $selectedSkills) .
         '</select>
     <p class="field-hint">Segure Ctrl (Windows) ou Cmd (Mac) para selecionar mais de uma opção.</p>

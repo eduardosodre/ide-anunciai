@@ -25,7 +25,7 @@ final class AuthWebController
         $body .= '<section class="page-head-stitch page-auth-head">
 <p class="hero-kicker">Acesso</p>
 <h1 class="page-title">Crie sua conta</h1>
-<p class="form-lead" style="text-align:left;margin:0">Cadastre-se para conversar com igrejas e ministros na plataforma.</p>
+<p class="form-lead form-lead-left form-lead-tight">Cadastre-se para conversar com igrejas e ministros na plataforma.</p>
 </section>
 <div class="page-auth">
 <div class="card form-card">
@@ -62,7 +62,7 @@ final class AuthWebController
     </label>
     <div class="field-error" data-error-for="consentimento"></div>
   </div>
-  <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem">
+  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Cadastrar</span>
   </button>
@@ -110,7 +110,7 @@ final class AuthWebController
         $body .= '<section class="page-head-stitch page-auth-head">
 <p class="hero-kicker">Acesso</p>
 <h1 class="page-title">Entrar na comunidade</h1>
-<p class="form-lead" style="text-align:left;margin:0">Use seu e-mail e senha para acessar conversas, perfis e busca avançada.</p>
+<p class="form-lead form-lead-left form-lead-tight">Use seu e-mail e senha para acessar conversas, perfis e busca avançada.</p>
 </section>
 <div class="page-auth">
 <div class="card form-card">
@@ -129,7 +129,7 @@ final class AuthWebController
     <input id="login-senha" type="password" name="senha" autocomplete="current-password">
     <div class="field-error" data-error-for="senha"></div>
   </div>
-  <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem">
+  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Entrar</span>
   </button>
@@ -185,21 +185,21 @@ final class AuthWebController
         $body .= '<section class="page-head-stitch page-auth-head">
 <p class="hero-kicker">Recuperação</p>
 <h1 class="page-title">Recuperar senha</h1>
-<p class="form-lead" style="text-align:left;margin:0">Se houver conta para o e-mail informado, você receberá o link de redefinição.</p>
+<p class="form-lead form-lead-left form-lead-tight">Se houver conta para o e-mail informado, você receberá o link de redefinição.</p>
 </section>
 <div class="page-auth">
 <div class="card form-card">
 <h2 class="form-card-title">Recuperar senha</h2>
 <p class="form-lead">Informe seu e-mail. Se existir cadastro, enviaremos um link para redefinir a senha.</p>
 <form id="form-recuperar" method="post" action="' . Html::u('/recuperar-senha') . '" novalidate>
-  <div id="form-recuperar-global" class="form-msg-success" role="status" aria-live="polite" style="display:none"></div>
+  <div id="form-recuperar-global" class="form-msg-success form-msg-hidden" role="status" aria-live="polite"></div>
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <div class="field">
     <label for="rec-email">E-mail</label>
     <input id="rec-email" type="email" name="email" autocomplete="email">
     <div class="field-error" data-error-for="email"></div>
   </div>
-  <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem">
+  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Enviar link</span>
   </button>
@@ -238,7 +238,7 @@ final class AuthWebController
         $body .= '<section class="page-head-stitch page-auth-head">
 <p class="hero-kicker">Segurança</p>
 <h1 class="page-title">Definir nova senha</h1>
-<p class="form-lead" style="text-align:left;margin:0">Use uma senha forte para proteger o acesso da sua conta.</p>
+<p class="form-lead form-lead-left form-lead-tight">Use uma senha forte para proteger o acesso da sua conta.</p>
 </section>
 <div class="page-auth">
 <div class="card form-card">
@@ -260,7 +260,7 @@ final class AuthWebController
     <div class="field-error" data-error-for="nova_senha_confirmacao"></div>
   </div>
   <div class="field-error" data-error-for="token"></div>
-  <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem">
+  <button type="submit" class="btn btn-primary btn-block btn-spacing-sm">
     <span class="btn-spinner spinner" hidden aria-hidden="true"></span>
     <span class="btn-label">Redefinir</span>
   </button>

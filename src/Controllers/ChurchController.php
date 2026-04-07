@@ -54,11 +54,11 @@ final class ChurchController
         $body .= '<section class="page-head-stitch">
 <p class="hero-kicker">Perfil</p>
 <h1 class="page-title">Meu perfil igreja</h1>
-<p class="form-lead" style="text-align:left;margin-top:0">Atualize o perfil público da igreja para aparecer corretamente na busca.</p>
+<p class="form-lead form-lead-left form-lead-topless">Atualize o perfil público da igreja para aparecer corretamente na busca.</p>
 </section>
 <div class="card form-card account-shell-stitch">
-<p class="form-lead" style="text-align:left">Você está criando o <strong>perfil público da sua igreja</strong>: ele será exibido na busca para outras pessoas encontrarem e entrarem em contato. Revise os dados com cuidado; o que salvar aqui é o que representa a igreja no site.</p>
-<p class="field-hint" style="margin-top:-0.5rem;margin-bottom:1rem"><strong>E-mail de contato:</strong> ' . $emailConta . ' — vem da sua conta; para alterar, use <a href="' . Html::u('/conta') . '">Minha conta</a>.</p>
+<p class="form-lead form-lead-left">Você está criando o <strong>perfil público da sua igreja</strong>: ele será exibido na busca para outras pessoas encontrarem e entrarem em contato. Revise os dados com cuidado; o que salvar aqui é o que representa a igreja no site.</p>
+<p class="field-hint hint-account-contact"><strong>E-mail de contato:</strong> ' . $emailConta . ' — vem da sua conta; para alterar, use <a href="' . Html::u('/conta') . '">Minha conta</a>.</p>
 <form method="post" action="' . Html::u('/meu-perfil/igreja') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <div class="field">
