@@ -34,13 +34,13 @@ final class ChatController
 
         $body = $this->messagesHtml();
         if ($tipo === null || $entidadeId <= 0) {
-            $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Iniciar conversa</h1></section><div class="card"><p>Parâmetros inválidos. Use o link no perfil público.</p><p><a href="' . Html::u('/busca') . '">Buscar perfis</a></p></div>';
+            $body .= '<section class="mb-3"><p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Conversas</p><h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Iniciar conversa</h1></section><div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm"><p>Parâmetros inválidos. Use o link no perfil público.</p><p><a href="' . Html::u('/busca') . '">Buscar perfis</a></p></div>';
 
             return Response::html(Html::layout('Conversa', $body, $this->csrf->token()));
         }
 
-        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Iniciar conversa</h1></section>
-<div class="card form-card account-shell-stitch">
+        $body .= '<section class="mb-3"><p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Conversas</p><h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Iniciar conversa</h1></section>
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
 <form method="post" action="' . Html::u('/chat/iniciar') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="tipo_entidade" value="' . Html::escape($tipo) . '">
@@ -49,7 +49,7 @@ final class ChatController
     <label>Mensagem inicial (obrigatória, mín. 10 caracteres)</label>
     <textarea name="mensagem" class="textarea-full" required minlength="10" maxlength="8000" rows="6"></textarea>
   </div>
-  <button type="submit" class="btn btn-primary">Enviar</button>
+  <button type="submit" class="mt-2 inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">Enviar</button>
 </form>
 </div>';
 
@@ -103,13 +103,13 @@ final class ChatController
 
         $items = $this->chatService->listConversationsForUser($uid);
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Conversas</h1></section>';
+        $body .= '<section class="mb-3"><p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Conversas</p><h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Conversas</h1></section>';
         if ($items === []) {
             $body .= '<div class="card"><p class="empty-state">Nenhuma conversa ainda.</p></div>';
         } else {
             $body .= '<ul class="moderation-list">';
             foreach ($items as $item) {
-                $body .= '<li class="card moderation-item"><a href="' . Html::u('/chat/' . (int) $item['id']) . '">'
+                $body .= '<li class="mb-3 rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm"><a href="' . Html::u('/chat/' . (int) $item['id']) . '">'
                     . Html::escape((string) $item['outro_nome']) . '</a>'
                     . ' <small>(' . Html::escape((string) $item['tipo_entidade']) . ' #' . (int) $item['entidade_id'] . ')</small>'
                     . '</li>';
@@ -134,7 +134,7 @@ final class ChatController
 
         $msgs = $this->chat->listMessages($conversaId);
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Conversas</p><h1 class="page-title">Conversa</h1></section><div class="card moderation-item card-gap-y">';
+        $body .= '<section class="mb-3"><p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Conversas</p><h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Conversa</h1></section><div class="my-4 rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">';
         foreach ($msgs as $m) {
             $body .= '<p class="chat-message-line"><strong>'
                 . Html::escape((string) $m['remetente_nome']) . '</strong> '
@@ -142,14 +142,14 @@ final class ChatController
                 . nl2br(Html::escape((string) $m['corpo'])) . '</p>';
         }
         $body .= '</div>
-<div class="card form-card account-shell-stitch">
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
 <form method="post" action="' . Html::u('/chat/' . $conversaId . '/mensagens') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <div class="field">
     <label>Nova mensagem</label>
     <textarea name="corpo" class="textarea-full" required maxlength="8000" rows="4"></textarea>
   </div>
-  <button type="submit" class="btn btn-primary">Enviar</button>
+  <button type="submit" class="mt-2 inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">Enviar</button>
 </form>
 </div>
 <p><a href="' . Html::u('/chat') . '">Voltar às conversas</a></p>';

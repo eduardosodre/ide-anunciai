@@ -77,6 +77,7 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 - Ajuste de aderência ao Stitch: a **Home** e a **Busca** passaram de tema superficial para estrutura visual mais próxima dos templates (hero em duas colunas, cards de destaque e grid de blocos), mantendo as mesmas rotas e comportamento funcional.
 - Iteração de fidelidade: telas de **Login/Cadastro/Recuperar/Redefinir senha** migradas para composição Tailwind mais próxima dos templates Stitch (hierarquia de títulos, blocos em `surface-container-low`, CTA full-width e tipografia equivalente), preservando IDs usados no `app.js`.
 - Iteração de fidelidade: telas de **Minha conta**, **Meu perfil ministro** e **Meu perfil igreja** migradas para o mesmo padrão Tailwind dos templates (kicker + título editorial + shell visual com `surface-container-low`), mantendo os mesmos campos e regras de backend.
+- Iteração de fidelidade: telas de **Verificação** (usuário/admin), **Denúncia** (usuário/admin) e **Chat HTML** migradas para o mesmo padrão Tailwind (headers editoriais, cards e CTAs), sem alterar contratos de API, autenticação e fluxo de submissão.
 
 ---
 

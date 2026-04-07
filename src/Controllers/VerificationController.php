@@ -37,24 +37,24 @@ final class VerificationController
         $requests = $this->verifications->listOwnRequests($userId);
 
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch">
-<p class="hero-kicker">Confiança</p>
-<h1 class="page-title">Verificação</h1>
-<p class="form-lead form-lead-left form-lead-topless">Envie sua solicitação para receber o selo de perfil verificado.</p>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Confiança</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Verificação</h1>
+<p class="mt-2 text-sm text-on-surface-variant">Envie sua solicitação para receber o selo de perfil verificado.</p>
 </section>
-<div class="card card-gap-bottom">
-<p class="form-lead form-lead-left form-lead-tight">O <strong>selo verificado</strong> mostra que a equipe conferiu os dados do seu perfil. Informe apenas dados verdadeiros. CPF (ministro) e CNPJ (igreja) são necessários para análise; documentos extras ajudam a agilizar o processo.</p>
+<div class="mb-4 rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<p class="text-sm text-on-surface-variant">O <strong>selo verificado</strong> mostra que a equipe conferiu os dados do seu perfil. Informe apenas dados verdadeiros. CPF (ministro) e CNPJ (igreja) são necessários para análise; documentos extras ajudam a agilizar o processo.</p>
 </div>';
-        $body .= '<div class="card form-card mt-0">
-<h2 class="section-heading">Solicitar verificação de ministro</h2>
+        $body .= '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<h2 class="font-headline text-2xl font-bold text-primary">Solicitar verificação de ministro</h2>
 ' . $this->renderMinisterForm($professional) . '
 </div>';
-        $body .= '<div class="card form-card">
-<h2 class="section-heading">Solicitar verificação de igreja</h2>
+        $body .= '<div class="mt-4 rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<h2 class="font-headline text-2xl font-bold text-primary">Solicitar verificação de igreja</h2>
 ' . $this->renderChurchForm($church) . '
 </div>';
-        $body .= '<div class="card card-gap-top">
-<h2 class="section-heading">Minhas solicitações</h2>
+        $body .= '<div class="mt-4 rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-5 shadow-sm">
+<h2 class="font-headline text-2xl font-bold text-primary">Minhas solicitações</h2>
 ' . $this->renderRequestsTable($requests) . '
 </div>';
 
@@ -160,7 +160,7 @@ final class VerificationController
 
         $rows = $this->verifications->listPendingForAdmin('solicitacao');
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Admin</p><h1 class="page-title">Verificações pendentes</h1></section>';
+        $body .= '<section class="mb-3"><p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Admin</p><h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Verificações pendentes</h1></section>';
         $body .= $this->renderAdminRequests($rows, '/admin/verificacoes');
 
         return Response::html(Html::layout('Admin verificações', $body, $this->csrf->token()));
@@ -175,7 +175,7 @@ final class VerificationController
 
         $rows = $this->verifications->listPendingForAdmin('revisao');
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Admin</p><h1 class="page-title">Re-verificação</h1></section>';
+        $body .= '<section class="mb-3"><p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Admin</p><h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Re-verificação</h1></section>';
         $body .= $this->renderAdminRequests($rows, '/admin/revisao');
 
         return Response::html(Html::layout('Admin revisão', $body, $this->csrf->token()));
@@ -253,7 +253,7 @@ final class VerificationController
             return '<p class="empty-state">Perfil de ministro ainda não criado. Crie o perfil em <a href="' . Html::u('/meu-perfil/ministro') . '">Meu perfil ministro</a> e volte aqui para solicitar o selo.</p>';
         }
 
-        return '<p class="form-lead form-lead-left form-lead-gap-bottom">Preencha o CPF (somente números ou com pontuação). O RG é opcional, mas pode acelerar a conferência. Se enviar um documento comprobatório, descreva o tipo e onde o arquivo pode ser acessado (caminho público ou link acordado com o suporte).</p>
+        return '<p class="mb-4 mt-1 text-sm text-on-surface-variant">Preencha o CPF (somente números ou com pontuação). O RG é opcional, mas pode acelerar a conferência. Se enviar um documento comprobatório, descreva o tipo e onde o arquivo pode ser acessado (caminho público ou link acordado com o suporte).</p>
 <form method="post" action="' . Html::u('/verificacao') . '" class="verification-form">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="tipo_entidade" value="ministro">
@@ -282,7 +282,7 @@ final class VerificationController
       <input id="verif-doc-m-path" type="text" name="documento_caminho[]" maxlength="500" placeholder="https://… ou /uploads/…">
     </div>
   </fieldset>
-  <button type="submit" class="btn btn-primary btn-block btn-spacing-md">Enviar solicitação de verificação (ministro)</button>
+  <button type="submit" class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">Enviar solicitação de verificação (ministro)</button>
 </form>';
     }
 
@@ -292,7 +292,7 @@ final class VerificationController
             return '<p class="empty-state">Perfil de igreja ainda não criado. Crie o perfil em <a href="' . Html::u('/meu-perfil/igreja') . '">Meu perfil igreja</a> e volte aqui para solicitar o selo.</p>';
         }
 
-        return '<p class="form-lead form-lead-left form-lead-gap-bottom">Informe o <strong>CNPJ</strong> da entidade (14 dígitos). Documentos como estatuto ou ata podem ser referenciados abaixo para agilizar a análise.</p>
+        return '<p class="mb-4 mt-1 text-sm text-on-surface-variant">Informe o <strong>CNPJ</strong> da entidade (14 dígitos). Documentos como estatuto ou ata podem ser referenciados abaixo para agilizar a análise.</p>
 <form method="post" action="' . Html::u('/verificacao') . '" class="verification-form">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
   <input type="hidden" name="tipo_entidade" value="igreja">
@@ -317,7 +317,7 @@ final class VerificationController
       <input id="verif-doc-i-path" type="text" name="documento_caminho[]" maxlength="500" placeholder="https://… ou /uploads/…">
     </div>
   </fieldset>
-  <button type="submit" class="btn btn-primary btn-block btn-spacing-md">Enviar solicitação de verificação (igreja)</button>
+  <button type="submit" class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">Enviar solicitação de verificação (igreja)</button>
 </form>';
     }
 
@@ -352,7 +352,7 @@ final class VerificationController
     private function renderAdminRequests(array $rows, string $contextPath): string
     {
         if ($rows === []) {
-            return '<div class="card"><p class="empty-state">Sem itens pendentes.</p></div>';
+            return '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm"><p class="empty-state">Sem itens pendentes.</p></div>';
         }
 
         $html = '';
@@ -369,8 +369,8 @@ final class VerificationController
                 $docsHtml = '<li>Sem documentos registrados.</li>';
             }
 
-            $html .= '<article class="card moderation-item">
-<h3 class="section-heading">Solicitação #' . (int) $row['id'] . ' (' . Html::escape((string) $row['tipo_entidade']) . ')</h3>
+            $html .= '<article class="mb-3 rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
+<h3 class="font-headline text-xl font-bold text-primary">Solicitação #' . (int) $row['id'] . ' (' . Html::escape((string) $row['tipo_entidade']) . ')</h3>
 <p><strong>Fluxo:</strong> ' . Html::escape((string) $row['tipo_fluxo']) . '</p>
 <p><strong>Solicitante:</strong> ' . Html::escape((string) $row['usuario_nome']) . ' (' . Html::escape((string) $row['usuario_email']) . ')</p>
 <p><strong>RG:</strong> ' . Html::escape((string) ($row['rg'] ?? '')) . ' | <strong>CPF:</strong> ' . Html::escape((string) ($row['cpf'] ?? '')) . ' | <strong>CNPJ:</strong> ' . Html::escape((string) ($row['cnpj'] ?? '')) . '</p>

@@ -49,11 +49,11 @@ final class ModerationController
         }
 
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch">
-<p class="hero-kicker">Moderação</p>
-<h1 class="page-title">Denunciar usuário</h1>
+        $body .= '<section class="mb-3">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Moderação</p>
+<h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Denunciar usuário</h1>
 </section>
-<div class="card form-card account-shell-stitch">
+<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
 <p>Denunciando: <strong>' . Html::escape((string) $target['nome']) . '</strong></p>
 <form method="post" action="' . Html::u('/denunciar') . '">
   <input type="hidden" name="csrf_token" value="' . Html::escape($this->csrf->token()) . '">
@@ -62,7 +62,7 @@ final class ModerationController
     <label>Descrição do motivo (obrigatório, mín. 10 caracteres)</label>
     <textarea name="descricao" class="textarea-full" required minlength="10" maxlength="8000" rows="6"></textarea>
   </div>
-  <button type="submit" class="btn btn-primary">Enviar denúncia</button>
+  <button type="submit" class="mt-2 inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 font-semibold text-white">Enviar denúncia</button>
 </form>
 <p><a href="' . Html::u('/') . '">Voltar ao início</a></p>
 </div>';
@@ -107,8 +107,8 @@ final class ModerationController
 
         $rows = $this->reports->listForAdmin(200);
         $body = $this->messagesHtml();
-        $body .= '<section class="page-head-stitch"><p class="hero-kicker">Admin</p><h1 class="page-title">Denúncias</h1></section>
-<p>Registros recentes (mais novos primeiro). Limite diário por par: 3; por denunciante: 10.</p>';
+        $body .= '<section class="mb-3"><p class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">Admin</p><h1 class="font-headline text-3xl font-extrabold text-primary md:text-5xl">Denúncias</h1></section>
+<p class="text-sm text-on-surface-variant">Registros recentes (mais novos primeiro). Limite diário por par: 3; por denunciante: 10.</p>';
 
         if ($rows === []) {
             $body .= '<p>Nenhuma denúncia registrada.</p>';
@@ -117,7 +117,7 @@ final class ModerationController
             foreach ($rows as $row) {
                 $ativo = (int) ($row['denunciado_ativo'] ?? 0) === 1;
                 $statusDenunciado = $ativo ? 'ativo' : 'inativo';
-                $body .= '<li class="card moderation-item">
+                $body .= '<li class="mb-3 rounded-xl border border-outline-variant/30 bg-surface-container-low p-5 shadow-sm">
 <p><strong>#' . (int) $row['id'] . '</strong> — ' . Html::escape((string) $row['criado_em']) . '</p>
 <p><strong>Denunciante:</strong> ' . Html::escape((string) $row['denunciante_nome'])
                     . ' &lt;' . Html::escape((string) $row['denunciante_email']) . '&gt;</p>
