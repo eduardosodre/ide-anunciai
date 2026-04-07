@@ -14,23 +14,6 @@
     --shadow: 0 12px 32px -4px rgba(0, 30, 45, 0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #101316;
-        --surface: #161c22;
-        --text: #f0f1f1;
-        --muted: #c0c7ce;
-        --border: rgba(192, 199, 206, 0.24);
-        --accent: #8ecef7;
-        --accent-hover: #c6e7ff;
-        --surface-low: #1c232a;
-        --surface-container: #232b33;
-        --surface-high: #2c353e;
-        --secondary-chip: #1e4a4e;
-        --shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.42);
-    }
-}
-
 body {
     font-family: Inter, "Segoe UI", Roboto, sans-serif;
     letter-spacing: 0.01em;

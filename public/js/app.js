@@ -406,7 +406,7 @@
         var data = JSON.parse(text);
         if (!r.ok) {
           out.innerHTML =
-            '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 text-sm text-red-800 dark:text-red-200" role="alert">Erro ao buscar.</div>';
+            '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 text-sm text-red-800" role="alert">Erro ao buscar.</div>';
           refreshTailwind();
           return;
         }
@@ -417,7 +417,7 @@
         }
       } catch (err) {
         out.innerHTML =
-          '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 text-sm text-red-800 dark:text-red-200" role="alert">' +
+          '<div class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 text-sm text-red-800" role="alert">' +
           escapeHtml(err.message || 'Erro de rede.') +
           '</div>';
         refreshTailwind();

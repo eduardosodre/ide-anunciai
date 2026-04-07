@@ -69,6 +69,7 @@ Requisitos de layout, usabilidade e navegação para um site moderno e de boa us
 
 - Paleta de cores consistente; tipografia legível; hierarquia clara (títulos, subtítulos, corpo).
 - Espaçamento generoso; botões primários e secundários distintos; ícones quando ajudarem (busca, perfil, sair).
+- **Tema claro fixo:** o layout segue os Stitch em modo claro; não há troca automática pelo tema do sistema (`prefers-color-scheme` foi removido do CSS global). `<meta name="color-scheme" content="light">` reforça UI clara. Modo escuro só voltaria como funcionalidade explícita (ex.: classe `dark` no `html`), não como padrão.
 - Base visual inspirada nos templates da pasta `stitch/` com duas camadas: Tailwind utilitário (via CDN no `Html::layout`) para estrutura fiel dos templates e `public/css/stitch-theme.css` para ajustes globais e compatibilidade com telas legadas.
 - **HTML dinâmico (busca):** resultados e estados vazios/erro são montados em `public/js/app.js` com as mesmas classes utilitárias. O `tailwind.config` inclui `safelist` com essas classes e, após cada `innerHTML` na área de resultados, chama-se `tailwind.refresh()` (API do Play CDN) para o JIT gerar estilos dos nós inseridos. A cor `on-secondary-container` está definida no tema Tailwind para contraste dos chips “Ministro”. Evolução futura opcional: build local do Tailwind (npm) para produção sem depender da CDN.
 - O `Html::layout()` continua como shell único (header/footer), carregando o tema global para todas as páginas HTML.

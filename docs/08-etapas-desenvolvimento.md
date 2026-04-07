@@ -168,7 +168,7 @@ Todo o desenvolvimento está dividido em **10 etapas**. A **Etapa 1** documenta 
 
 **Status:** implementado no código.
 
-- Layout global em `Html::layout`: tokens CSS, tema claro/escuro (`prefers-color-scheme`), header fixo, menu principal com variante logado/visitante, menu mobile (controle por checkbox + rótulo), rodapé com links úteis.
+- Layout global em `Html::layout`: tokens CSS, **tema claro** (sem alternância automática por `prefers-color-scheme`, alinhado aos Stitch), header fixo, menu principal com variante logado/visitante, menu mobile (controle por checkbox + rótulo), rodapé com links úteis.
 - Home (`/`): hero com proposta de valor e CTAs para visitante; bloco compacto com atalhos para usuário autenticado.
 - Busca (`/busca`): formulário e resultados agrupados em cards; lista de resultados com classe `result-list`.
 - Privacidade (`/privacidade`): página estruturada em seções dentro de card.

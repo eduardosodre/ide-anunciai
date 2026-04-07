@@ -67,7 +67,7 @@ final class Html
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
+    <meta name="color-scheme" content="light">
     <title>' . self::escape($title) . ' — ' . self::escape($siteName) . '</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
@@ -81,7 +81,7 @@ final class Html
                 "text-primary", "text-on-surface-variant", "text-white",
                 "inline-flex", "rounded-full", "px-2.5", "py-1", "text-[11px]", "uppercase", "tracking-wide",
                 "bg-secondary-container", "text-on-secondary-container", "bg-tertiary-container",
-                "text-red-800", "dark:text-red-200", "max-w-full"
+                "text-red-800", "max-w-full"
             ],
             theme: {
                 extend: {
@@ -124,18 +124,6 @@ final class Html
             --radius: 10px;
             --shadow: 0 1px 3px rgba(0,0,0,.06);
             --header-h: 3.25rem;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #12141a;
-                --surface: #1c1f28;
-                --text: #eef0f4;
-                --muted: #a8b0c0;
-                --border: #2e3444;
-                --accent: #4d8eff;
-                --accent-hover: #7aa8ff;
-                --shadow: 0 1px 3px rgba(0,0,0,.35);
-            }
         }
         *, *::before, *::after { box-sizing: border-box; }
         body {
@@ -257,10 +245,6 @@ final class Html
         .msg { padding: 0.75rem 1rem; border-radius: var(--radius); margin-bottom: 1rem; }
         .ok { background: #e8f5e9; color: #1b5e20; }
         .err { background: #ffebee; color: #b71c1c; }
-        @media (prefers-color-scheme: dark) {
-            .ok { background: #1b3d1f; color: #c8e6c9; }
-            .err { background: #3d1b1b; color: #ffcdd2; }
-        }
         label { display: block; margin-top: 0.75rem; }
         input[type=text], input[type=email], input[type=password], input[type=file], select, textarea {
             width: 100%;
@@ -345,9 +329,6 @@ final class Html
             color: #1b5e20;
             vertical-align: middle;
         }
-        @media (prefers-color-scheme: dark) {
-            .badge-verified { background: #1b3d1f; color: #c8e6c9; }
-        }
         .profile-actions {
             margin-top: 1rem;
             padding-top: 1rem;
@@ -388,17 +369,10 @@ final class Html
         .field input, .field select, .field textarea { max-width: none; }
         .field-hint { font-size: 0.8rem; color: var(--muted); margin: 0.25rem 0 0; }
         .field-error { min-height: 1.2rem; font-size: 0.8125rem; color: #c62828; margin-top: 0.25rem; }
-        @media (prefers-color-scheme: dark) { .field-error { color: #ff8a80; } }
         input.invalid, select.invalid, textarea.invalid { border-color: #c62828 !important; }
         .form-global-error:empty { display: none; }
         .form-global-error { font-size: 0.9rem; color: #c62828; margin-bottom: 1rem; padding: 0.65rem 0.75rem; border-radius: 8px; background: #ffebee; }
-        @media (prefers-color-scheme: dark) {
-            .form-global-error { background: #3d1b1b; color: #ffcdd2; }
-        }
         .form-msg-success { font-size: 0.9rem; color: #1b5e20; margin-bottom: 1rem; padding: 0.65rem 0.75rem; border-radius: 8px; background: #e8f5e9; border: 1px solid #c8e6c9; }
-        @media (prefers-color-scheme: dark) {
-            .form-msg-success { background: #1b3d1f; color: #c8e6c9; border-color: #2e4a32; }
-        }
         .field-check label { font-weight: normal; display: flex; align-items: flex-start; gap: 0.5rem; margin-top: 0; }
         .field-check input { width: auto; max-width: none; margin-top: 0.2rem; }
         .hero { text-align: center; padding: 2.25rem 0 2.75rem; max-width: 44rem; margin: 0 auto; }
@@ -414,7 +388,6 @@ final class Html
         .btn { transition: transform .06s ease, box-shadow .15s; }
         .btn:active { transform: scale(0.98); }
         .btn-primary { box-shadow: 0 1px 2px rgba(0,0,0,.1); }
-        @media (prefers-color-scheme: dark) { .btn-primary { box-shadow: 0 1px 3px rgba(0,0,0,.35); } }
         .btn .spinner {
             display: inline-block;
             width: 0.95rem;
@@ -467,9 +440,6 @@ final class Html
         .busca-tag--igreja {
             background: rgba(120, 80, 180, 0.14);
             color: #6b4f9a;
-        }
-        @media (prefers-color-scheme: dark) {
-            .busca-tag--igreja { color: #c4a8e8; background: rgba(180, 140, 220, 0.12); }
         }
         .busca-result-title {
             font-weight: 700;
@@ -538,9 +508,6 @@ final class Html
             white-space: nowrap;
         }
         .data-table tbody tr:nth-child(even) { background: rgba(0,0,0,.025); }
-        @media (prefers-color-scheme: dark) {
-            .data-table tbody tr:nth-child(even) { background: rgba(255,255,255,.03); }
-        }
         .empty-state {
             padding: 1rem 0;
             color: var(--muted);
