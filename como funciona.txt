@@ -1,0 +1,79 @@
+Plataforma de Networking Religioso - MVP
+
+Visao do Produto
+
+Plataforma que conecta igrejas e ministros/profissionais em um ambiente confiavel e acessivel.
+O MVP foca em:
+- Cadastro inicial simples de usuario.
+- Busca por localizacao (cidade/CEP + raio).
+- Divulgacao de perfis de ministro e igreja.
+- Verificacao opcional com selo para aumentar confianca.
+
+1. Modelo de Cadastro
+
+Cadastro inicial unico:
+- Nome completo
+- E-mail
+- Senha
+
+Apos login, o usuario ja acessa a plataforma e pode:
+- Definir foto de perfil.
+- Criar perfil de ministro/profissional.
+- Criar perfil de igreja.
+
+Os dois perfis (ministro e igreja) podem coexistir na mesma conta de usuario.
+
+2. Perfil de Ministro
+
+Cadastro para divulgacao do trabalho:
+- Nome publico
+- Telefone
+- Cidade
+- Lista de habilidades/dons (multipla selecao)
+
+Selo verificado (opcional):
+- Exige RG, CPF e envio de documentos.
+
+3. Perfil de Igreja
+
+Cadastro vinculado ao usuario:
+- Nome da igreja
+- E-mail de contato
+- Telefone
+- CEP
+- Cidade
+
+Selo verificado (opcional):
+- Exige CNPJ e envio de documentos.
+
+4. Busca e Visualizacao
+
+- Busca por ministros e igrejas por cidade/CEP + raio.
+- Visitante (nao logado) ve informacoes minimas.
+- Usuario logado ve mais informacoes, conforme regras da plataforma.
+- Solicitacoes de contato usam texto livre e envio de notificacao por e-mail.
+
+5. Verificacao e Confianca
+
+- Cada perfil possui status proprio de verificacao.
+- Ministro verificado e igreja verificada sao independentes.
+- Em alteracoes sensiveis de perfil verificado, pode haver revalidacao antes de publicar.
+
+6. Estrutura Tecnica - MVP
+
+- Backend: PHP (sem framework)
+- Banco de dados: MySQL/MariaDB (utf8mb4)
+- Frontend: HTML, CSS e JavaScript
+- Autenticacao: sessao segura (8h), recuperacao de senha e protecao de rotas
+- Geolocalizacao: CEP -> cidade/coordenadas e calculo por raio
+
+7. Etapas
+
+- Etapa 1: Documentacao OpenSpec (atual)
+- Etapas seguintes: implementacao por modulos (conta, perfis, verificacao, busca e contato)
+
+8. Estrategia de Adesao
+
+- Entrada simples reduz friccao.
+- Usuario consegue usar a plataforma logo no primeiro cadastro.
+- Selo verificado aumenta credibilidade de quem quiser comprovar identidade.
