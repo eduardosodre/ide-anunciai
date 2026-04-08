@@ -26,6 +26,7 @@ final class ChurchRepository
     {
         $sql = 'SELECT i.id, i.perfil_uuid, i.usuario_id, i.nome_igreja, i.cidade, i.estado, i.verificado, i.pendente_revisao,
                        i.telefone, i.email_contato, i.cep,
+                       u.foto_url AS usuario_foto_url,
                        i.public_nome_igreja_aprovado, i.public_cidade_aprovado
                 FROM igreja i
                 INNER JOIN usuario u ON u.id = i.usuario_id
@@ -51,6 +52,7 @@ final class ChurchRepository
 
         $sql = 'SELECT i.id, i.perfil_uuid, i.usuario_id, i.nome_igreja, i.cidade, i.estado, i.verificado, i.pendente_revisao,
                        i.telefone, i.email_contato, i.cep,
+                       u.foto_url AS usuario_foto_url,
                        i.public_nome_igreja_aprovado, i.public_cidade_aprovado
                 FROM igreja i
                 INNER JOIN usuario u ON u.id = i.usuario_id
